@@ -61,13 +61,16 @@ app.post('/api/auth/register', async (req, res) => {
   if (!email || !password) return res.status(400).json({ error: 'Email e senha obrigatórios' })
 
   try {
-    const { data, error } = await supabase.auth.signUp({ email, password })
-    if (error) return res.status(400).json({ error: error.message })
+    const { data: created, error: createErr } = await supabase.auth.admin.createUser({ email, password, email_confirm: true })
+    if (createErr) return res.status(400).json({ error: createErr.message })
 
-    const userId = data.user.id
+    const userId = created.user.id
     await upsertProfile(userId, email, { name: name || '', plan: 'free', xp: 0, streak: 0, total_questions: 0, correct: 0 })
 
-    res.json({ user: { id: userId, email, name: name || '' }, token: data.session?.access_token, plan: 'free' })
+    const { data: session, error: loginErr } = await supabase.auth.signInWithPassword({ email, password })
+    if (loginErr) return res.status(400).json({ error: loginErr.message })
+
+    res.json({ user: { id: userId, email, name: name || '' }, token: session.session.access_token, plan: 'free' })
   } catch (err) {
     res.status(500).json({ error: 'Erro ao criar conta' })
   }
