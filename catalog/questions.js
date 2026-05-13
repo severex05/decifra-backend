@@ -332,6 +332,18 @@ function getQuestionsForSimulado(type, count) {
     return shuffle([...concurso, ...others]).slice(0, Math.min(count || 20, pool.length))
   }
 
+  if (type === 'diagnostico') {
+    const seen = new Set()
+    const result = []
+    for (const q of shuffle(pool)) {
+      if (!seen.has(q.subject)) {
+        seen.add(q.subject)
+        result.push(q)
+      }
+    }
+    return result
+  }
+
   return shuffle(pool).slice(0, 10)
 }
 

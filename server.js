@@ -107,7 +107,8 @@ app.get('/api/user/me', authMiddleware, async (req, res) => {
         totalQuestions: profile?.total_questions || 0,
         correct: profile?.correct || 0,
         streak: profile?.streak || 0,
-        subjects: profile?.subjects || {}
+        subjects: profile?.subjects || {},
+        simuladosDone: profile?.simulados_done || 0
       }
     })
   } catch {
@@ -117,8 +118,22 @@ app.get('/api/user/me', authMiddleware, async (req, res) => {
 
 app.post('/api/user/onboarding', authMiddleware, async (req, res) => {
   const { prova, prazo, fraqueza } = req.body
-  await supabase.from('decifra_users').update({ onboarding: { prova, prazo, fraqueza }, onboarding_done: true })
-    .eq('id', req.user.id)
+  try {
+    const profile = await getUserProfile(req.user.id)
+    const existing = profile?.onboarding || {}
+    await supabase.from('decifra_users').update({ onboarding: { ...existing, prova, prazo, fraqueza }, onboarding_done: true })
+      .eq('id', req.user.id)
+  } catch {}
+  res.json({ ok: true })
+})
+
+app.post('/api/diagnostico/save', authMiddleware, async (req, res) => {
+  try {
+    const profile = await getUserProfile(req.user.id)
+    const onboarding = profile?.onboarding || {}
+    await supabase.from('decifra_users').update({ onboarding: { ...onboarding, diagnostico: req.body } })
+      .eq('id', req.user.id)
+  } catch {}
   res.json({ ok: true })
 })
 
@@ -207,15 +222,15 @@ app.post('/api/tutor/chat', authMiddleware, async (req, res) => {
 })
 
 // ===== SIMULADOS =====
-const TIME_LIMITS = { mini: 15 * 60, enem: 45 * 60, vestibular: 30 * 60, concurso: 30 * 60 }
-const QUESTION_COUNTS = { mini: 10, enem: 30, vestibular: 20, concurso: 20 }
+const TIME_LIMITS = { mini: 15 * 60, enem: 45 * 60, vestibular: 30 * 60, concurso: 30 * 60, diagnostico: 0 }
+const QUESTION_COUNTS = { mini: 10, enem: 30, vestibular: 20, concurso: 20, diagnostico: 20 }
 
 app.post('/api/simulado/start', authMiddleware, async (req, res) => {
   const { type } = req.body
   if (!type) return res.status(400).json({ error: 'Tipo obrigatório' })
 
   const pro = await isUserPro(req.user.id)
-  if (type !== 'mini' && !pro) return res.status(403).json({ error: 'Simulado completo disponível apenas no plano Pro' })
+  if (type !== 'mini' && type !== 'diagnostico' && !pro) return res.status(403).json({ error: 'Simulado completo disponível apenas no plano Pro' })
 
   const count = QUESTION_COUNTS[type] || 10
   const questions = getQuestionsForSimulado(type, count)
@@ -236,6 +251,86 @@ app.post('/api/simulado/finish', authMiddleware, async (req, res) => {
     res.json({ ok: true, xpGain })
   } catch {
     res.json({ ok: true })
+  }
+})
+
+// ===== PLANO DE ESTUDO =====
+app.get('/api/plano-estudo', authMiddleware, async (req, res) => {
+  try {
+    const profile = await getUserProfile(req.user.id)
+    res.json({ plan: profile?.onboarding?.plano || null })
+  } catch {
+    res.json({ plan: null })
+  }
+})
+
+app.post('/api/plano-estudo/generate', authMiddleware, async (req, res) => {
+  try {
+    const profile = await getUserProfile(req.user.id)
+    const onboarding = profile?.onboarding || {}
+    const subjects = profile?.subjects || {}
+
+    const SUBJECT_NAMES = {
+      matematica: 'Matemática', portugues: 'Português', biologia: 'Biologia',
+      quimica: 'Química', fisica: 'Física', historia: 'História',
+      geografia: 'Geografia', filosofia: 'Filosofia', ingles: 'Inglês'
+    }
+
+    const subjectLines = Object.entries(subjects)
+      .map(([s, d]) => `- ${SUBJECT_NAMES[s] || s}: ${d.total > 0 ? Math.round(d.correct / d.total * 100) : '?'}% (${d.total} questões)`)
+      .join('\n') || '- Ainda sem dados de desempenho'
+
+    const now = new Date()
+    const endDate = new Date(now); endDate.setDate(endDate.getDate() + 6)
+    const fmt = d => `${d.getDate()}/${d.getMonth() + 1}`
+
+    const prompt = `Crie um plano de estudos semanal. Responda APENAS com JSON válido, sem texto extra.
+
+Aluno:
+- Prova: ${onboarding.prova || 'ENEM'}
+- Prazo: ${onboarding.prazo || 'não informado'}
+- Dificuldade principal: ${onboarding.fraqueza || 'não informado'}
+- Desempenho:
+${subjectLines}
+
+Formato JSON obrigatório:
+{
+  "semana": "${fmt(now)} a ${fmt(endDate)}",
+  "meta": "frase motivacional curta e específica",
+  "dias": [
+    {"dia": "Segunda", "materias": [{"materia": "matematica","topico": "Tópico específico","minutos": 45}]},
+    {"dia": "Terça", "materias": [...]},
+    {"dia": "Quarta", "materias": [...]},
+    {"dia": "Quinta", "materias": [...]},
+    {"dia": "Sexta", "materias": [...]},
+    {"dia": "Sábado", "materias": [...]},
+    {"dia": "Domingo", "materias": [...]}
+  ]
+}
+
+Regras: 2-3 matérias/dia, máx 2h/dia, priorize matérias fracas, domingo mais leve.
+IDs válidos: matematica, portugues, biologia, quimica, fisica, historia, geografia, filosofia, ingles`
+
+    const response = await anthropic.messages.create({
+      model: 'claude-haiku-4-5',
+      max_tokens: 2000,
+      messages: [{ role: 'user', content: prompt }]
+    })
+
+    const text = response.content[0].text.trim()
+    const match = text.match(/\{[\s\S]*\}/)
+    if (!match) throw new Error('Invalid JSON')
+
+    const plan = JSON.parse(match[0])
+    plan.gerado_em = new Date().toISOString()
+
+    await supabase.from('decifra_users').update({ onboarding: { ...onboarding, plano: plan } })
+      .eq('id', req.user.id)
+
+    res.json({ plan })
+  } catch (err) {
+    console.error('Plano error:', err)
+    res.status(500).json({ error: 'Erro ao gerar plano. Tente novamente.' })
   }
 })
 
