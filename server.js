@@ -103,6 +103,7 @@ app.get('/api/user/me', authMiddleware, async (req, res) => {
       plan: profile?.plan || 'free',
       trialEnd: profile?.trial_end,
       xp: profile?.xp || 0,
+      diagnosticoDone: !!(profile?.onboarding?.diagnostico),
       progresso: {
         totalQuestions: profile?.total_questions || 0,
         correct: profile?.correct || 0,
@@ -112,7 +113,7 @@ app.get('/api/user/me', authMiddleware, async (req, res) => {
       }
     })
   } catch {
-    res.json({ plan: 'free', xp: 0, progresso: {} })
+    res.json({ plan: 'free', xp: 0, diagnosticoDone: false, progresso: {} })
   }
 })
 
@@ -244,13 +245,26 @@ app.post('/api/simulado/finish', authMiddleware, async (req, res) => {
   try {
     const profile = await getUserProfile(req.user.id)
     const xpGain = score?.correct ? score.correct * 15 : 0
+
+    const subjects = profile?.subjects || {}
+    if (score?.bySubject) {
+      for (const [subj, data] of Object.entries(score.bySubject)) {
+        if (!subjects[subj]) subjects[subj] = { total: 0, correct: 0 }
+        subjects[subj].total += data.total || 0
+        subjects[subj].correct += data.correct || 0
+      }
+    }
+
     await supabase.from('decifra_users').update({
       xp: (profile?.xp || 0) + xpGain,
-      simulados_done: (profile?.simulados_done || 0) + 1
+      simulados_done: (profile?.simulados_done || 0) + 1,
+      total_questions: (profile?.total_questions || 0) + (score?.total || 0),
+      correct: (profile?.correct || 0) + (score?.correct || 0),
+      subjects
     }).eq('id', req.user.id)
     res.json({ ok: true, xpGain })
   } catch {
-    res.json({ ok: true })
+    res.json({ ok: true, xpGain: 0 })
   }
 })
 
