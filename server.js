@@ -55,6 +55,17 @@ async function upsertProfile(userId, email, updates) {
   await supabase.from('decifra_users').upsert({ id: userId, email, ...updates }, { onConflict: 'id' })
 }
 
+function updateStreak(profile) {
+  const today = new Date().toDateString()
+  const yesterday = new Date(Date.now() - 86400000).toDateString()
+  const onboarding = profile?.onboarding || {}
+  const lastDate = onboarding.last_study_date
+  if (lastDate === today) return {}
+  const currentStreak = profile?.streak || 0
+  const newStreak = lastDate === yesterday ? currentStreak + 1 : 1
+  return { streak: newStreak, onboarding: { ...onboarding, last_study_date: today } }
+}
+
 // ===== AUTH ROUTES =====
 app.post('/api/auth/register', async (req, res) => {
   const { email, password, name } = req.body
@@ -147,11 +158,13 @@ app.post('/api/user/resposta', authMiddleware, async (req, res) => {
     subjects[subject].total++
     if (correct) subjects[subject].correct++
 
+    const streakUpdate = updateStreak(profile)
     await supabase.from('decifra_users').update({
       total_questions: (profile?.total_questions || 0) + 1,
       correct: (profile?.correct || 0) + (correct ? 1 : 0),
       xp: (profile?.xp || 0) + (correct ? 10 : 2),
-      subjects
+      subjects,
+      ...streakUpdate
     }).eq('id', req.user.id)
 
     res.json({ ok: true })
@@ -263,12 +276,14 @@ app.post('/api/simulado/finish', authMiddleware, async (req, res) => {
       }
     }
 
+    const streakUpdate = updateStreak(profile)
     await supabase.from('decifra_users').update({
       xp: (profile?.xp || 0) + xpGain,
       simulados_done: (profile?.simulados_done || 0) + 1,
       total_questions: (profile?.total_questions || 0) + (score?.total || 0),
       correct: (profile?.correct || 0) + (score?.correct || 0),
-      subjects
+      subjects,
+      ...streakUpdate
     }).eq('id', req.user.id)
     res.json({ ok: true, xpGain })
   } catch {
