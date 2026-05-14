@@ -660,6 +660,238 @@ const questions = [
     tags: ['inteligência artificial', 'inglês', 'tecnologia', 'vocabulário']
   },
 
+  // ===== MATEMÁTICA extras =====
+  {
+    id: 'mat011', subject: 'matematica', year: 2024, source: 'ENEM', difficulty: 'dificil',
+    question: 'Em uma progressão geométrica, o 1º termo é 2 e a razão é 3. Qual é a soma dos 4 primeiros termos?',
+    options: ['20', '40', '60', '80', '100'],
+    answerIndex: 3,
+    explanation: 'Termos: 2, 6, 18, 54. Soma = 2 + 6 + 18 + 54 = 80. Fórmula: S = a₁(qⁿ − 1)/(q − 1) = 2(81−1)/2 = 80.',
+    tags: ['progressão geométrica', 'PG', 'soma']
+  },
+  {
+    id: 'mat012', subject: 'matematica', year: 2025, source: 'ENEM', difficulty: 'medio',
+    question: 'Uma caixa tem 4 bolas numeradas de 1 a 4. Retirando-se 2 bolas, qual é a probabilidade de ambas serem pares?',
+    options: ['1/6', '1/4', '1/3', '1/2', '2/3'],
+    answerIndex: 0,
+    explanation: 'Pares: {2,4}. Total de pares possíveis de 4 bolas: C(4,2) = 6. Casos favoráveis: C(2,2) = 1. P = 1/6.',
+    tags: ['probabilidade', 'combinatória', 'eventos']
+  },
+  {
+    id: 'mat013', subject: 'matematica', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'Quantos anagramas (arranjos) distintos podem ser formados com as letras da palavra ROMA?',
+    options: ['6', '12', '16', '24', '48'],
+    answerIndex: 3,
+    explanation: 'ROMA tem 4 letras todas distintas. Número de anagramas = 4! = 4×3×2×1 = 24.',
+    tags: ['análise combinatória', 'permutação', 'anagrama']
+  },
+
+  // ===== PORTUGUÊS extras =====
+  {
+    id: 'por009', subject: 'portugues', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'Em "Embora estivesse cansado, ele foi ao trabalho", a oração subordinada é:',
+    options: [
+      'Adverbial temporal', 'Adverbial concessiva', 'Adverbial causal', 'Adjetiva explicativa', 'Substantiva objetiva'
+    ],
+    answerIndex: 1,
+    explanation: '"Embora" introduz oração subordinada adverbial concessiva — indica uma concessão, algo que poderia impedir a ação mas não impediu.',
+    tags: ['sintaxe', 'oração subordinada', 'concessiva']
+  },
+  {
+    id: 'por010', subject: 'portugues', year: 2024, source: 'ENEM', difficulty: 'dificil',
+    question: 'Machado de Assis pertence ao Realismo brasileiro. Qual característica marca esse movimento literário?',
+    options: [
+      'Idealização da natureza e do amor romântico',
+      'Análise psicológica, crítica social e linguagem objetiva',
+      'Exaltação do herói nacional e do indianismo',
+      'Valorização do misticismo e do sobrenatural',
+      'Foco na linguagem popular e na oralidade'
+    ],
+    answerIndex: 1,
+    explanation: 'O Realismo (segunda metade do séc. XIX) caracteriza-se pela análise psicológica profunda, crítica à hipocrisia social e uso de linguagem objetiva e verossímil. Machado de Assis é seu maior representante no Brasil.',
+    tags: ['Realismo', 'Machado de Assis', 'literatura brasileira']
+  },
+
+  // ===== BIOLOGIA extras =====
+  {
+    id: 'bio007', subject: 'biologia', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: 'Na mitose, uma célula com 2n = 46 cromossomos produz:',
+    options: [
+      '2 células com 23 cromossomos cada',
+      '4 células com 23 cromossomos cada',
+      '2 células com 46 cromossomos cada',
+      '4 células com 46 cromossomos cada',
+      '1 célula com 92 cromossomos'
+    ],
+    answerIndex: 2,
+    explanation: 'Mitose é divisão equacional: produz 2 células-filhas geneticamente idênticas à célula-mãe, cada uma com 2n = 46 cromossomos. Meiose é que produz 4 células com n = 23.',
+    tags: ['mitose', 'divisão celular', 'cromossomos']
+  },
+  {
+    id: 'bio008', subject: 'biologia', year: 2025, source: 'ENEM', difficulty: 'medio',
+    question: 'O que são cadeias alimentares e qual o fluxo de energia nelas?',
+    options: [
+      'Sequências de organismos; energia flui dos consumidores para os produtores',
+      'Redes de relações simbióticas; energia é completamente reciclada',
+      'Sequências de organismos; energia flui unidirecionalmente dos produtores aos consumidores, com perda em cada nível',
+      'Ciclos de nutrientes; energia é criada pelos decompositores',
+      'Associações entre parasitas; energia retorna ao produtor'
+    ],
+    answerIndex: 2,
+    explanation: 'Na cadeia alimentar (produtor→consumidor primário→consumidor secundário→...), a energia flui em um único sentido, com perda de ~90% a cada nível trófico (lei de Lindeman). Por isso há mais biomassa nos produtores.',
+    tags: ['ecologia', 'cadeia alimentar', 'fluxo de energia']
+  },
+
+  // ===== QUÍMICA extras =====
+  {
+    id: 'qui006', subject: 'quimica', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'Na eletrólise da água, o que é produzido no eletrodo negativo (cátodo)?',
+    options: ['O₂ (oxigênio)', 'H₂ (hidrogênio)', 'H₂O₂ (água oxigenada)', 'OH⁻ (hidroxila)', 'Cl₂ (cloro)'],
+    answerIndex: 1,
+    explanation: 'Na eletrólise da água: no cátodo (-) ocorre redução → 2H⁺ + 2e⁻ → H₂↑. No ânodo (+) ocorre oxidação → 2H₂O → O₂↑ + 4H⁺ + 4e⁻.',
+    tags: ['eletrólise', 'eletroquímica', 'oxidação-redução']
+  },
+  {
+    id: 'qui007', subject: 'quimica', year: 2024, source: 'ENEM', difficulty: 'facil',
+    question: 'O ozônio (O₃) na estratosfera tem a função de:',
+    options: [
+      'Reter o calor da Terra (efeito estufa)',
+      'Absorver a radiação ultravioleta prejudicial ao ser humano',
+      'Produzir oxigênio para os seres vivos respirarem',
+      'Reagir com CO₂ para reduzir a poluição',
+      'Formar chuvas ácidas nas regiões industriais'
+    ],
+    answerIndex: 1,
+    explanation: 'A camada de ozônio estratosférico absorve ~97-99% da radiação UV-B e UV-C do sol, protegendo os seres vivos de danos celulares (câncer de pele, mutações). Sua destruição é causada por CFCs.',
+    tags: ['ozônio', 'camada de ozônio', 'radiação UV', 'ambiental']
+  },
+
+  // ===== FÍSICA extras =====
+  {
+    id: 'fis006', subject: 'fisica', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'Dois espelhos planos formam um ângulo de 60° entre si. Quantas imagens de um objeto colocado entre eles são formadas?',
+    options: ['2', '3', '4', '5', '6'],
+    answerIndex: 3,
+    explanation: 'Número de imagens = (360°/θ) − 1 = (360°/60°) − 1 = 6 − 1 = 5 imagens.',
+    tags: ['óptica', 'espelhos planos', 'reflexão']
+  },
+  {
+    id: 'fis007', subject: 'fisica', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: 'Em circuitos elétricos, resistores em paralelo têm a mesma:',
+    options: ['Corrente', 'Resistência equivalente', 'Tensão (ddp)', 'Potência dissipada', 'Carga elétrica'],
+    answerIndex: 2,
+    explanation: 'Em associação paralela, todos os resistores são submetidos à mesma diferença de potencial (tensão). A corrente se divide entre os ramos. 1/R_eq = 1/R₁ + 1/R₂ + ...',
+    tags: ['circuitos elétricos', 'resistores em paralelo', 'tensão']
+  },
+
+  // ===== HISTÓRIA extras =====
+  {
+    id: 'his007', subject: 'historia', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: 'A Revolução Francesa (1789) teve como principais ideais:',
+    options: [
+      'Monarquia, religião e tradição',
+      'Liberdade, igualdade e fraternidade',
+      'Socialismo, coletivismo e revolução proletária',
+      'Nacionalismo, expansionismo e militarismo',
+      'Federalismo, capitalismo e livre comércio'
+    ],
+    answerIndex: 1,
+    explanation: '"Liberté, Égalité, Fraternité" foi o lema da Revolução Francesa. Derrubou o Antigo Regime, eliminou privilégios da nobreza e do clero e difundiu os ideais iluministas pelo mundo ocidental.',
+    tags: ['Revolução Francesa', 'iluminismo', 'história mundial']
+  },
+  {
+    id: 'his008', subject: 'historia', year: 2025, source: 'ENEM', difficulty: 'medio',
+    question: 'O Holocausto, durante a 2ª Guerra Mundial (1939–1945), foi o extermínio sistemático de:',
+    options: [
+      'Prisioneiros de guerra russos pelos alemães',
+      'Cerca de 6 milhões de judeus e outros grupos pelo regime nazista',
+      'Populações japonesas pelos Estados Unidos',
+      'Comunistas europeus pelos países capitalistas',
+      'Ciganos e eslavos pelos países da Tríplice Aliança'
+    ],
+    answerIndex: 1,
+    explanation: 'O Holocausto foi o genocídio de aprox. 6 milhões de judeus, além de ciganos, pessoas com deficiência, homossexuais e dissidentes políticos, perpetrado pelo regime nazista de Hitler. Levou à criação do Estado de Israel (1948) e à Declaração dos Direitos Humanos (1948).',
+    tags: ['Holocausto', 'Segunda Guerra Mundial', 'nazismo', 'genocídio']
+  },
+
+  // ===== GEOGRAFIA extras =====
+  {
+    id: 'geo006', subject: 'geografia', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: 'O fenômeno da "inversão térmica" nas cidades causa principalmente:',
+    options: [
+      'Queda das temperaturas urbanas no verão',
+      'Acúmulo de poluentes na camada mais baixa da atmosfera',
+      'Aumento das chuvas nas áreas centrais',
+      'Redução da umidade do ar nas periferias',
+      'Formação de nuvens de tempestade no inverno'
+    ],
+    answerIndex: 1,
+    explanation: 'Na inversão térmica, uma camada de ar quente fica sobre uma camada de ar frio, bloqueando a dispersão vertical de poluentes. Isso causa acúmulo de partículas e gases poluentes próximos ao solo, agravando problemas respiratórios.',
+    tags: ['inversão térmica', 'poluição', 'climatologia urbana']
+  },
+  {
+    id: 'geo007', subject: 'geografia', year: 2025, source: 'ENEM', difficulty: 'facil',
+    question: 'O Brasil é o maior produtor mundial de qual produto agrícola?',
+    options: ['Trigo', 'Arroz', 'Soja', 'Milho', 'Café'],
+    answerIndex: 4,
+    explanation: 'O Brasil é o maior produtor e exportador mundial de café há mais de 150 anos. Também lidera em soja e suco de laranja, e é 2º em soja (atrás dos EUA em alguns anos). Para café, a liderança é histórica e incontestável.',
+    tags: ['agricultura brasileira', 'café', 'agropecuária']
+  },
+
+  // ===== FILOSOFIA extras =====
+  {
+    id: 'fil006', subject: 'filosofia', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: 'Para John Locke, o conhecimento deriva principalmente:',
+    options: [
+      'Das ideias inatas presentes na mente desde o nascimento',
+      'Da experiência sensorial — a mente nasce como "tábula rasa"',
+      'Da revelação divina e da tradição religiosa',
+      'Da razão pura, independente da experiência',
+      'Das estruturas universais da linguagem'
+    ],
+    answerIndex: 1,
+    explanation: 'Locke é o principal representante do empirismo inglês. Para ele, a mente ao nascer é uma "tábula rasa" (página em branco). Todo conhecimento provém da experiência sensorial e da reflexão sobre essas experiências — opondo-se ao inatismo cartesiano.',
+    tags: ['Locke', 'empirismo', 'teoria do conhecimento', 'filosofia moderna']
+  },
+  {
+    id: 'fil007', subject: 'filosofia', year: 2025, source: 'ENEM', difficulty: 'medio',
+    question: 'Na Sociologia, o conceito de "alienação" em Marx se refere a:',
+    options: [
+      'Integração plena do trabalhador ao processo produtivo',
+      'Distanciamento do trabalhador do produto de seu trabalho, de si mesmo e dos outros',
+      'Consciência de classe e solidariedade entre trabalhadores',
+      'Fenômeno exclusivo das sociedades pré-capitalistas',
+      'Processo de enriquecimento do trabalhador pelo capitalista'
+    ],
+    answerIndex: 1,
+    explanation: 'Marx define alienação como o processo pelo qual o trabalhador, ao vender sua força de trabalho, perde o controle sobre o produto que cria, tornando-se "estranho" a ele, a si mesmo e aos outros trabalhadores. O trabalho, em vez de realizá-lo, o degrada.',
+    tags: ['Marx', 'alienação', 'trabalho', 'sociologia']
+  },
+
+  // ===== INGLÊS extras =====
+  {
+    id: 'ing006', subject: 'ingles', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: 'Read: "Despite the heavy rain, the football match was not cancelled." The word "despite" expresses:',
+    options: ['Cause', 'Consequence', 'Contrast/Concession', 'Time sequence', 'Condition'],
+    answerIndex: 2,
+    explanation: '"Despite" (= mesmo que, apesar de) introduces a concession — something that could have caused the opposite result but did not. It contrasts two ideas. Synonyms: "in spite of", "although", "even though".',
+    tags: ['conjunções', 'inglês', 'gramática', 'contrast']
+  },
+  {
+    id: 'ing007', subject: 'ingles', year: 2025, source: 'ENEM', difficulty: 'facil',
+    question: 'Choose the correct sentence in the SIMPLE PAST tense:',
+    options: [
+      '"She go to school yesterday."',
+      '"She goes to school yesterday."',
+      '"She went to school yesterday."',
+      '"She will go to school yesterday."',
+      '"She is go to school yesterday."'
+    ],
+    answerIndex: 2,
+    explanation: '"Went" is the irregular past form of "go". Simple past tense is used for completed actions at a specific time in the past (indicated by "yesterday"). The other options use incorrect verb forms for past tense.',
+    tags: ['simple past', 'inglês', 'gramática', 'verbos irregulares']
+  },
+
   // ===== CONCURSO PÚBLICO — questões específicas =====
   {
     id: 'con001', subject: 'matematica', year: 2025, source: 'Concurso', difficulty: 'medio',
@@ -718,6 +950,36 @@ const questions = [
     answerIndex: 3,
     explanation: '"Se p, então q" é a forma padrão da condicional (p → q). O antecedente (p) é "chove" e o consequente (q) é "a rua fica molhada". É verdadeira exceto quando p é verdadeira e q é falsa.',
     tags: ['lógica', 'raciocínio lógico', 'proposições', 'concurso']
+  },
+  {
+    id: 'con006', subject: 'matematica', year: 2025, source: 'Concurso', difficulty: 'medio',
+    question: 'Se 30% de um número é 60, qual é 45% desse número?',
+    options: ['80', '85', '90', '95', '100'],
+    answerIndex: 2,
+    explanation: '30% → 60, então 100% = 200. 45% de 200 = 90.',
+    tags: ['porcentagem', 'raciocínio lógico', 'concurso']
+  },
+  {
+    id: 'con007', subject: 'portugues', year: 2025, source: 'Concurso', difficulty: 'medio',
+    question: 'Assinale a alternativa em que a regência verbal está CORRETA:',
+    options: [
+      'Eu assisti o filme ontem à noite.',
+      'Ela chegou em casa tarde.',
+      'O presidente informou os ministros da decisão.',
+      'Prefiro cinema do que teatro.',
+      'Eles obedeceram as ordens do superior.'
+    ],
+    answerIndex: 2,
+    explanation: '"Informar" aceita dupla regência: informar alguém DE algo. As demais: "assistir a" (não "assistir"); "chegar A casa"; "preferir A... A" (não "do que"); "obedecer a" (não "obedecer").',
+    tags: ['regência verbal', 'gramática', 'concurso', 'norma culta']
+  },
+  {
+    id: 'con008', subject: 'historia', year: 2025, source: 'Concurso', difficulty: 'facil',
+    question: 'Quantos poderes compõem a República Federativa do Brasil, segundo a Constituição Federal de 1988?',
+    options: ['2 — Executivo e Legislativo', '3 — Executivo, Legislativo e Judiciário', '4 — incluindo o Moderador', '5 — incluindo Ministério Público e TCU', '2 — Federal e Estadual'],
+    answerIndex: 1,
+    explanation: 'Art. 2º da CF/1988: "São Poderes da União, independentes e harmônicos entre si, o Legislativo, o Executivo e o Judiciário." O Poder Moderador existiu no Império; foi abolido na República.',
+    tags: ['constituição federal', 'poderes da república', 'concurso', 'direito constitucional']
   },
 ]
 

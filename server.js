@@ -367,6 +367,120 @@ IDs válidos: matematica, portugues, biologia, quimica, fisica, historia, geogra
   }
 })
 
+// ===== CORREÇÃO DE REDAÇÃO =====
+const redacaoUsage = new Map()
+setInterval(() => {
+  const cutoff = Date.now() - 86400000
+  for (const [key, val] of redacaoUsage) { if (val.resetAt < cutoff) redacaoUsage.delete(key) }
+}, 5 * 60 * 1000)
+
+app.post('/api/redacao/corrigir', authMiddleware, async (req, res) => {
+  const { texto, tema } = req.body
+  if (!texto || texto.trim().length < 100) return res.status(400).json({ error: 'Redação muito curta (mínimo 100 caracteres)' })
+  if (texto.length > 5000) return res.status(400).json({ error: 'Redação muito longa (máximo 5000 caracteres)' })
+
+  const pro = await isUserPro(req.user.id)
+  if (!pro) {
+    const key = req.user.id
+    const today = new Date().toDateString()
+    const usage = redacaoUsage.get(key) || { count: 0, date: today, resetAt: Date.now() }
+    if (usage.date !== today) { usage.count = 0; usage.date = today; usage.resetAt = Date.now() }
+    if (usage.count >= 1) return res.status(429).json({ error: 'Limite diário atingido. Faça upgrade para Pro para correções ilimitadas.' })
+    usage.count++
+    redacaoUsage.set(key, usage)
+  }
+
+  try {
+    const temaInfo = tema ? `Tema: "${tema}"` : 'Tema não informado — avalie o que for possível identificar'
+    const prompt = `Você é um corretor especialista do ENEM. Avalie a redação abaixo nas 5 competências oficiais e retorne APENAS JSON válido, sem texto extra.
+
+${temaInfo}
+
+REDAÇÃO:
+${texto.trim()}
+
+Retorne exatamente este JSON:
+{
+  "nota_total": <número 0-1000>,
+  "competencias": [
+    {"numero": 1, "nome": "Domínio da norma culta", "nota": <0-200>, "comentario": "feedback específico em 1-2 frases"},
+    {"numero": 2, "nome": "Compreensão do tema", "nota": <0-200>, "comentario": "feedback específico em 1-2 frases"},
+    {"numero": 3, "nome": "Seleção de argumentos", "nota": <0-200>, "comentario": "feedback específico em 1-2 frases"},
+    {"numero": 4, "nome": "Coesão e coerência", "nota": <0-200>, "comentario": "feedback específico em 1-2 frases"},
+    {"numero": 5, "nome": "Proposta de intervenção", "nota": <0-200>, "comentario": "feedback específico em 1-2 frases"}
+  ],
+  "pontos_fortes": ["ponto forte 1", "ponto forte 2"],
+  "melhorias": ["melhoria prioritária 1", "melhoria 2", "melhoria 3"],
+  "resumo": "Feedback geral em 2-3 frases motivadoras e construtivas"
+}`
+
+    const response = await anthropic.messages.create({
+      model: 'claude-haiku-4-5',
+      max_tokens: 1500,
+      messages: [{ role: 'user', content: prompt }]
+    })
+
+    const text = response.content[0].text.trim()
+    const match = text.match(/\{[\s\S]*\}/)
+    if (!match) throw new Error('Invalid JSON')
+    const correcao = JSON.parse(match[0])
+    res.json({ correcao })
+  } catch (err) {
+    console.error('Redacao error:', err)
+    res.status(500).json({ error: 'Erro ao corrigir redação. Tente novamente.' })
+  }
+})
+
+// ===== QUESTÃO GERADA POR IA =====
+const SUBJECT_NAMES_PT = { matematica: 'Matemática', portugues: 'Língua Portuguesa', biologia: 'Biologia', quimica: 'Química', fisica: 'Física', historia: 'História', geografia: 'Geografia', filosofia: 'Filosofia e Sociologia', ingles: 'English' }
+const VALID_SUBJECTS = Object.keys(SUBJECT_NAMES_PT)
+
+app.post('/api/questao/generate', authMiddleware, async (req, res) => {
+  const { subject, difficulty = 'medio', topic } = req.body
+  if (!subject || !VALID_SUBJECTS.includes(subject)) return res.status(400).json({ error: 'Matéria inválida' })
+
+  try {
+    const subjectName = SUBJECT_NAMES_PT[subject]
+    const topicInfo = topic ? `Tópico: ${topic}` : 'Escolha um tópico relevante para o ENEM 2026'
+    const diffMap = { facil: 'fácil (ensino médio básico)', medio: 'médio (padrão ENEM)', dificil: 'difícil (vestibular concorrido)' }
+    const isEnglish = subject === 'ingles'
+
+    const prompt = `Crie uma questão de múltipla escolha de ${subjectName}, nível ${diffMap[difficulty] || 'médio'}, para o ENEM 2026.
+${topicInfo}
+
+Retorne APENAS JSON válido:
+{
+  "question": "${isEnglish ? 'Question text in English' : 'Enunciado completo da questão em português'}",
+  "options": ["A...", "B...", "C...", "D...", "E..."],
+  "answerIndex": <0-4>,
+  "explanation": "${isEnglish ? 'Explicação em português (2-3 frases didáticas)' : 'Explicação da resposta correta em português (2-3 frases)'}",
+  "tags": ["tag1", "tag2"]
+}
+
+Regras: questão original, 5 alternativas, apenas 1 correta, linguagem clara e didática.`
+
+    const response = await anthropic.messages.create({
+      model: 'claude-haiku-4-5',
+      max_tokens: 800,
+      messages: [{ role: 'user', content: prompt }]
+    })
+
+    const text = response.content[0].text.trim()
+    const match = text.match(/\{[\s\S]*\}/)
+    if (!match) throw new Error('Invalid JSON')
+    const questao = JSON.parse(match[0])
+    questao.id = `ai_${subject}_${Date.now()}`
+    questao.subject = subject
+    questao.year = 2026
+    questao.source = 'IA'
+    questao.difficulty = difficulty
+    res.json({ questao })
+  } catch (err) {
+    console.error('Generate question error:', err)
+    res.status(500).json({ error: 'Erro ao gerar questão. Tente novamente.' })
+  }
+})
+
 // ===== STRIPE =====
 const PRICE_IDS = {
   monthly: process.env.STRIPE_PRICE_MONTHLY,
