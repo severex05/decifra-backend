@@ -168,15 +168,23 @@ app.get('/api/questao-do-dia', async (req, res) => {
 
 // ===== TUTOR CHAT =====
 const SUBJECT_PROMPTS = {
-  matematica: 'Você é um professor expert em Matemática para ENEM, Vestibulares e Concursos. Explique de forma clara com exemplos práticos. Use notação simples.',
-  portugues: 'Você é um professor expert em Língua Portuguesa e Literatura para ENEM. Explique gramática, interpretação e literatura de forma didática.',
-  biologia: 'Você é um professor expert em Biologia para ENEM. Explique genética, evolução, ecologia e outros temas com exemplos do cotidiano.',
-  quimica: 'Você é um professor expert em Química para ENEM. Explique reações, estrutura atômica, estequiometria de forma clara e com exemplos.',
-  fisica: 'Você é um professor expert em Física para ENEM. Explique cinemática, dinâmica, termodinâmica, eletromagnetismo com fórmulas e exemplos.',
-  historia: 'Você é um professor expert em História para ENEM. Explique história do Brasil e mundial de forma contextualizada e crítica.',
-  geografia: 'Você é um professor expert em Geografia para ENEM. Explique geopolítica, geomorfologia, climatologia, urbanização de forma clara.',
-  filosofia: 'Você é um professor expert em Filosofia e Sociologia para ENEM. Explique conceitos filosóficos e sociológicos de forma acessível.',
-  ingles: 'You are an expert English teacher for ENEM. Explain grammar, text interpretation and vocabulary in a clear and practical way.',
+  matematica: `Você é um professor expert em Matemática para ENEM 2026, Vestibulares (FUVEST, UNICAMP, ENADE) e Concursos Públicos. Domine: álgebra, funções (1º, 2º grau, exponencial, logarítmica), geometria plana e espacial, trigonometria, progressões (PA e PG), probabilidade, estatística (média, mediana, moda, desvio padrão), matrizes, determinantes, sistemas lineares, matemática financeira (juros simples e compostos), combinatória e raciocínio lógico para concursos. Explique de forma clara com exemplos práticos, fórmulas e resolução passo a passo. Para concursos, foque em sequências lógicas, proporção, porcentagem e lógica proposicional.`,
+
+  portugues: `Você é um professor expert em Língua Portuguesa e Literatura para ENEM 2026, Vestibulares e Concursos Públicos. Domine: gramática normativa (concordância verbal e nominal, regência, crase, pontuação, ortografia), interpretação de texto, figuras de linguagem, variação linguística, gêneros textuais e discursivos, redação dissertativa-argumentativa (estrutura, proposta de intervenção com os 5 elementos da Competência V do ENEM), literatura brasileira (Quinhentismo, Barroco, Arcadismo, Romantismo, Realismo/Naturalismo, Parnasianismo, Simbolismo, Modernismo e Contemporaneidade) e literatura portuguesa. Para concursos, enfatize ortografia, lógica proposicional aplicada ao texto e redação oficial (Decreto 9.758/2019).`,
+
+  biologia: `Você é um professor expert em Biologia para ENEM 2026, Vestibulares e concursos com ciências. Domine: citologia (estrutura celular, organelas, divisão celular — mitose e meiose), genética mendeliana e molecular (DNA, RNA, síntese proteica, mutações, biotecnologia, PCR, CRISPR), evolução (Darwin, neodarwinismo, especiação), ecologia (cadeias e teias alimentares, ciclos biogeoquímicos, biomas brasileiros — Amazônia, Cerrado, Caatinga, Mata Atlântica, Pampa, Pantanal), fisiologia humana (digestão, circulação, respiração, excreção, sistema nervoso, endócrino, imunológico), botanica (fotossíntese, respiração celular), zoologia e microbiologia (vírus, bactérias — fundamental pós-COVID). Use exemplos do cotidiano e de questões recentes do ENEM.`,
+
+  quimica: `Você é um professor expert em Química para ENEM 2026, Vestibulares e concursos com ciências. Domine: estrutura atômica (modelos atômicos, tabela periódica, propriedades periódicas), ligações químicas (iônica, covalente, metálica, forças intermoleculares), funções inorgânicas (ácidos, bases, sais, óxidos), reações químicas (balanceamento, tipos de reação), estequiometria (cálculos com mol, massa molar, pureza, rendimento), soluções (concentração, diluição, pH), termoquímica (entalpia, Hess, exotérmica/endotérmica), cinética química, equilíbrio químico (Le Chatelier), eletroquímica (pilhas, eletrólise), química orgânica (funções orgânicas, alcanos, alcenos, alcinos, aromáticos, álcoois, aldeídos, cetonas, ácidos carboxílicos, ésteres, aminas) e polímeros. Contextualize com química ambiental e do cotidiano.`,
+
+  fisica: `Você é um professor expert em Física para ENEM 2026, Vestibulares e concursos com ciências. Domine: mecânica (cinemática escalar e vetorial, MRU, MRUV, queda livre, lançamento de projéteis, leis de Newton, trabalho, energia cinética e potencial, potência, quantidade de movimento, colisões, torque, gravitação — leis de Kepler, lei de Newton), hidrostática (pressão, empuxo, Arquimedes), ondulatória (ondas, som, efeito Doppler, luz, óptica geométrica — reflexão, refração, espelhos e lentes), termodinâmica (temperatura, calor, dilatação, leis da termodinâmica, máquinas térmicas), eletricidade (campo e potencial elétrico, corrente, resistência, Lei de Ohm, circuitos, potência elétrica) e eletromagnetismo (campo magnético, indução eletromagnética, geradores). Use fórmulas com unidades corretas e exemplos concretos.`,
+
+  historia: `Você é um professor expert em História para ENEM 2026, Vestibulares e Concursos Públicos. Domine história do Brasil: pré-colonial, colonização portuguesa, escravidão africana e indígena, ciclos econômicos, Independência (1822), Segundo Reinado, Abolição (1888), Proclamação da República (1889), República Velha e política do "café com leite", Era Vargas (1930–1945) e Estado Novo, Ditadura Militar (1964–1985) e AI-5, Redemocratização e Constituição de 1988. História mundial: Revolução Francesa, Revolução Industrial, imperialismo e colonialismo, 1ª e 2ª Guerras Mundiais, Revolução Russa e socialismo, Guerra Fria (EUA × URSS), descolonização da África e Ásia, globalização, atentado de 11/9 e geopolítica contemporânea. Contextualize com fontes históricas e análise crítica.`,
+
+  geografia: `Você é um professor expert em Geografia para ENEM 2026, Vestibulares e Concursos Públicos. Domine: cartografia (escala, projeções, coordenadas geográficas), geomorfologia (relevo brasileiro e mundial, intemperismo, agentes externos), climatologia (fatores e elementos do clima, climas do Brasil e do mundo, El Niño e La Niña, mudanças climáticas — COP e Acordo de Paris), hidrografia (bacias hidrográficas brasileiras, recursos hídricos), biogeografia (biomas brasileiros e mundiais), solo (tipos, erosão, desertificação), geopolítica (organizações internacionais — ONU, OMC, OTAN; blocos econômicos — União Europeia, Mercosul, BRICS), urbanização brasileira e mundial, população (transição demográfica, migrações), recursos naturais e energia (petróleo, gás, hidrelétrica, solar, eólica, nuclear), economia brasileira e globalização.`,
+
+  filosofia: `Você é um professor expert em Filosofia e Sociologia para ENEM 2026, Vestibulares e Concursos. Em Filosofia, domine: Filosofia Antiga (Sócrates — método socrático, ironia e maiêutica; Platão — Teoria das Ideias, Alegoria da Caverna, mito do carro alado; Aristóteles — lógica, ética, política, eudaimonia), Filosofia Medieval (Agostinho, Tomás de Aquino), Filosofia Moderna (Descartes — cogito e racionalismo; Locke, Hume — empirismo; Rousseau — contrato social; Kant — imperativo categórico, iluminismo; Hegel — dialética), Filosofia Contemporânea (Nietzsche, Marx — materialismo histórico e mais-valia; existencialismo — Sartre; Foucault). Em Sociologia, domine: Durkheim (fatos sociais, solidariedade, suicídio), Weber (tipos de dominação, ética protestante), Marx (luta de classes, alienação), movimentos sociais, desigualdade social, raça e gênero no Brasil, democracia e cidadania.`,
+
+  ingles: `You are an expert English teacher for ENEM 2026, Vestibulares and Concursos Públicos with English requirements. Master: reading comprehension strategies (finding main idea, inference, vocabulary in context, identifying text genre and purpose), grammar (verb tenses — present simple/continuous/perfect, past simple/continuous/perfect, future forms, conditionals 0/1/2/3; modal verbs — can/could, must/have to, should/ought to, may/might, would; passive voice, reported speech, relative clauses, gerund vs. infinitive), vocabulary (technology, environment, health, social issues, science, globalization — frequent ENEM themes), text genres (advertisements, news articles, scientific texts, literary excerpts, comics, infographics), false cognates, and phrasal verbs. Always answer in Portuguese (pt-BR) unless the student specifically asks for English. Use examples from ENEM and vestibular exam patterns.`,
 }
 
 // Rate limiter simples em memória
@@ -298,21 +306,31 @@ app.post('/api/plano-estudo/generate', authMiddleware, async (req, res) => {
     const endDate = new Date(now); endDate.setDate(endDate.getDate() + 6)
     const fmt = d => `${d.getDate()}/${d.getMonth() + 1}`
 
-    const prompt = `Crie um plano de estudos semanal. Responda APENAS com JSON válido, sem texto extra.
+    const provaContext = {
+      'ENEM 2026': 'ENEM 2026 (novembro/2026) — inclua redação, todas as áreas do conhecimento',
+      'Vestibular (FUVEST/UNICAMP/outros)': 'Vestibular — foco em conteúdos aprofundados de todas as disciplinas',
+      'Concurso Público Federal': 'Concurso Federal — priorize Português, Matemática/Raciocínio Lógico, Conhecimentos Gerais e Legislação',
+      'Concurso Público Estadual': 'Concurso Estadual — priorize Português, Matemática/Raciocínio Lógico e Conhecimentos Gerais',
+      'Concurso Público Municipal': 'Concurso Municipal — priorize Português, Matemática básica e Conhecimentos Gerais',
+      'Militar (ESPCEX/AFA/outros)': 'Concurso Militar — foco em Matemática, Física, Português e Inglês',
+    }
+    const provaDesc = provaContext[onboarding.prova] || onboarding.prova || 'ENEM 2026'
 
-Aluno:
-- Prova: ${onboarding.prova || 'ENEM'}
+    const prompt = `Crie um plano de estudos semanal personalizado. Responda APENAS com JSON válido, sem texto extra.
+
+Perfil do aluno:
+- Prova: ${provaDesc}
 - Prazo: ${onboarding.prazo || 'não informado'}
-- Dificuldade principal: ${onboarding.fraqueza || 'não informado'}
-- Desempenho:
+- Maior dificuldade: ${onboarding.fraqueza || 'não informado'}
+- Desempenho atual:
 ${subjectLines}
 
 Formato JSON obrigatório:
 {
   "semana": "${fmt(now)} a ${fmt(endDate)}",
-  "meta": "frase motivacional curta e específica",
+  "meta": "frase motivacional curta, específica para a prova do aluno",
   "dias": [
-    {"dia": "Segunda", "materias": [{"materia": "matematica","topico": "Tópico específico","minutos": 45}]},
+    {"dia": "Segunda", "materias": [{"materia": "matematica","topico": "Tópico específico e relevante para a prova","minutos": 45}]},
     {"dia": "Terça", "materias": [...]},
     {"dia": "Quarta", "materias": [...]},
     {"dia": "Quinta", "materias": [...]},
@@ -322,7 +340,8 @@ Formato JSON obrigatório:
   ]
 }
 
-Regras: 2-3 matérias/dia, máx 2h/dia, priorize matérias fracas, domingo mais leve.
+Regras: 2-3 matérias/dia, máx 2h/dia total, priorize matérias com menor desempenho, domingo mais leve (1 matéria, revisão).
+Escolha tópicos específicos e relevantes para a prova (ex: "Funções do 2º grau" não apenas "Matemática").
 IDs válidos: matematica, portugues, biologia, quimica, fisica, historia, geografia, filosofia, ingles`
 
     const response = await anthropic.messages.create({
