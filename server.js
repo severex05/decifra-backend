@@ -167,7 +167,8 @@ app.post('/api/user/resposta', authMiddleware, async (req, res) => {
       ...streakUpdate
     }).eq('id', req.user.id)
 
-    res.json({ ok: true })
+    const newStreak = streakUpdate.streak ?? profile?.streak ?? 0
+    res.json({ ok: true, streak: newStreak })
   } catch {
     res.json({ ok: true })
   }
