@@ -497,6 +497,46 @@ Regras: questão original, 5 alternativas, apenas 1 correta, linguagem clara e d
   }
 })
 
+// ===== FLASHCARD GERADO POR IA =====
+app.post('/api/flashcard/generate', authMiddleware, async (req, res) => {
+  const { subject, topic } = req.body
+  if (!subject || !VALID_SUBJECTS.includes(subject)) return res.status(400).json({ error: 'Matéria inválida' })
+
+  const pro = await isUserPro(req.user.id)
+  if (!pro) return res.status(403).json({ error: 'Geração de flashcards com IA disponível apenas no plano Pro' })
+
+  try {
+    const subjectName = SUBJECT_NAMES_PT[subject]
+    const topicInfo = topic ? `Tópico: ${topic}` : `Escolha um conceito importante de ${subjectName} para o ENEM 2026`
+
+    const prompt = `Crie um flashcard educativo de ${subjectName} para estudo.
+${topicInfo}
+
+Retorne APENAS JSON válido, sem texto extra:
+{
+  "front": "Pergunta ou conceito a ser lembrado (1-2 frases diretas e concisas)",
+  "back": "Resposta completa e didática (2-4 frases com a explicação clara)"
+}
+
+Regras: front deve ser uma pergunta direta ou definição para completar; back deve ser a resposta objetiva e memorável.`
+
+    const response = await anthropic.messages.create({
+      model: 'claude-haiku-4-5',
+      max_tokens: 400,
+      messages: [{ role: 'user', content: prompt }]
+    })
+
+    const text = response.content[0].text.trim()
+    const match = text.match(/\{[\s\S]*\}/)
+    if (!match) throw new Error('Invalid JSON')
+    const card = JSON.parse(match[0])
+    res.json({ front: card.front, back: card.back })
+  } catch (err) {
+    console.error('Flashcard generate error:', err)
+    res.status(500).json({ error: 'Erro ao gerar flashcard.' })
+  }
+})
+
 // ===== STRIPE =====
 const PRICE_IDS = {
   monthly: process.env.STRIPE_PRICE_MONTHLY,
