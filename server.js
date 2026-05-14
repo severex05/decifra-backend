@@ -292,6 +292,63 @@ app.post('/api/simulado/finish', authMiddleware, async (req, res) => {
   }
 })
 
+// ===== SIMULADO IA =====
+app.post('/api/simulado/ia', authMiddleware, async (req, res) => {
+  const pro = await isUserPro(req.user.id)
+  if (!pro) return res.status(403).json({ error: 'Simulado IA disponível apenas no plano Pro' })
+
+  const subjects = ['matematica', 'portugues', 'biologia', 'quimica', 'fisica', 'historia', 'geografia', 'filosofia', 'ingles', 'matematica']
+  const diffMap = { facil: 'fácil (ensino médio básico)', medio: 'médio (padrão ENEM)', dificil: 'difícil (vestibular concorrido)' }
+  const diffs = ['facil', 'medio', 'medio', 'medio', 'dificil']
+
+  async function genQuestion(subject, idx) {
+    const difficulty = diffs[idx % diffs.length]
+    const subjectName = SUBJECT_NAMES_PT[subject]
+    const isEnglish = subject === 'ingles'
+    const prompt = `Crie uma questão de múltipla escolha de ${subjectName}, nível ${diffMap[difficulty]}, para o ENEM 2026.
+Escolha um tópico relevante e diferente do comum.
+
+Retorne APENAS JSON válido:
+{
+  "question": "${isEnglish ? 'Question text in English' : 'Enunciado completo da questão em português'}",
+  "options": ["A...", "B...", "C...", "D...", "E..."],
+  "answerIndex": <0-4>,
+  "explanation": "Explicação da resposta correta em português (2-3 frases)"
+}
+
+Regras: questão original, 5 alternativas, apenas 1 correta, linguagem clara e didática.`
+
+    const response = await anthropic.messages.create({
+      model: 'claude-haiku-4-5',
+      max_tokens: 800,
+      messages: [{ role: 'user', content: prompt }]
+    })
+    const text = response.content[0].text.trim()
+    const match = text.match(/\{[\s\S]*\}/)
+    if (!match) throw new Error('Invalid JSON')
+    const q = JSON.parse(match[0])
+    return {
+      id: `ia_${subject}_${Date.now()}_${idx}`,
+      subject,
+      question: q.question,
+      options: q.options,
+      answerIndex: Number(q.answerIndex),
+      explanation: q.explanation,
+      year: 2026,
+      source: 'IA',
+      difficulty
+    }
+  }
+
+  try {
+    const questions = await Promise.all(subjects.map((s, i) => genQuestion(s, i)))
+    res.json({ questions, timeLimit: 900, type: 'ia' })
+  } catch (err) {
+    console.error('Simulado IA error:', err)
+    res.status(500).json({ error: 'Erro ao gerar simulado IA. Tente novamente.' })
+  }
+})
+
 // ===== PLANO DE ESTUDO =====
 app.get('/api/plano-estudo', authMiddleware, async (req, res) => {
   try {
@@ -538,6 +595,21 @@ Regras: front deve ser uma pergunta direta ou definição para completar; back d
 })
 
 // ===== STRIPE =====
+app.post('/api/stripe/portal', authMiddleware, async (req, res) => {
+  const profile = await getUserProfile(req.user.id)
+  if (!profile?.stripe_customer_id) return res.status(400).json({ error: 'Sem assinatura ativa' })
+  try {
+    const session = await stripe.billingPortal.sessions.create({
+      customer: profile.stripe_customer_id,
+      return_url: `${process.env.FRONTEND_URL}/app`
+    })
+    res.json({ url: session.url })
+  } catch (err) {
+    console.error('Portal error:', err)
+    res.status(500).json({ error: 'Erro ao abrir portal de assinatura' })
+  }
+})
+
 const PRICE_IDS = {
   monthly: process.env.STRIPE_PRICE_MONTHLY,
   annual: process.env.STRIPE_PRICE_ANNUAL,
