@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
+const cron = require('node-cron')
 const Anthropic = require('@anthropic-ai/sdk')
 const { createClient } = require('@supabase/supabase-js')
 const Stripe = require('stripe')
@@ -66,6 +67,112 @@ function updateStreak(profile) {
   return { streak: newStreak, onboarding: { ...onboarding, last_study_date: today } }
 }
 
+// ===== EMAIL (RESEND) =====
+async function sendEmail({ to, subject, html }) {
+  if (!process.env.RESEND_API_KEY) return
+  try {
+    await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from: process.env.EMAIL_FROM || 'Decifra <noreply@decifra.pro>', to: [to], subject, html })
+    })
+  } catch (err) {
+    console.error('Email error:', err.message)
+  }
+}
+
+const EMAIL_TEMPLATES = {
+  welcome: (name) => ({
+    subject: `${name ? name + ', bem' : 'Bem'}-vindo ao Decifra! 🎉`,
+    html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0a0f1e;color:#f9fafb;padding:32px;border-radius:16px">
+      <h1 style="color:#3b82f6;font-size:28px;margin-bottom:8px">Decifra<span style="color:#3b82f6">.</span></h1>
+      <h2 style="font-size:22px;margin-bottom:16px">Olá${name ? ', ' + name.split(' ')[0] : ''}! Sua jornada começa agora.</h2>
+      <p style="color:#9ca3af;line-height:1.6;margin-bottom:24px">Você tem acesso gratuito a simulados, tutor personalizado por matéria e diagnóstico de desempenho. Tudo isso para te ajudar a passar no ENEM, vestibular ou concurso.</p>
+      <p style="color:#9ca3af;line-height:1.6;margin-bottom:8px"><strong style="color:#f9fafb">Por onde começar?</strong></p>
+      <ul style="color:#9ca3af;line-height:2;margin-bottom:24px">
+        <li>📊 Faça o <strong style="color:#f9fafb">Diagnóstico</strong> para descobrir seus pontos fortes e fracos</li>
+        <li>⚡ Resolva um <strong style="color:#f9fafb">Mini-simulado</strong> para começar a ganhar XP</li>
+        <li>💬 Pergunte ao <strong style="color:#f9fafb">Tutor</strong> sobre qualquer dúvida de matéria</li>
+      </ul>
+      <a href="${process.env.FRONTEND_URL}/app" style="background:#3b82f6;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;display:inline-block;margin-bottom:24px">Começar a estudar →</a>
+      <p style="color:#6b7280;font-size:13px">Qualquer dúvida, responda este email. Bons estudos! 📚</p>
+    </div>`
+  }),
+  d2: (name) => ({
+    subject: 'Como foi seu primeiro dia de estudos? 📚',
+    html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0a0f1e;color:#f9fafb;padding:32px;border-radius:16px">
+      <h1 style="color:#3b82f6;font-size:28px;margin-bottom:8px">Decifra<span style="color:#3b82f6">.</span></h1>
+      <h2 style="font-size:22px;margin-bottom:16px">Ei${name ? ', ' + name.split(' ')[0] : ''}! Não esqueça do seu streak 🔥</h2>
+      <p style="color:#9ca3af;line-height:1.6;margin-bottom:24px">Você criou sua conta ontem. Estudar pelo menos 5 questões por dia é o segredo para manter o streak e criar o hábito de estudo.</p>
+      <p style="color:#f59e0b;font-size:18px;font-weight:700;margin-bottom:24px">⚡ Missão de hoje: resolver 5 questões em qualquer matéria</p>
+      <a href="${process.env.FRONTEND_URL}/app" style="background:#3b82f6;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;display:inline-block;margin-bottom:24px">Estudar agora →</a>
+      <p style="color:#6b7280;font-size:13px">Dica: o Mini-simulado tem 10 questões e leva só 15 minutos.</p>
+    </div>`
+  }),
+  d5: (name) => ({
+    subject: 'Você sabia que o Plano de Estudo IA é gratuito no trial? 📋',
+    html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0a0f1e;color:#f9fafb;padding:32px;border-radius:16px">
+      <h1 style="color:#3b82f6;font-size:28px;margin-bottom:8px">Decifra<span style="color:#3b82f6">.</span></h1>
+      <h2 style="font-size:22px;margin-bottom:16px">Aproveite os 7 dias grátis 🎁</h2>
+      <p style="color:#9ca3af;line-height:1.6;margin-bottom:24px">Você tem acesso Pro por 7 dias grátis. Isso inclui simulados ilimitados, correção de redação, plano de estudo personalizado e flashcards com IA.</p>
+      <p style="color:#9ca3af;line-height:1.6;margin-bottom:8px"><strong style="color:#f9fafb">O que testar antes do trial acabar:</strong></p>
+      <ul style="color:#9ca3af;line-height:2;margin-bottom:24px">
+        <li>📋 <strong style="color:#f9fafb">Plano de estudo</strong> — cronograma semanal gerado por IA</li>
+        <li>✍️ <strong style="color:#f9fafb">Correção de redação</strong> — nota 0-1000 nas 5 competências ENEM</li>
+        <li>🤖 <strong style="color:#f9fafb">Simulado IA</strong> — banco infinito de questões geradas por IA</li>
+      </ul>
+      <a href="${process.env.FRONTEND_URL}/app" style="background:#3b82f6;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;display:inline-block;margin-bottom:24px">Explorar agora →</a>
+      <p style="color:#6b7280;font-size:13px">Depois do trial, o Pro custa R$29/mês. Cancele quando quiser, sem burocracia.</p>
+    </div>`
+  }),
+  d7: (name) => ({
+    subject: 'Seu trial termina amanhã — continue Pro por R$29/mês ⭐',
+    html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0a0f1e;color:#f9fafb;padding:32px;border-radius:16px">
+      <h1 style="color:#3b82f6;font-size:28px;margin-bottom:8px">Decifra<span style="color:#3b82f6">.</span></h1>
+      <h2 style="font-size:22px;margin-bottom:16px">Última chance para manter o Pro 🚀</h2>
+      <p style="color:#9ca3af;line-height:1.6;margin-bottom:24px">Seu trial de 7 dias termina amanhã. Se não assinar, você voltará ao plano gratuito (5 perguntas/dia, 1 simulado/mês).</p>
+      <p style="color:#10b981;font-size:18px;font-weight:700;margin-bottom:24px">✅ Continue Pro por apenas R$29/mês</p>
+      <ul style="color:#9ca3af;line-height:2;margin-bottom:24px">
+        <li>Simulados ilimitados + análise por matéria</li>
+        <li>Tutor IA ilimitado em todas as matérias</li>
+        <li>Correção de redação (ENEM) ilimitada</li>
+        <li>Plano de estudo semanal regenerável</li>
+        <li>Flashcards IA por tópico</li>
+      </ul>
+      <a href="${process.env.FRONTEND_URL}/app" style="background:#3b82f6;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;display:inline-block;margin-bottom:24px">Assinar Pro agora →</a>
+      <p style="color:#6b7280;font-size:13px">Cancele quando quiser. Sem compromisso.</p>
+    </div>`
+  })
+}
+
+// Daily cron: send D2, D5, D7 nurturing emails at 10am
+cron.schedule('0 10 * * *', async () => {
+  if (!process.env.RESEND_API_KEY) return
+  const now = new Date()
+  for (const [days, key] of [[2, 'd2'], [5, 'd5'], [7, 'd7']]) {
+    const since = new Date(now)
+    since.setDate(since.getDate() - days)
+    const from = new Date(since); from.setHours(0, 0, 0, 0)
+    const to = new Date(since); to.setHours(23, 59, 59, 999)
+    try {
+      const { data } = await supabase.from('decifra_users')
+        .select('id, email, name, email_sequences')
+        .gte('registered_at', from.toISOString())
+        .lte('registered_at', to.toISOString())
+      for (const user of (data || [])) {
+        if (user.email_sequences?.[key]) continue
+        const tmpl = EMAIL_TEMPLATES[key](user.name)
+        await sendEmail({ to: user.email, ...tmpl })
+        const seqs = user.email_sequences || {}
+        seqs[key] = true
+        await supabase.from('decifra_users').update({ email_sequences: seqs }).eq('id', user.id)
+      }
+    } catch (err) {
+      console.error(`Cron email ${key} error:`, err.message)
+    }
+  }
+})
+
 // ===== AUTH ROUTES =====
 app.post('/api/auth/register', async (req, res) => {
   const { email, password, name } = req.body
@@ -76,10 +183,17 @@ app.post('/api/auth/register', async (req, res) => {
     if (createErr) return res.status(400).json({ error: createErr.message })
 
     const userId = created.user.id
-    await upsertProfile(userId, email, { name: name || '', plan: 'free', xp: 0, streak: 0, total_questions: 0, correct: 0 })
+    const now = new Date().toISOString()
+    await upsertProfile(userId, email, { name: name || '', plan: 'free', xp: 0, streak: 0, total_questions: 0, correct: 0, registered_at: now, email_sequences: {} })
 
     const { data: session, error: loginErr } = await supabase.auth.signInWithPassword({ email, password })
     if (loginErr) return res.status(400).json({ error: loginErr.message })
+
+    // Send welcome email (non-blocking)
+    const tmpl = EMAIL_TEMPLATES.welcome(name)
+    sendEmail({ to: email, ...tmpl }).then(async () => {
+      await supabase.from('decifra_users').update({ email_sequences: { welcome: true } }).eq('id', userId)
+    }).catch(() => {})
 
     res.json({ user: { id: userId, email, name: name || '' }, token: session.session.access_token, plan: 'free' })
   } catch (err) {
@@ -264,7 +378,7 @@ app.post('/api/simulado/start', authMiddleware, async (req, res) => {
 })
 
 app.post('/api/simulado/finish', authMiddleware, async (req, res) => {
-  const { type, score } = req.body
+  const { type, score, wrongQuestions } = req.body
   try {
     const profile = await getUserProfile(req.user.id)
     const xpGain = score?.correct ? score.correct * 15 : 0
@@ -278,10 +392,17 @@ app.post('/api/simulado/finish', authMiddleware, async (req, res) => {
       }
     }
 
-    // Append to simulado history (keep last 50)
     const hist = profile?.simulado_history || []
     hist.unshift({ type, score, date: new Date().toISOString() })
     const simulado_history = hist.slice(0, 50)
+
+    // Save wrong questions to erros_history
+    const errosUpdate = {}
+    if (wrongQuestions?.length) {
+      const errosHist = profile?.erros_history || []
+      errosHist.unshift(...wrongQuestions)
+      errosUpdate.erros_history = errosHist.slice(0, 60)
+    }
 
     const streakUpdate = updateStreak(profile)
     await supabase.from('decifra_users').update({
@@ -291,6 +412,7 @@ app.post('/api/simulado/finish', authMiddleware, async (req, res) => {
       correct: (profile?.correct || 0) + (score?.correct || 0),
       subjects,
       simulado_history,
+      ...errosUpdate,
       ...streakUpdate
     }).eq('id', req.user.id)
     res.json({ ok: true, xpGain })
@@ -727,6 +849,48 @@ app.get('/api/stripe/status', authMiddleware, async (req, res) => {
   } catch {
     res.json({ plan: profile?.plan || 'free' })
   }
+})
+
+// ===== METAS =====
+app.get('/api/metas', authMiddleware, async (req, res) => {
+  try {
+    const profile = await getUserProfile(req.user.id)
+    res.json({ metas: profile?.metas || {} })
+  } catch { res.json({ metas: {} }) }
+})
+
+app.post('/api/metas', authMiddleware, async (req, res) => {
+  const { subject, meta } = req.body
+  if (!subject) return res.status(400).json({ error: 'Matéria obrigatória' })
+  try {
+    const profile = await getUserProfile(req.user.id)
+    const metas = profile?.metas || {}
+    if (meta === null || meta === undefined) delete metas[subject]
+    else metas[subject] = Number(meta)
+    await supabase.from('decifra_users').update({ metas }).eq('id', req.user.id)
+    res.json({ ok: true })
+  } catch { res.status(500).json({ error: 'Erro ao salvar meta' }) }
+})
+
+// ===== ERROS =====
+app.get('/api/erros', authMiddleware, async (req, res) => {
+  try {
+    const profile = await getUserProfile(req.user.id)
+    res.json({ erros: profile?.erros_history || [] })
+  } catch { res.json({ erros: [] }) }
+})
+
+app.post('/api/erros/save', authMiddleware, async (req, res) => {
+  const { erros } = req.body
+  if (!erros?.length) return res.json({ ok: true })
+  try {
+    const profile = await getUserProfile(req.user.id)
+    const hist = profile?.erros_history || []
+    hist.unshift(...erros)
+    const erros_history = hist.slice(0, 60)
+    await supabase.from('decifra_users').update({ erros_history }).eq('id', req.user.id)
+    res.json({ ok: true })
+  } catch { res.json({ ok: true }) }
 })
 
 // ===== KEEP ALIVE =====
