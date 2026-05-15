@@ -245,15 +245,16 @@ app.post('/api/tutor/chat', authMiddleware, async (req, res) => {
 })
 
 // ===== SIMULADOS =====
-const TIME_LIMITS = { mini: 15 * 60, enem: 45 * 60, vestibular: 30 * 60, concurso: 30 * 60, diagnostico: 0 }
-const QUESTION_COUNTS = { mini: 10, enem: 30, vestibular: 20, concurso: 20, diagnostico: 20 }
+const TIME_LIMITS = { mini: 15 * 60, enem: 45 * 60, vestibular: 30 * 60, concurso: 30 * 60, diagnostico: 0, enem_completo: 5.5 * 60 * 60 }
+const QUESTION_COUNTS = { mini: 10, enem: 30, vestibular: 20, concurso: 20, diagnostico: 20, enem_completo: 45 }
 
 app.post('/api/simulado/start', authMiddleware, async (req, res) => {
   const { type } = req.body
   if (!type) return res.status(400).json({ error: 'Tipo obrigatório' })
 
   const pro = await isUserPro(req.user.id)
-  if (type !== 'mini' && type !== 'diagnostico' && !pro) return res.status(403).json({ error: 'Simulado completo disponível apenas no plano Pro' })
+  const proOnly = ['enem', 'vestibular', 'concurso', 'ia', 'enem_completo']
+  if (proOnly.includes(type) && !pro) return res.status(403).json({ error: 'Simulado completo disponível apenas no plano Pro' })
 
   const count = QUESTION_COUNTS[type] || 10
   const questions = getQuestionsForSimulado(type, count)
@@ -277,6 +278,11 @@ app.post('/api/simulado/finish', authMiddleware, async (req, res) => {
       }
     }
 
+    // Append to simulado history (keep last 50)
+    const hist = profile?.simulado_history || []
+    hist.unshift({ type, score, date: new Date().toISOString() })
+    const simulado_history = hist.slice(0, 50)
+
     const streakUpdate = updateStreak(profile)
     await supabase.from('decifra_users').update({
       xp: (profile?.xp || 0) + xpGain,
@@ -284,11 +290,46 @@ app.post('/api/simulado/finish', authMiddleware, async (req, res) => {
       total_questions: (profile?.total_questions || 0) + (score?.total || 0),
       correct: (profile?.correct || 0) + (score?.correct || 0),
       subjects,
+      simulado_history,
       ...streakUpdate
     }).eq('id', req.user.id)
     res.json({ ok: true, xpGain })
   } catch {
     res.json({ ok: true, xpGain: 0 })
+  }
+})
+
+// ===== STATS: HISTÓRICO =====
+app.get('/api/stats/historico', authMiddleware, async (req, res) => {
+  try {
+    const profile = await getUserProfile(req.user.id)
+    res.json({
+      history: profile?.simulado_history || [],
+      subjects: profile?.subjects || {}
+    })
+  } catch {
+    res.json({ history: [], subjects: {} })
+  }
+})
+
+// ===== RANKING =====
+app.get('/api/ranking', authMiddleware, async (req, res) => {
+  try {
+    const { data } = await supabase
+      .from('decifra_users')
+      .select('name, xp, streak, simulados_done')
+      .order('xp', { ascending: false })
+      .limit(50)
+    const ranking = (data || []).map((u, i) => ({
+      position: i + 1,
+      name: u.name ? u.name.split(' ')[0] : 'Estudante',
+      xp: u.xp || 0,
+      streak: u.streak || 0,
+      simulados: u.simulados_done || 0
+    }))
+    res.json({ ranking })
+  } catch {
+    res.json({ ranking: [] })
   }
 })
 

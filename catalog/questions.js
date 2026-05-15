@@ -981,6 +981,1048 @@ const questions = [
     explanation: 'Art. 2º da CF/1988: "São Poderes da União, independentes e harmônicos entre si, o Legislativo, o Executivo e o Judiciário." O Poder Moderador existiu no Império; foi abolido na República.',
     tags: ['constituição federal', 'poderes da república', 'concurso', 'direito constitucional']
   },
+
+  // ── MATEMÁTICA extras (mat017–mat030) ──────────────────────────────────────
+  {
+    id: 'mat017', subject: 'matematica', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'Em uma progressão aritmética, o primeiro termo é 3 e a razão é 4. Qual é o 10º termo?',
+    options: ['35', '39', '43', '31', '47'],
+    answerIndex: 1,
+    explanation: 'Fórmula do termo geral: aₙ = a₁ + (n−1)·r. Logo a₁₀ = 3 + (10−1)·4 = 3 + 36 = 39.',
+    tags: ['progressão aritmética', 'PA', 'sequências']
+  },
+  {
+    id: 'mat018', subject: 'matematica', year: 2021, source: 'ENEM', difficulty: 'medio',
+    question: 'Uma urna contém 4 bolas vermelhas e 6 bolas azuis. Retirando-se uma bola ao acaso, qual é a probabilidade de ser vermelha?',
+    options: ['1/4', '2/5', '3/5', '2/3', '1/3'],
+    answerIndex: 1,
+    explanation: 'Total de bolas: 10. Casos favoráveis (vermelhas): 4. P = 4/10 = 2/5.',
+    tags: ['probabilidade', 'espaço amostral']
+  },
+  {
+    id: 'mat019', subject: 'matematica', year: 2023, source: 'ENEM', difficulty: 'facil',
+    question: 'A área de um triângulo com base de 8 cm e altura de 5 cm é:',
+    options: ['20 cm²', '40 cm²', '13 cm²', '80 cm²', '16 cm²'],
+    answerIndex: 0,
+    explanation: 'Área do triângulo = (base × altura) / 2 = (8 × 5) / 2 = 20 cm².',
+    tags: ['geometria plana', 'triângulo', 'área']
+  },
+  {
+    id: 'mat020', subject: 'matematica', year: 2020, source: 'ENEM', difficulty: 'dificil',
+    question: 'Qual é o valor de log₂(32)?',
+    options: ['4', '5', '6', '3', '16'],
+    answerIndex: 1,
+    explanation: 'log₂(32) = x → 2ˣ = 32 = 2⁵ → x = 5.',
+    tags: ['logaritmo', 'potenciação']
+  },
+  {
+    id: 'mat021', subject: 'matematica', year: 2022, source: 'ENEM', difficulty: 'facil',
+    question: 'As notas de um aluno em 5 provas foram: 6, 7, 8, 9, 10. Qual é a média aritmética?',
+    options: ['7,5', '8,0', '8,5', '7,0', '9,0'],
+    answerIndex: 1,
+    explanation: 'Média = (6+7+8+9+10)/5 = 40/5 = 8,0.',
+    tags: ['estatística', 'média aritmética']
+  },
+  {
+    id: 'mat022', subject: 'matematica', year: 2019, source: 'ENEM', difficulty: 'medio',
+    question: 'Em um triângulo retângulo, o cateto oposto a um ângulo de 30° mede 5 cm. A hipotenusa mede:',
+    options: ['5 cm', '10 cm', '5√3 cm', '5√2 cm', '15 cm'],
+    answerIndex: 1,
+    explanation: 'sen(30°) = cateto oposto / hipotenusa → 1/2 = 5/h → h = 10 cm.',
+    tags: ['trigonometria', 'triângulo retângulo', 'seno']
+  },
+  {
+    id: 'mat023', subject: 'matematica', year: 2021, source: 'ENEM', difficulty: 'facil',
+    question: 'Um produto custa R$200,00 e tem 15% de desconto. Qual o valor final?',
+    options: ['R$170,00', 'R$185,00', 'R$30,00', 'R$215,00', 'R$180,00'],
+    answerIndex: 0,
+    explanation: 'Desconto = 15% × 200 = 30. Valor final = 200 − 30 = R$170,00.',
+    tags: ['porcentagem', 'desconto', 'matemática financeira']
+  },
+  {
+    id: 'mat024', subject: 'matematica', year: 2020, source: 'ENEM', difficulty: 'medio',
+    question: 'As raízes da equação x² − 5x + 6 = 0 são:',
+    options: ['x=1 e x=6', 'x=2 e x=3', 'x=−2 e x=−3', 'x=1 e x=−6', 'x=3 e x=−2'],
+    answerIndex: 1,
+    explanation: 'Δ = 25−24 = 1. x = (5±1)/2 → x₁=3, x₂=2.',
+    tags: ['equação do 2º grau', 'Bhaskara', 'raízes']
+  },
+  {
+    id: 'mat025', subject: 'matematica', year: 2018, source: 'ENEM', difficulty: 'facil',
+    question: 'O volume de um cubo com aresta de 4 cm é:',
+    options: ['16 cm³', '48 cm³', '64 cm³', '32 cm³', '96 cm³'],
+    answerIndex: 2,
+    explanation: 'Volume do cubo = aresta³ = 4³ = 64 cm³.',
+    tags: ['geometria espacial', 'cubo', 'volume']
+  },
+  {
+    id: 'mat026', subject: 'matematica', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'De quantas maneiras podemos escolher 2 pessoas de um grupo de 5?',
+    options: ['10', '20', '5', '25', '15'],
+    answerIndex: 0,
+    explanation: 'Combinação C(5,2) = 5!/(2!×3!) = (5×4)/(2×1) = 10.',
+    tags: ['combinatória', 'combinação', 'contagem']
+  },
+  {
+    id: 'mat027', subject: 'matematica', year: 2019, source: 'ENEM', difficulty: 'dificil',
+    question: 'Uma aplicação de R$1.000,00 a juros compostos de 10% ao mês por 2 meses rende:',
+    options: ['R$200,00', 'R$210,00', 'R$220,00', 'R$100,00', 'R$250,00'],
+    answerIndex: 1,
+    explanation: 'M = 1000×(1,1)² = 1000×1,21 = 1210. Juros = 1210−1000 = R$210,00.',
+    tags: ['juros compostos', 'matemática financeira']
+  },
+  {
+    id: 'mat028', subject: 'matematica', year: 2021, source: 'ENEM', difficulty: 'medio',
+    question: 'Resolva a inequação 2x − 4 > 6.',
+    options: ['x > 1', 'x > 5', 'x < 5', 'x > 3', 'x < 3'],
+    answerIndex: 1,
+    explanation: '2x − 4 > 6 → 2x > 10 → x > 5.',
+    tags: ['inequação', 'álgebra']
+  },
+  {
+    id: 'mat029', subject: 'matematica', year: 2020, source: 'ENEM', difficulty: 'facil',
+    question: 'Se 3 laranjas custam R$4,50, quanto custam 7 laranjas?',
+    options: ['R$9,00', 'R$10,50', 'R$12,00', 'R$7,50', 'R$14,00'],
+    answerIndex: 1,
+    explanation: 'Regra de três: 3/4,50 = 7/x → x = 7×4,50/3 = 10,50.',
+    tags: ['razão e proporção', 'regra de três']
+  },
+  {
+    id: 'mat030', subject: 'matematica', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'Numa PG, o primeiro termo é 2 e a razão é 3. Qual é o 4º termo?',
+    options: ['18', '54', '27', '12', '36'],
+    answerIndex: 1,
+    explanation: 'Termo geral da PG: aₙ = a₁ × qⁿ⁻¹. a₄ = 2 × 3³ = 2 × 27 = 54.',
+    tags: ['progressão geométrica', 'PG', 'sequências']
+  },
+
+  // ── PORTUGUÊS extras (por014–por025) ───────────────────────────────────────
+  {
+    id: 'por014', subject: 'portugues', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'Leia: "O sol nasceu, os pássaros cantaram e o campo ficou alegre." O período é:',
+    options: ['Simples', 'Composto por subordinação', 'Composto por coordenação', 'Composto misto', 'Período reduzido'],
+    answerIndex: 2,
+    explanation: 'As três orações são independentes, ligadas pelas conjunções coordenativas "e". Logo, é um período composto por coordenação.',
+    tags: ['período composto', 'coordenação', 'sintaxe']
+  },
+  {
+    id: 'por015', subject: 'portugues', year: 2021, source: 'ENEM', difficulty: 'medio',
+    question: 'Em "Quando chegar, avise-me.", a oração sublinhada é:',
+    options: ['Coordenada aditiva', 'Subordinada adverbial temporal', 'Subordinada substantiva', 'Coordenada adversativa', 'Principal'],
+    answerIndex: 1,
+    explanation: '"Quando chegar" é uma oração subordinada adverbial temporal, pois indica o tempo em que a ação da principal ocorrerá.',
+    tags: ['oração subordinada', 'adverbial temporal', 'sintaxe']
+  },
+  {
+    id: 'por016', subject: 'portugues', year: 2020, source: 'ENEM', difficulty: 'facil',
+    question: 'Qual das alternativas apresenta uma metáfora?',
+    options: ['"Ele correu como um raio."', '"A vida é um palco."', '"Havia mil pessoas na festa."', '"O vento assobiava."', '"Seu sorriso é mais bonito que o dela."'],
+    answerIndex: 1,
+    explanation: '"A vida é um palco" é uma metáfora: identifica dois elementos sem usar conectivo comparativo. "Correu como um raio" é símile (comparação explícita).',
+    tags: ['figuras de linguagem', 'metáfora', 'símile']
+  },
+  {
+    id: 'por017', subject: 'portugues', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'Assinale a alternativa em que a vírgula está INCORRETAMENTE empregada:',
+    options: ['"João, venha aqui!"', '"Ele comprou pão, manteiga e café."', '"O aluno, que estudou, passou."', '"Ela saiu, porque estava cansada."', '"São Paulo, a maior cidade do Brasil, fica no Sudeste."'],
+    answerIndex: 3,
+    explanation: 'Não se usa vírgula antes de oração subordinada adverbial causal quando ela vem após a principal de forma integrada. A vírgula em "saiu, porque" é desnecessária nesse contexto.',
+    tags: ['pontuação', 'vírgula', 'gramática normativa']
+  },
+  {
+    id: 'por018', subject: 'portugues', year: 2021, source: 'ENEM', difficulty: 'dificil',
+    question: 'O texto "Não piso em ovos, piso em argumentos" usa qual recurso expressivo?',
+    options: ['Eufemismo', 'Ironia', 'Antítese', 'Polissemia / jogo de palavras', 'Hipérbole'],
+    answerIndex: 3,
+    explanation: 'O enunciado explora a polissemia: "pisar em ovos" (agir com cuidado, expressão idiomática) vs. "pisar em argumentos" (destruir argumentos). É um jogo de palavras com sentido literal e figurado.',
+    tags: ['polissemia', 'expressão idiomática', 'recursos estilísticos']
+  },
+  {
+    id: 'por019', subject: 'portugues', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'Assinale a forma correta de concordância nominal:',
+    options: ['"Ela ficou bastantes satisfeitas."', '"É proibido a entrada de menores."', '"Elas estão bastante satisfeitas."', '"Menos pessoas vieram do que esperados."', '"As crianças estava animada."'],
+    answerIndex: 2,
+    explanation: '"Bastante" é advérbio quando modifica adjetivo, portanto invariável: "bastante satisfeitas" → correto. "Satisfeitas" concorda com "Elas" (feminino plural).',
+    tags: ['concordância nominal', 'advérbio', 'gramática']
+  },
+  {
+    id: 'por020', subject: 'portugues', year: 2019, source: 'ENEM', difficulty: 'medio',
+    question: 'Em "O jogador foi criticado pela torcida", a voz verbal é:',
+    options: ['Ativa', 'Reflexiva', 'Passiva analítica', 'Passiva sintética', 'Passiva pronominal'],
+    answerIndex: 2,
+    explanation: 'A voz passiva analítica usa o verbo auxiliar "ser" (ou "estar") + particípio. "Foi criticado" = ser + criticado. O agente da passiva é "pela torcida".',
+    tags: ['voz passiva', 'morfossintaxe', 'verbos']
+  },
+  {
+    id: 'por021', subject: 'portugues', year: 2020, source: 'ENEM', difficulty: 'facil',
+    question: 'Qual alternativa apresenta a palavra formada por derivação prefixal?',
+    options: ['Cafezal', 'Desfazer', 'Pedreiro', 'Chuviscar', 'Livraria'],
+    answerIndex: 1,
+    explanation: '"Desfazer" é formado pelo prefixo "des-" + radical "fazer". Prefixo acrescenta-se antes do radical, sem alterar sua classe gramatical.',
+    tags: ['formação de palavras', 'derivação prefixal', 'morfologia']
+  },
+  {
+    id: 'por022', subject: 'portugues', year: 2023, source: 'ENEM', difficulty: 'facil',
+    question: 'Qual alternativa usa CORRETAMENTE o acento grave (crase)?',
+    options: ['"Fui à escola."', '"Ele foi à Portugal."', '"Dei o livro à ele."', '"Vou à pé."', '"Cheguei à tempo."'],
+    answerIndex: 0,
+    explanation: 'A crase ocorre antes de substantivo feminino precedido de artigo "a": "à escola" (a + a escola). Não ocorre antes de pronome, nome masculino, nem antes de "pé" (palavra masculina).',
+    tags: ['crase', 'ortografia', 'gramática normativa']
+  },
+  {
+    id: 'por023', subject: 'portugues', year: 2021, source: 'ENEM', difficulty: 'medio',
+    question: 'O gênero textual que narra fatos do cotidiano com tom crítico ou bem-humorado, publicado em jornal ou revista, é:',
+    options: ['Conto', 'Editorial', 'Crônica', 'Reportagem', 'Artigo científico'],
+    answerIndex: 2,
+    explanation: 'A crônica é um gênero jornalístico-literário que aborda o cotidiano com linguagem acessível, podendo ser humorística, lírica ou crítica.',
+    tags: ['gêneros textuais', 'crônica', 'tipos de texto']
+  },
+  {
+    id: 'por024', subject: 'portugues', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'Assinale a alternativa com TODAS as palavras grafadas corretamente:',
+    options: ['excessão, exceção, sessão', 'exceção, sessão, secção', 'exeção, seccão, sessão', 'excessão, seção, sessão', 'excesão, sessão, seção'],
+    answerIndex: 1,
+    explanation: '"Exceção" (ex + ceção), "sessão" (reunião), "secção" ou "seção" (corte/divisão) são formas corretas pelo Acordo Ortográfico.',
+    tags: ['ortografia', 'acordo ortográfico', 'escrita']
+  },
+  {
+    id: 'por025', subject: 'portugues', year: 2019, source: 'ENEM', difficulty: 'dificil',
+    question: 'Na frase "Ele mesmo resolveu o problema", o termo em destaque é:',
+    options: ['Pronome pessoal', 'Pronome reflexivo', 'Pronome de tratamento', 'Pronome enfático (intensificador)', 'Advérbio'],
+    answerIndex: 3,
+    explanation: '"Mesmo" após pronome pessoal tem função de intensificador/ênfase (pronome identidade). Diferente do uso como advérbio ("mesmo assim") ou adjetivo ("a mesma coisa").',
+    tags: ['pronome', 'pronome de identidade', 'morfologia']
+  },
+
+  // ── BIOLOGIA extras (bio009–bio023) ────────────────────────────────────────
+  {
+    id: 'bio009', subject: 'biologia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'Na fotossíntese, qual gás é liberado como subproduto da fotólise da água?',
+    options: ['CO₂', 'H₂', 'O₂', 'N₂', 'CH₄'],
+    answerIndex: 2,
+    explanation: 'Na fase clara da fotossíntese, a água é decomposta (fotólise): 2H₂O → 4H⁺ + 4e⁻ + O₂. O oxigênio molecular é liberado para a atmosfera.',
+    tags: ['fotossíntese', 'fotólise', 'fase clara']
+  },
+  {
+    id: 'bio010', subject: 'biologia', year: 2021, source: 'ENEM', difficulty: 'medio',
+    question: 'A mitose resulta em:',
+    options: ['2 células com metade do número de cromossomos', '4 células haploides', '2 células diploides geneticamente iguais à célula-mãe', '2 células haploides', '4 células diploides'],
+    answerIndex: 2,
+    explanation: 'A mitose é divisão equacional: produz 2 células-filhas diploides (2n) com o mesmo número e composição genética da célula-mãe. A meiose é que gera células haploides.',
+    tags: ['mitose', 'divisão celular', 'ciclo celular']
+  },
+  {
+    id: 'bio011', subject: 'biologia', year: 2020, source: 'ENEM', difficulty: 'facil',
+    question: 'Qual é a função das hemácias no sangue?',
+    options: ['Defesa imunológica', 'Coagulação sanguínea', 'Transporte de oxigênio', 'Produção de hormônios', 'Filtração renal'],
+    answerIndex: 2,
+    explanation: 'As hemácias (eritrócitos) contêm hemoglobina, proteína que se liga ao O₂ nos pulmões e o transporta para os tecidos. Leucócitos fazem defesa; plaquetas, coagulação.',
+    tags: ['sistema circulatório', 'hemácias', 'sangue']
+  },
+  {
+    id: 'bio012', subject: 'biologia', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'Numa cadeia alimentar, os organismos que obtêm energia diretamente dos produtores são chamados de:',
+    options: ['Decompositores', 'Consumidores primários', 'Consumidores secundários', 'Consumidores terciários', 'Parasitas'],
+    answerIndex: 1,
+    explanation: 'Produtores (plantas, algas) → Consumidores primários (herbívoros) → Consumidores secundários (carnívoros de 1ª ordem) → etc. Os consumidores primários alimentam-se diretamente dos produtores.',
+    tags: ['cadeia alimentar', 'ecologia', 'teia alimentar']
+  },
+  {
+    id: 'bio013', subject: 'biologia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'Um casal de olhos castanhos (Aa × Aa) tem filho com olhos azuis (aa). A proporção esperada de filhos com olhos castanhos é:',
+    options: ['100%', '50%', '25%', '75%', '0%'],
+    answerIndex: 3,
+    explanation: 'Cruzamento Aa × Aa: AA (25%), Aa (50%), aa (25%). Castanho (A_) = AA + Aa = 75%. Azul (aa) = 25%.',
+    tags: ['genética', 'Mendel', 'dominância', 'quadrado de Punnett']
+  },
+  {
+    id: 'bio014', subject: 'biologia', year: 2021, source: 'ENEM', difficulty: 'medio',
+    question: 'Qual característica diferencia os vírus dos demais seres vivos?',
+    options: ['Possuem DNA e RNA', 'São unicelulares', 'Só se reproduzem dentro de células hospedeiras', 'Realizam fotossíntese', 'Possuem parede celular'],
+    answerIndex: 2,
+    explanation: 'Vírus são acelulares e parasitas intracelulares obrigatórios: só conseguem se replicar utilizando a maquinaria metabólica de uma célula hospedeira.',
+    tags: ['vírus', 'parasitismo intracelular', 'biologia celular']
+  },
+  {
+    id: 'bio015', subject: 'biologia', year: 2023, source: 'ENEM', difficulty: 'facil',
+    question: 'Qual estrutura do neurônio conduz o impulso nervoso em direção ao corpo celular?',
+    options: ['Axônio', 'Bainha de mielina', 'Dendrito', 'Sinapse', 'Nódulo de Ranvier'],
+    answerIndex: 2,
+    explanation: 'Os dendritos recebem sinais e conduzem o impulso em direção ao corpo celular (somatodendrítico). O axônio conduz o impulso do corpo celular para a periferia.',
+    tags: ['sistema nervoso', 'neurônio', 'impulso nervoso']
+  },
+  {
+    id: 'bio016', subject: 'biologia', year: 2019, source: 'ENEM', difficulty: 'medio',
+    question: 'O conceito de "seleção natural" proposto por Darwin indica que:',
+    options: ['Os seres vivos adquirem características por uso e desuso', 'Os organismos mais adaptados ao ambiente têm maior sucesso reprodutivo', 'As espécies são imutáveis e criadas separadamente', 'A evolução ocorre por mutações dirigidas ao ambiente', 'Todos os indivíduos de uma espécie têm igual chance de sobreviver'],
+    answerIndex: 1,
+    explanation: 'Para Darwin, a variação natural existe nas populações; os indivíduos com variações mais favoráveis ao ambiente sobrevivem e reproduzem mais, transmitindo essas características.',
+    tags: ['evolução', 'seleção natural', 'Darwin']
+  },
+  {
+    id: 'bio017', subject: 'biologia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'O bioma brasileiro caracterizado por árvores de troncos retorcidos, chuvas sazonais e localizado no centro do Brasil é:',
+    options: ['Amazônia', 'Pantanal', 'Cerrado', 'Caatinga', 'Mata Atlântica'],
+    answerIndex: 2,
+    explanation: 'O Cerrado (savana brasileira) cobre ~22% do território nacional, apresenta vegetação xerófita adaptada ao estresse hídrico sazonal, com troncos retorcidos e raízes profundas.',
+    tags: ['biomas brasileiros', 'cerrado', 'vegetação']
+  },
+  {
+    id: 'bio018', subject: 'biologia', year: 2021, source: 'ENEM', difficulty: 'dificil',
+    question: 'Em organismos transgênicos, a técnica utilizada para inserir genes de outra espécie é:',
+    options: ['Clonagem por transferência nuclear', 'Engenharia genética / DNA recombinante', 'Hibridização entre espécies', 'Mutagênese por radiação UV', 'Partenogênese'],
+    answerIndex: 1,
+    explanation: 'A engenharia genética usa DNA recombinante: o gene de interesse é isolado, inserido em um vetor (plasmídeo ou vírus) e introduzido na célula receptora. Resultado: organismo geneticamente modificado (OGM).',
+    tags: ['biotecnologia', 'transgênicos', 'DNA recombinante']
+  },
+  {
+    id: 'bio019', subject: 'biologia', year: 2020, source: 'ENEM', difficulty: 'medio',
+    question: 'A respiração celular aeróbica ocorre principalmente em qual organela?',
+    options: ['Núcleo', 'Ribossomo', 'Mitocôndria', 'Cloroplasto', 'Vacúolo'],
+    answerIndex: 2,
+    explanation: 'A mitocôndria é a organela onde ocorrem o ciclo de Krebs e a cadeia respiratória (fosforilação oxidativa), processos centrais da respiração aeróbica que geram ATP.',
+    tags: ['respiração celular', 'mitocôndria', 'metabolismo']
+  },
+  {
+    id: 'bio020', subject: 'biologia', year: 2023, source: 'ENEM', difficulty: 'facil',
+    question: 'Os fungos são decompositores essenciais para o ecossistema porque:',
+    options: ['Realizam fotossíntese', 'Fixam nitrogênio atmosférico', 'Decompõem matéria orgânica, liberando nutrientes', 'Produzem oxigênio', 'São parasitas de plantas'],
+    answerIndex: 2,
+    explanation: 'Fungos saprófitos decompõem matéria orgânica morta, reciclando nutrientes (C, N, P) de volta ao solo. São fundamentais para a ciclagem de nutrientes nos ecossistemas.',
+    tags: ['fungos', 'decomposição', 'ciclagem de nutrientes']
+  },
+  {
+    id: 'bio021', subject: 'biologia', year: 2019, source: 'ENEM', difficulty: 'facil',
+    question: 'A digestão de proteínas começa em qual órgão do sistema digestório?',
+    options: ['Intestino delgado', 'Intestino grosso', 'Esôfago', 'Estômago', 'Fígado'],
+    answerIndex: 3,
+    explanation: 'No estômago, a pepsina (ativada pelo HCl em pH ácido) inicia a hidrólise de proteínas em peptídeos. A digestão é completada no intestino delgado pelas proteases pancreáticas.',
+    tags: ['sistema digestório', 'digestão de proteínas', 'estômago']
+  },
+  {
+    id: 'bio022', subject: 'biologia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'A camada da atmosfera que absorve a maior parte da radiação ultravioleta do Sol é:',
+    options: ['Troposfera', 'Mesosfera', 'Termosfera', 'Estratosfera (camada de ozônio)', 'Exosfera'],
+    answerIndex: 3,
+    explanation: 'A camada de ozônio (O₃) localiza-se na estratosfera (15–35 km de altitude) e absorve a maior parte da radiação UV-B e UV-C, protegendo os seres vivos.',
+    tags: ['camada de ozônio', 'ecologia', 'atmosfera']
+  },
+  {
+    id: 'bio023', subject: 'biologia', year: 2021, source: 'ENEM', difficulty: 'dificil',
+    question: 'A transcrição do DNA origina:',
+    options: ['Proteínas diretamente', 'DNA complementar', 'RNA mensageiro (mRNA)', 'Ribossomos', 'Aminoácidos'],
+    answerIndex: 2,
+    explanation: 'Na transcrição, a RNA polimerase usa o DNA como molde para sintetizar RNA mensageiro (mRNA). Esse mRNA é então traduzido nos ribossomos em proteínas.',
+    tags: ['DNA', 'RNA', 'transcrição', 'expressão gênica']
+  },
+
+  // ── QUÍMICA extras (qui008–qui022) ─────────────────────────────────────────
+  {
+    id: 'qui008', subject: 'quimica', year: 2022, source: 'ENEM', difficulty: 'facil',
+    question: 'Na Tabela Periódica, os elementos de uma mesma família (grupo) possuem em comum:',
+    options: ['O mesmo número de massa', 'O mesmo número de nêutrons', 'O mesmo número de elétrons na camada de valência', 'O mesmo estado físico', 'O mesmo ponto de fusão'],
+    answerIndex: 2,
+    explanation: 'Elementos do mesmo grupo têm a mesma configuração eletrônica na camada de valência, o que lhes confere propriedades químicas semelhantes.',
+    tags: ['tabela periódica', 'grupos', 'elétrons de valência']
+  },
+  {
+    id: 'qui009', subject: 'quimica', year: 2021, source: 'ENEM', difficulty: 'medio',
+    question: 'A ligação química que ocorre entre dois não-metais por compartilhamento de elétrons é denominada:',
+    options: ['Iônica', 'Metálica', 'Covalente', 'Dipolo-dipolo', 'Van der Waals'],
+    answerIndex: 2,
+    explanation: 'A ligação covalente (molecular) ocorre entre não-metais que compartilham pares de elétrons. A ligação iônica envolve transferência de elétrons entre metal e não-metal.',
+    tags: ['ligações químicas', 'ligação covalente', 'não-metais']
+  },
+  {
+    id: 'qui010', subject: 'quimica', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'Uma solução aquosa com pH = 3 é:',
+    options: ['Neutra', 'Básica fraca', 'Básica forte', 'Ácida', 'Anfótera'],
+    answerIndex: 3,
+    explanation: 'pH < 7 → solução ácida. pH = 7 → neutra. pH > 7 → básica. pH = 3 indica [H⁺] = 10⁻³ mol/L, portanto ácida.',
+    tags: ['pH', 'acidez', 'soluções aquosas']
+  },
+  {
+    id: 'qui011', subject: 'quimica', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'Na reação de combustão completa do metano: CH₄ + 2O₂ → CO₂ + 2H₂O, o coeficiente do O₂ indica que:',
+    options: ['Produz-se 2 mol de O₂', 'Consomem-se 2 mol de O₂ para cada mol de CH₄', 'O O₂ é produto da reação', 'A reação é endotérmica', 'Há 2 átomos de carbono'],
+    answerIndex: 1,
+    explanation: 'O coeficiente estequiométrico do O₂ é 2, indicando que 2 mols de O₂ são consumidos para cada 1 mol de CH₄ reagido.',
+    tags: ['estequiometria', 'coeficientes', 'combustão']
+  },
+  {
+    id: 'qui012', subject: 'quimica', year: 2020, source: 'ENEM', difficulty: 'dificil',
+    question: 'Uma reação que libera calor para o ambiente é chamada de:',
+    options: ['Endotérmica', 'Exotérmica', 'Isobárica', 'Isotérmica', 'Adiabática'],
+    answerIndex: 1,
+    explanation: 'Reações exotérmicas liberam energia (ΔH < 0). Reações endotérmicas absorvem energia (ΔH > 0). Combustão e respiração celular são exemplos de reações exotérmicas.',
+    tags: ['termoquímica', 'reação exotérmica', 'entalpia']
+  },
+  {
+    id: 'qui013', subject: 'quimica', year: 2022, source: 'ENEM', difficulty: 'dificil',
+    question: 'Na eletrólise da água, no eletrodo negativo (cátodo) ocorre:',
+    options: ['Oxidação e produção de O₂', 'Redução e produção de H₂', 'Oxidação e produção de H₂', 'Redução e produção de O₂', 'Dissolução do eletrodo'],
+    answerIndex: 1,
+    explanation: 'No cátodo (polo negativo) ocorre redução. Na eletrólise da água: 4H⁺ + 4e⁻ → 2H₂. No ânodo (positivo) ocorre oxidação: 2H₂O → O₂ + 4H⁺ + 4e⁻.',
+    tags: ['eletroquímica', 'eletrólise', 'cátodo', 'redução']
+  },
+  {
+    id: 'qui014', subject: 'quimica', year: 2021, source: 'ENEM', difficulty: 'dificil',
+    question: 'Isômeros são compostos que possuem:',
+    options: ['Mesma fórmula estrutural e mesmas propriedades', 'Mesma fórmula molecular, mas estruturas diferentes', 'Diferentes fórmulas moleculares e mesmas propriedades', 'Mesmos átomos e mesma estrutura', 'Diferente número de átomos de carbono'],
+    answerIndex: 1,
+    explanation: 'Isômeros têm a mesma fórmula molecular (mesmos tipos e quantidades de átomos), porém diferem na forma como os átomos estão conectados (isomeria plana) ou dispostos no espaço (isomeria espacial).',
+    tags: ['isomeria', 'química orgânica', 'fórmula molecular']
+  },
+  {
+    id: 'qui015', subject: 'quimica', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'O grupo funcional característico dos álcoois é:',
+    options: ['−COOH', '−CHO', '−OH', '−CO−', '−NH₂'],
+    answerIndex: 2,
+    explanation: 'Álcoois possuem o grupo hidroxila (−OH) ligado a carbono saturado. Exemplos: etanol (C₂H₅OH), metanol (CH₃OH).',
+    tags: ['funções orgânicas', 'álcool', 'grupo funcional']
+  },
+  {
+    id: 'qui016', subject: 'quimica', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'Na reação: Zn + CuSO₄ → ZnSO₄ + Cu, o zinco sofre:',
+    options: ['Redução, pois ganha elétrons', 'Oxidação, pois perde elétrons', 'Redução, pois perde prótons', 'Oxidação, pois ganha prótons', 'Não há variação de NOX'],
+    answerIndex: 1,
+    explanation: 'Zn⁰ → Zn²⁺: o zinco perde 2 elétrons (oxidação). O Cu²⁺ → Cu⁰ ganha elétrons (redução). LEO diz GER: Lost Electrons = Oxidation; Gained Electrons = Reduction.',
+    tags: ['oxirredução', 'número de oxidação', 'reação redox']
+  },
+  {
+    id: 'qui017', subject: 'quimica', year: 2021, source: 'ENEM', difficulty: 'medio',
+    question: 'O ponto de ebulição de soluções salinas é MAIOR que o da água pura. Esse fenômeno é chamado de:',
+    options: ['Osmose', 'Crioscopia', 'Ebulioscopia', 'Tonoscopia', 'Pressão osmótica'],
+    answerIndex: 2,
+    explanation: 'A ebulioscopia é a propriedade coligativa que descreve o aumento do ponto de ebulição quando se dissolve um soluto não volátil no solvente.',
+    tags: ['propriedades coligativas', 'ebulioscopia', 'ponto de ebulição']
+  },
+  {
+    id: 'qui018', subject: 'quimica', year: 2020, source: 'ENEM', difficulty: 'medio',
+    question: 'Aumentar a temperatura de uma reação geralmente:',
+    options: ['Diminui a velocidade da reação', 'Aumenta a velocidade da reação', 'Não afeta a velocidade', 'Diminui a concentração dos reagentes', 'Elimina a energia de ativação'],
+    answerIndex: 1,
+    explanation: 'Pela teoria das colisões, maior temperatura aumenta a energia cinética das moléculas → mais colisões efetivas → maior velocidade de reação.',
+    tags: ['cinética química', 'temperatura', 'velocidade de reação']
+  },
+  {
+    id: 'qui019', subject: 'quimica', year: 2022, source: 'ENEM', difficulty: 'dificil',
+    question: 'No equilíbrio: N₂ + 3H₂ ⇌ 2NH₃ (exotérmica), aumentar a pressão favorece:',
+    options: ['A reação direta (produção de NH₃)', 'A reação inversa (consumo de NH₃)', 'Não altera o equilíbrio', 'Aumenta a temperatura', 'Diminui a constante de equilíbrio'],
+    answerIndex: 0,
+    explanation: 'Pelo Princípio de Le Chatelier, aumentar a pressão favorece o lado com MENOS mols de gás. Reagentes: 4 mols; produto: 2 mols. O equilíbrio desloca-se para a direita.',
+    tags: ['equilíbrio químico', 'Le Chatelier', 'Haber-Bosch']
+  },
+  {
+    id: 'qui020', subject: 'quimica', year: 2021, source: 'ENEM', difficulty: 'facil',
+    question: 'O gás carbônico (CO₂) na atmosfera contribui para o aquecimento global por ser:',
+    options: ['Um oxidante forte', 'Um catalisador de reações', 'Um gás do efeito estufa', 'Um radical livre', 'Um ácido forte'],
+    answerIndex: 2,
+    explanation: 'O CO₂ é um gás do efeito estufa: absorve radiação infravermelha emitida pela Terra e re-irradia para a superfície, dificultando o resfriamento do planeta.',
+    tags: ['química ambiental', 'efeito estufa', 'CO₂', 'aquecimento global']
+  },
+  {
+    id: 'qui021', subject: 'quimica', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'A água apresenta ponto de ebulição alto para uma molécula pequena principalmente por causa das:',
+    options: ['Ligações covalentes O–H', 'Forças de London', 'Ligações de hidrogênio intermoleculares', 'Ligações metálicas', 'Forças iônicas'],
+    answerIndex: 2,
+    explanation: 'As pontes de hidrogênio entre moléculas de água são as forças intermoleculares mais fortes, responsáveis pelas propriedades anômalas da água (alto PE, coesão, etc.).',
+    tags: ['ligações de hidrogênio', 'forças intermoleculares', 'água']
+  },
+  {
+    id: 'qui022', subject: 'quimica', year: 2019, source: 'ENEM', difficulty: 'medio',
+    question: 'Qual das seguintes substâncias é um ácido de Arrhenius?',
+    options: ['NaOH', 'KOH', 'HCl', 'NaCl', 'Ca(OH)₂'],
+    answerIndex: 2,
+    explanation: 'Segundo Arrhenius, ácido é uma substância que em solução aquosa libera H⁺ (H₃O⁺). HCl → H⁺ + Cl⁻. NaOH e KOH são bases (liberam OH⁻).',
+    tags: ['teoria de Arrhenius', 'ácidos e bases', 'ionização']
+  },
+
+  // ── FÍSICA extras (fis008–fis022) ──────────────────────────────────────────
+  {
+    id: 'fis008', subject: 'fisica', year: 2022, source: 'ENEM', difficulty: 'facil',
+    question: 'Um carro percorre 120 km em 2 horas com velocidade constante. Sua velocidade média é:',
+    options: ['60 km/h', '240 km/h', '30 km/h', '120 km/h', '180 km/h'],
+    answerIndex: 0,
+    explanation: 'Velocidade média = distância / tempo = 120 km / 2 h = 60 km/h.',
+    tags: ['cinemática', 'MRU', 'velocidade média']
+  },
+  {
+    id: 'fis009', subject: 'fisica', year: 2021, source: 'ENEM', difficulty: 'medio',
+    question: 'Um objeto de 5 kg é submetido a uma força de 20 N. Qual é a aceleração resultante?',
+    options: ['100 m/s²', '25 m/s²', '4 m/s²', '15 m/s²', '0,25 m/s²'],
+    answerIndex: 2,
+    explanation: '2ª Lei de Newton: F = m·a → a = F/m = 20/5 = 4 m/s².',
+    tags: ['dinâmica', '2ª Lei de Newton', 'força']
+  },
+  {
+    id: 'fis010', subject: 'fisica', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'Um objeto de 2 kg a 10 m de altura possui energia potencial gravitacional de (g = 10 m/s²):',
+    options: ['20 J', '200 J', '100 J', '2 J', '50 J'],
+    answerIndex: 1,
+    explanation: 'Ep = m·g·h = 2 × 10 × 10 = 200 J.',
+    tags: ['energia potencial', 'gravitação', 'trabalho e energia']
+  },
+  {
+    id: 'fis011', subject: 'fisica', year: 2022, source: 'ENEM', difficulty: 'facil',
+    question: 'Qual escala termométrica tem o zero absoluto como ponto de referência?',
+    options: ['Celsius', 'Fahrenheit', 'Kelvin', 'Rankine', 'Réaumur'],
+    answerIndex: 2,
+    explanation: 'A escala Kelvin (K) inicia no zero absoluto (−273,15°C), onde cessa toda agitação térmica. K = °C + 273.',
+    tags: ['termologia', 'escala Kelvin', 'zero absoluto']
+  },
+  {
+    id: 'fis012', subject: 'fisica', year: 2021, source: 'ENEM', difficulty: 'medio',
+    question: 'A velocidade do som no ar é ~343 m/s. Um som de 686 Hz possui comprimento de onda de:',
+    options: ['0,25 m', '0,5 m', '1 m', '2 m', '343 m'],
+    answerIndex: 1,
+    explanation: 'v = λ·f → λ = v/f = 343/686 = 0,5 m.',
+    tags: ['ondas sonoras', 'comprimento de onda', 'frequência']
+  },
+  {
+    id: 'fis013', subject: 'fisica', year: 2023, source: 'ENEM', difficulty: 'facil',
+    question: 'A lei que afirma que o ângulo de incidência é igual ao ângulo de reflexão é a:',
+    options: ['1ª lei da reflexão', '2ª lei da reflexão', 'Lei de Snell-Descartes', 'Lei de Huygens', 'Lei de Fresnel'],
+    answerIndex: 1,
+    explanation: 'A 2ª lei da reflexão estabelece que o ângulo de reflexão (θᵣ) é igual ao ângulo de incidência (θᵢ), ambos medidos em relação à normal à superfície.',
+    tags: ['óptica', 'reflexão', 'lei da reflexão']
+  },
+  {
+    id: 'fis014', subject: 'fisica', year: 2020, source: 'ENEM', difficulty: 'medio',
+    question: 'Um resistor de 4Ω é submetido a uma tensão de 12 V. Qual é a corrente elétrica?',
+    options: ['48 A', '3 A', '8 A', '0,33 A', '16 A'],
+    answerIndex: 1,
+    explanation: 'Lei de Ohm: V = R·I → I = V/R = 12/4 = 3 A.',
+    tags: ['eletricidade', 'Lei de Ohm', 'resistência']
+  },
+  {
+    id: 'fis015', subject: 'fisica', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'A força magnética sobre uma carga elétrica em movimento depende de:',
+    options: ['Apenas a velocidade da carga', 'Apenas o campo magnético', 'A carga, a velocidade e o campo magnético', 'Apenas a massa da carga', 'Apenas a direção do movimento'],
+    answerIndex: 2,
+    explanation: 'Força de Lorentz: F = q·v·B·sen(θ). Depende da carga (q), velocidade (v), campo magnético (B) e do ângulo entre v e B.',
+    tags: ['magnetismo', 'força de Lorentz', 'campo magnético']
+  },
+  {
+    id: 'fis016', subject: 'fisica', year: 2021, source: 'ENEM', difficulty: 'dificil',
+    question: 'De acordo com a 1ª Lei da Termodinâmica, a variação de energia interna de um sistema é:',
+    options: ['Igual ao trabalho realizado pelo sistema', 'Igual ao calor absorvido menos o trabalho realizado', 'Igual ao calor cedido', 'Independente de calor e trabalho', 'Sempre positiva'],
+    answerIndex: 1,
+    explanation: '1ª Lei da Termodinâmica: ΔU = Q − W. A variação de energia interna é igual ao calor absorvido (Q) menos o trabalho realizado pelo sistema (W).',
+    tags: ['termodinâmica', '1ª Lei', 'energia interna']
+  },
+  {
+    id: 'fis017', subject: 'fisica', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'Num líquido em equilíbrio, a pressão hidrostática em função da profundidade é dada por:',
+    options: ['P = ρ·g²·h', 'P = m·g·h', 'P = ρ·g·h', 'P = F/V', 'P = g/ρ·h'],
+    answerIndex: 2,
+    explanation: 'Pressão hidrostática: P = ρ·g·h, onde ρ é a densidade do líquido, g a aceleração da gravidade e h a profundidade.',
+    tags: ['hidrostática', 'pressão hidrostática', 'fluidos']
+  },
+  {
+    id: 'fis018', subject: 'fisica', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'Dois resistores de 6Ω cada, ligados em paralelo, têm resistência equivalente de:',
+    options: ['12Ω', '6Ω', '3Ω', '1Ω', '0,5Ω'],
+    answerIndex: 2,
+    explanation: '1/Req = 1/6 + 1/6 = 2/6 → Req = 3Ω. Em paralelo a resistência equivalente é sempre menor que a menor resistência individual.',
+    tags: ['eletricidade', 'circuito paralelo', 'resistência equivalente']
+  },
+  {
+    id: 'fis019', subject: 'fisica', year: 2019, source: 'ENEM', difficulty: 'facil',
+    question: 'A radiação que NÃO é ionizante e é usada em controle remoto é:',
+    options: ['Raios X', 'Radiação gama', 'Infravermelho', 'Radiação alfa', 'Raios UV'],
+    answerIndex: 2,
+    explanation: 'O infravermelho (IV) é uma radiação eletromagnética não ionizante usada em controles remotos e câmeras termais.',
+    tags: ['ondas eletromagnéticas', 'infravermelho', 'espectro eletromagnético']
+  },
+  {
+    id: 'fis020', subject: 'fisica', year: 2021, source: 'ENEM', difficulty: 'dificil',
+    question: 'Na fissão nuclear, o que é liberado além de novos núcleos?',
+    options: ['Fótons de luz visível', 'Elétrons livres e calor apenas', 'Nêutrons e grande quantidade de energia', 'Prótons e neutrinos', 'Partículas alfa e beta'],
+    answerIndex: 2,
+    explanation: 'Na fissão nuclear, um núcleo pesado se divide liberando 2–3 nêutrons livres e enorme quantidade de energia (E = mc²). Base das usinas nucleares.',
+    tags: ['radioatividade', 'fissão nuclear', 'energia nuclear']
+  },
+  {
+    id: 'fis021', subject: 'fisica', year: 2020, source: 'ENEM', difficulty: 'medio',
+    question: 'A força gravitacional entre dois corpos é inversamente proporcional ao:',
+    options: ['Produto das massas', 'Quadrado da distância entre eles', 'Volume dos corpos', 'Raio de cada corpo', 'Cubo da distância'],
+    answerIndex: 1,
+    explanation: 'Lei da Gravitação Universal: F = G·m₁·m₂/r². A força é inversamente proporcional ao quadrado da distância (r²).',
+    tags: ['gravitação universal', 'Newton', 'força gravitacional']
+  },
+  {
+    id: 'fis022', subject: 'fisica', year: 2023, source: 'ENEM', difficulty: 'dificil',
+    question: 'Um transformador tem 200 espiras no primário e 1000 no secundário. Se a tensão no primário é 110 V, a tensão no secundário é:',
+    options: ['22 V', '110 V', '550 V', '220 V', '1100 V'],
+    answerIndex: 2,
+    explanation: 'V₁/V₂ = N₁/N₂ → 110/V₂ = 200/1000 → V₂ = 550 V. Transformador elevador.',
+    tags: ['eletromagnetismo', 'transformador', 'indução']
+  },
+
+  // ── HISTÓRIA extras (his011–his022) ────────────────────────────────────────
+  {
+    id: 'his011', subject: 'historia', year: 2022, source: 'ENEM', difficulty: 'facil',
+    question: 'A Proclamação da República no Brasil ocorreu em:',
+    options: ['7 de setembro de 1822', '13 de maio de 1888', '15 de novembro de 1889', '22 de abril de 1500', '11 de novembro de 1918'],
+    answerIndex: 2,
+    explanation: 'Em 15 de novembro de 1889, o Marechal Deodoro da Fonseca proclamou a República, encerrando o Segundo Reinado de Dom Pedro II.',
+    tags: ['República', 'Brasil Imperial', 'Deodoro da Fonseca']
+  },
+  {
+    id: 'his012', subject: 'historia', year: 2021, source: 'ENEM', difficulty: 'medio',
+    question: 'O plano que organizou a reconstrução econômica da Europa Ocidental após a Segunda Guerra Mundial foi o:',
+    options: ['Plano Dawes', 'Plano Marshall', 'Plano Quinquenal', 'New Deal', 'Plano Beveridge'],
+    answerIndex: 1,
+    explanation: 'O Plano Marshall (1948–1952) forneceu ~US$13 bilhões para reconstruir as economias da Europa Ocidental devastadas pela guerra.',
+    tags: ['Segunda Guerra Mundial', 'Guerra Fria', 'Plano Marshall']
+  },
+  {
+    id: 'his013', subject: 'historia', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'A Revolução Industrial iniciou-se na segunda metade do século XVIII principalmente na:',
+    options: ['França', 'Alemanha', 'Estados Unidos', 'Inglaterra', 'Bélgica'],
+    answerIndex: 3,
+    explanation: 'A Revolução Industrial começou na Inglaterra (décadas de 1760–1780), favorecida pela disponibilidade de carvão, ferro, capital e mão de obra.',
+    tags: ['Revolução Industrial', 'Inglaterra', 'século XVIII']
+  },
+  {
+    id: 'his014', subject: 'historia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'A expressão "Cortina de Ferro" durante a Guerra Fria referia-se à:',
+    options: ['Fronteira entre EUA e México', 'Divisão entre países capitalistas e comunistas na Europa', 'Muro de Berlim especificamente', 'Fronteira entre China e URSS', 'Bloqueio naval de Cuba'],
+    answerIndex: 1,
+    explanation: 'O termo "Cortina de Ferro" (Churchill, 1946) denominava a fronteira ideológica que dividia a Europa entre o bloco ocidental capitalista e o bloco oriental soviético.',
+    tags: ['Guerra Fria', 'Cortina de Ferro', 'bipolaridade']
+  },
+  {
+    id: 'his015', subject: 'historia', year: 2021, source: 'ENEM', difficulty: 'facil',
+    question: 'A Lei Áurea, que aboliu a escravidão no Brasil, foi assinada em:',
+    options: ['15 de novembro de 1889', '7 de setembro de 1822', '13 de maio de 1888', '28 de setembro de 1871', '25 de março de 1824'],
+    answerIndex: 2,
+    explanation: 'A Lei Áurea foi assinada pela Princesa Isabel em 13 de maio de 1888, tornando o Brasil o último país do Ocidente a abolir oficialmente a escravidão.',
+    tags: ['abolição', 'Lei Áurea', 'escravidão', 'Princesa Isabel']
+  },
+  {
+    id: 'his016', subject: 'historia', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'O Estado Novo (1937–1945) de Getúlio Vargas caracterizou-se por:',
+    options: ['Democracia liberal e eleições livres', 'Ditadura centralizadora com suspensão do Congresso', 'Federalismo descentralizado', 'Parlamentarismo', 'Governo militar sem civis'],
+    answerIndex: 1,
+    explanation: 'O Estado Novo foi um regime ditatorial: Vargas fechou o Congresso, outorgou a "Polaca" (CF de 1937), suspendeu partidos e instaurou censura.',
+    tags: ['Era Vargas', 'Estado Novo', 'ditadura']
+  },
+  {
+    id: 'his017', subject: 'historia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'O AI-5 (1968), durante a Ditadura Militar brasileira, representou:',
+    options: ['A abertura política gradual', 'A redemocratização do país', 'O endurecimento do regime com suspensão de direitos', 'A promulgação de nova Constituição', 'A convocação de eleições diretas'],
+    answerIndex: 2,
+    explanation: 'O AI-5 (dezembro de 1968) representou o auge do autoritarismo: cassação de mandatos, suspensão do habeas corpus, censura total. Inaugurou os "Anos de Chumbo".',
+    tags: ['ditadura militar', 'AI-5', 'direitos civis']
+  },
+  {
+    id: 'his018', subject: 'historia', year: 2020, source: 'ENEM', difficulty: 'medio',
+    question: 'O Renascimento Cultural dos séculos XIV-XVI caracterizou-se pelo:',
+    options: ['Teocentrismo e devoção exclusiva à Igreja', 'Antropocentrismo e valorização do conhecimento greco-romano', 'Rejeição da ciência e da razão', 'Feudalismo e isolamento cultural', 'Expansão do Islamismo'],
+    answerIndex: 1,
+    explanation: 'O Renascimento retomou os valores greco-romanos: antropocentrismo, racionalismo, naturalismo nas artes e início do método científico.',
+    tags: ['Renascimento', 'humanismo', 'antropocentrismo']
+  },
+  {
+    id: 'his019', subject: 'historia', year: 2019, source: 'ENEM', difficulty: 'medio',
+    question: 'A Declaração dos Direitos do Homem e do Cidadão (1789) foi um documento central da:',
+    options: ['Revolução Industrial', 'Revolução Americana', 'Revolução Francesa', 'Revolução Russa', 'Independência do Brasil'],
+    answerIndex: 2,
+    explanation: 'A Declaração de 1789 emanou da Revolução Francesa e consagrou liberdade, igualdade e soberania popular como direitos universais.',
+    tags: ['Revolução Francesa', 'iluminismo', 'direitos humanos']
+  },
+  {
+    id: 'his020', subject: 'historia', year: 2022, source: 'ENEM', difficulty: 'dificil',
+    question: 'A Conferência de Berlim (1884–1885) é associada a qual processo histórico?',
+    options: ['Criação da Liga das Nações', 'Partilha da África entre potências europeias', 'Fim da Primeira Guerra Mundial', 'Unificação alemã', 'Revolução Industrial inglesa'],
+    answerIndex: 1,
+    explanation: 'A Conferência de Berlim regulamentou a partilha colonial da África entre as potências europeias, sem consultar os povos africanos.',
+    tags: ['imperialismo', 'neocolonialismo', 'África', 'Conferência de Berlim']
+  },
+  {
+    id: 'his021', subject: 'historia', year: 2023, source: 'ENEM', difficulty: 'facil',
+    question: 'A independência do Brasil foi proclamada por D. Pedro I em:',
+    options: ['15 de novembro de 1889', '7 de setembro de 1822', '22 de abril de 1500', '13 de maio de 1888', '25 de março de 1824'],
+    answerIndex: 1,
+    explanation: 'Em 7 de setembro de 1822, às margens do Ipiranga, D. Pedro I proclamou a independência do Brasil de Portugal.',
+    tags: ['independência do Brasil', 'D. Pedro I', 'Grito do Ipiranga']
+  },
+  {
+    id: 'his022', subject: 'historia', year: 2021, source: 'ENEM', difficulty: 'dificil',
+    question: 'A Revolução Russa de 1917 levou ao poder o partido:',
+    options: ['Menchevique', 'Cadete', 'Bolchevique (liderado por Lenin)', 'Social-Revolucionário', 'Monarquista'],
+    answerIndex: 2,
+    explanation: 'Em outubro de 1917, os bolcheviques liderados por Lenin tomaram o poder, instaurando o primeiro Estado socialista.',
+    tags: ['Revolução Russa', 'bolcheviques', 'Lenin', 'socialismo']
+  },
+
+  // ── GEOGRAFIA extras (geo008–geo022) ───────────────────────────────────────
+  {
+    id: 'geo008', subject: 'geografia', year: 2022, source: 'ENEM', difficulty: 'facil',
+    question: 'O clima predominante na maior parte da região Amazônica é:',
+    options: ['Árido', 'Semiárido', 'Equatorial úmido', 'Subtropical', 'Temperado'],
+    answerIndex: 2,
+    explanation: 'O clima equatorial úmido predomina na Amazônia: altas temperaturas (>25°C), elevada precipitação anual (>2000 mm) e alta umidade relativa.',
+    tags: ['clima', 'Amazônia', 'equatorial']
+  },
+  {
+    id: 'geo009', subject: 'geografia', year: 2021, source: 'ENEM', difficulty: 'medio',
+    question: 'O Rio Amazonas desemboca no Oceano:',
+    options: ['Pacífico', 'Índico', 'Atlântico', 'Ártico', 'Antártico'],
+    answerIndex: 2,
+    explanation: 'O Rio Amazonas deságua no Oceano Atlântico, na costa do Pará e Amapá. É o maior rio do mundo em volume de água.',
+    tags: ['hidrografia', 'Rio Amazonas', 'bacias hidrográficas']
+  },
+  {
+    id: 'geo010', subject: 'geografia', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'A urbanização no Brasil intensificou-se principalmente a partir da:',
+    options: ['Período colonial', 'Proclamação da República', 'Industrialização e migração rural-urbana (décadas de 1950–1970)', 'Abertura democrática (1985)', 'Era Vargas (1930–1945)'],
+    answerIndex: 2,
+    explanation: 'O êxodo rural e a industrialização levaram o Brasil de país predominantemente rural nos anos 1940 a mais de 85% urbanizado hoje.',
+    tags: ['urbanização', 'industrialização', 'êxodo rural']
+  },
+  {
+    id: 'geo011', subject: 'geografia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'A globalização econômica é caracterizada principalmente por:',
+    options: ['Isolamento das economias nacionais', 'Aumento de barreiras comerciais', 'Integração dos mercados e redução de fronteiras econômicas', 'Fortalecimento do protecionismo', 'Eliminação das empresas multinacionais'],
+    answerIndex: 2,
+    explanation: 'A globalização econômica integra mercados, capitais, tecnologias e cadeias produtivas em escala mundial, reduzindo barreiras tarifárias.',
+    tags: ['globalização', 'geopolítica', 'economia mundial']
+  },
+  {
+    id: 'geo012', subject: 'geografia', year: 2021, source: 'ENEM', difficulty: 'facil',
+    question: 'A região mais populosa do Brasil é:',
+    options: ['Norte', 'Nordeste', 'Centro-Oeste', 'Sudeste', 'Sul'],
+    answerIndex: 3,
+    explanation: 'O Sudeste concentra ~42% da população brasileira (SP, RJ, MG, ES). São Paulo é a cidade mais populosa.',
+    tags: ['demografia', 'regiões brasileiras', 'população']
+  },
+  {
+    id: 'geo013', subject: 'geografia', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'O relevo brasileiro é predominantemente formado por:',
+    options: ['Cadeias de montanhas jovens (acima de 3.000 m)', 'Planícies costeiras extensas', 'Planaltos e chapadas de origem antiga', 'Grandes desertos', 'Vulcões ativos'],
+    answerIndex: 2,
+    explanation: 'O relevo brasileiro é formado majoritariamente por planaltos e chapadas de formação antiga, com altitudes modestas.',
+    tags: ['relevo', 'planalto', 'geomorfologia']
+  },
+  {
+    id: 'geo014', subject: 'geografia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'O El Niño afeta o clima brasileiro causando, principalmente no Nordeste:',
+    options: ['Aumento das chuvas e enchentes', 'Temperaturas mais baixas', 'Seca e diminuição das chuvas', 'Geadas frequentes', 'Aumento do nível do mar'],
+    answerIndex: 2,
+    explanation: 'Em anos de El Niño, o semiárido nordestino tende a ter secas mais intensas, pois o fenômeno afeta os padrões de circulação atmosférica.',
+    tags: ['El Niño', 'clima', 'Nordeste', 'seca']
+  },
+  {
+    id: 'geo015', subject: 'geografia', year: 2020, source: 'ENEM', difficulty: 'facil',
+    question: 'A energia proveniente do movimento das marés é classificada como:',
+    options: ['Energia fóssil', 'Energia nuclear', 'Energia renovável (maremotriz)', 'Energia não renovável', 'Energia geotérmica'],
+    answerIndex: 2,
+    explanation: 'A energia maremotriz (das marés) é uma fonte renovável. Não gera CO₂ e é praticamente inesgotável.',
+    tags: ['energia renovável', 'maremotriz', 'fontes de energia']
+  },
+  {
+    id: 'geo016', subject: 'geografia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'O IDH (Índice de Desenvolvimento Humano) é composto por indicadores de:',
+    options: ['PIB per capita, exportações e importações', 'Renda, educação e longevidade', 'Industrialização, urbanização e PIB', 'Área territorial, população e PIB', 'Desigualdade, pobreza e desemprego'],
+    answerIndex: 1,
+    explanation: 'O IDH (ONU, 1990) combina três dimensões: renda (RNB per capita), educação (anos de estudo) e saúde/longevidade (expectativa de vida).',
+    tags: ['IDH', 'desenvolvimento humano', 'indicadores socioeconômicos']
+  },
+  {
+    id: 'geo017', subject: 'geografia', year: 2023, source: 'ENEM', difficulty: 'facil',
+    question: 'São Paulo e Rio de Janeiro pertencem à região:',
+    options: ['Norte', 'Nordeste', 'Centro-Oeste', 'Sudeste', 'Sul'],
+    answerIndex: 3,
+    explanation: 'A região Sudeste é composta por SP, RJ, MG e ES. É a região mais industrializada e rica do Brasil.',
+    tags: ['regiões brasileiras', 'Sudeste', 'estados']
+  },
+  {
+    id: 'geo018', subject: 'geografia', year: 2021, source: 'ENEM', difficulty: 'medio',
+    question: 'As placas tectônicas são responsáveis por:',
+    options: ['Formação das nuvens e chuvas', 'Mudanças climáticas sazonais', 'Terremotos, vulcanismos e formação de montanhas', 'Correntes oceânicas de superfície', 'Variações do nível do mar por marés'],
+    answerIndex: 2,
+    explanation: 'O movimento das placas tectônicas explica terremotos, vulcanismos, tsunamis e a formação de cordilheiras nas zonas de encontro das placas.',
+    tags: ['tectônica de placas', 'terremotos', 'vulcanismo']
+  },
+  {
+    id: 'geo019', subject: 'geografia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'A migração de pessoas do campo para a cidade em busca de emprego é chamada de:',
+    options: ['Migração pendular', 'Migração internacional', 'Êxodo rural', 'Migração forçada', 'Transumância'],
+    answerIndex: 2,
+    explanation: 'O êxodo rural é o deslocamento permanente de populações rurais para áreas urbanas, intensificado no Brasil nas décadas de 1950 a 1980.',
+    tags: ['migração', 'êxodo rural', 'urbanização']
+  },
+  {
+    id: 'geo020', subject: 'geografia', year: 2023, source: 'ENEM', difficulty: 'dificil',
+    question: 'O principal responsável pelo Plano Piloto de Brasília foi:',
+    options: ['Oscar Niemeyer', 'Lúcio Costa', 'Roberto Burle Marx', 'Rino Levi', 'Vilanova Artigas'],
+    answerIndex: 1,
+    explanation: 'Lúcio Costa ganhou o concurso para o Plano Piloto de Brasília (1956). Oscar Niemeyer projetou os principais edifícios públicos.',
+    tags: ['Brasília', 'urbanismo modernista', 'Lúcio Costa']
+  },
+  {
+    id: 'geo021', subject: 'geografia', year: 2020, source: 'ENEM', difficulty: 'facil',
+    question: 'Quando é 12h em Brasília (GMT-3), que horas são em Londres (GMT 0)?',
+    options: ['9h', '12h', '15h', '3h', '18h'],
+    answerIndex: 2,
+    explanation: 'Brasília (GMT-3) está 3 horas atrás de Londres (GMT 0). 12h + 3h = 15h em Londres.',
+    tags: ['fusos horários', 'GMT', 'localização geográfica']
+  },
+  {
+    id: 'geo022', subject: 'geografia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'O agronegócio brasileiro se destaca mundialmente pela exportação de:',
+    options: ['Petróleo e minério de ferro', 'Soja, carne bovina e açúcar', 'Automóveis e máquinas', 'Calçados e têxteis', 'Software e serviços digitais'],
+    answerIndex: 1,
+    explanation: 'O Brasil é um dos maiores exportadores mundiais de soja (1º), carne bovina (1º) e açúcar/etanol (1º). O agronegócio representa >25% do PIB.',
+    tags: ['agronegócio', 'exportações', 'soja', 'economia brasileira']
+  },
+
+  // ── FILOSOFIA extras (fil008–fil022) ───────────────────────────────────────
+  {
+    id: 'fil008', subject: 'filosofia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'Na Alegoria da Caverna, Platão usa a imagem dos prisioneiros para representar:',
+    options: ['A teoria do prazer como bem supremo', 'A ignorância humana diante das verdades inteligíveis', 'A moral kantiana do dever', 'O contrato social de Rousseau', 'O materialismo histórico de Marx'],
+    answerIndex: 1,
+    explanation: 'Os prisioneiros que veem apenas sombras representam os que conhecem só as aparências. O filósofo que sai da caverna atinge o mundo das Ideias (verdade real).',
+    tags: ['Platão', 'Alegoria da Caverna', 'teoria das Ideias']
+  },
+  {
+    id: 'fil009', subject: 'filosofia', year: 2021, source: 'ENEM', difficulty: 'medio',
+    question: 'Para Aristóteles, a felicidade (eudaimonia) é alcançada através de:',
+    options: ['A busca do prazer imediato', 'O cumprimento do dever moral', 'O exercício da virtude como disposição do caráter', 'A contemplação das ideias puras', 'A obediência às leis divinas'],
+    answerIndex: 2,
+    explanation: 'Para Aristóteles, a eudaimonia é alcançada pelo exercício habitual das virtudes — o "meio-termo" entre o excesso e a falta.',
+    tags: ['Aristóteles', 'ética das virtudes', 'eudaimonia']
+  },
+  {
+    id: 'fil010', subject: 'filosofia', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'O Iluminismo do século XVIII é caracterizado pela valorização de:',
+    options: ['A tradição religiosa e a autoridade papal', 'A razão, a ciência e a liberdade individual', 'O absolutismo monárquico', 'A escolástica medieval', 'O romantismo e os sentimentos'],
+    answerIndex: 1,
+    explanation: 'O Iluminismo (Século das Luzes) pregava o uso da razão para combater superstições, defendendo liberdade, tolerância e educação laica.',
+    tags: ['iluminismo', 'razão', 'liberdade', 'Século das Luzes']
+  },
+  {
+    id: 'fil011', subject: 'filosofia', year: 2022, source: 'ENEM', difficulty: 'dificil',
+    question: 'O imperativo categórico de Kant determina que devemos agir:',
+    options: ['Buscando o maior prazer possível', 'Conforme as leis do Estado', 'Segundo máximas que possamos querer que se tornem leis universais', 'Para maximizar o bem-estar coletivo', 'De acordo com as virtudes da tradição'],
+    answerIndex: 2,
+    explanation: 'Kant formula: "Age apenas segundo máximas tais que possas ao mesmo tempo querer que se tornem leis universais." A moralidade baseia-se no dever (deontologia).',
+    tags: ['Kant', 'imperativo categórico', 'deontologia', 'ética']
+  },
+  {
+    id: 'fil012', subject: 'filosofia', year: 2021, source: 'ENEM', difficulty: 'dificil',
+    question: 'Marx e Engels, no Manifesto Comunista (1848), propõem que a história humana é a história de:',
+    options: ['A evolução das ideias filosóficas', 'A luta de classes', 'O progresso da razão universal', 'O contrato entre indivíduos livres', 'A manifestação do espírito absoluto'],
+    answerIndex: 1,
+    explanation: '"A história de toda a sociedade até hoje existente é a história da luta de classes." O materialismo histórico explica a história pelas contradições entre classes.',
+    tags: ['marxismo', 'luta de classes', 'materialismo histórico']
+  },
+  {
+    id: 'fil013', subject: 'filosofia', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'Nietzsche critica a moral ocidental como "moral dos escravos" porque:',
+    options: ['Defende a liberdade dos trabalhadores', 'Promove valores como ressentimento e negação da vida', 'Baseia-se no princípio da utilidade', 'Defende a igualdade entre os indivíduos', 'Valoriza o poder do Estado'],
+    answerIndex: 1,
+    explanation: 'Para Nietzsche, a moral judaico-cristã inverte os valores nobres (força, vitalidade) ao glorificar a fraqueza e o sofrimento — uma "transvaloração" movida pelo ressentimento.',
+    tags: ['Nietzsche', 'moral dos escravos', 'vontade de poder']
+  },
+  {
+    id: 'fil014', subject: 'filosofia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'A célebre frase de Sartre "A existência precede a essência" significa que:',
+    options: ['Os seres humanos têm uma natureza fixa dada por Deus', 'O ser humano primeiro existe e depois cria seu próprio ser', 'A existência do mundo é anterior à do homem', 'A essência das coisas é imutável', 'A consciência determina o ser social'],
+    answerIndex: 1,
+    explanation: 'Para Sartre, o homem nasce sem essência predeterminada: primeiro existe, depois se define por seus atos e escolhas. A liberdade é radical.',
+    tags: ['existencialismo', 'Sartre', 'liberdade']
+  },
+  {
+    id: 'fil015', subject: 'filosofia', year: 2019, source: 'ENEM', difficulty: 'medio',
+    question: 'Locke e Hume são representantes do:',
+    options: ['Racionalismo continental', 'Empirismo britânico', 'Idealismo alemão', 'Positivismo francês', 'Existencialismo'],
+    answerIndex: 1,
+    explanation: 'Locke (conhecimento vem da experiência sensorial) e Hume (ceticismo e impressões) são os principais representantes do empirismo britânico.',
+    tags: ['empirismo', 'Locke', 'Hume', 'teoria do conhecimento']
+  },
+  {
+    id: 'fil016', subject: 'filosofia', year: 2020, source: 'ENEM', difficulty: 'medio',
+    question: 'Para Rousseau, o homem em estado de natureza era:',
+    options: ['Mau e belicoso por natureza', 'Bom, mas corrompido pela sociedade e propriedade privada', 'Racional e contratualista', 'Dependente da autoridade divina', 'Motivado apenas pelo egoísmo'],
+    answerIndex: 1,
+    explanation: 'Rousseau defende que o "bom selvagem" é naturalmente bom; é a civilização (propriedade privada, desigualdade) que o corrompe.',
+    tags: ['Rousseau', 'bom selvagem', 'contrato social']
+  },
+  {
+    id: 'fil017', subject: 'filosofia', year: 2022, source: 'ENEM', difficulty: 'facil',
+    question: 'O método socrático de chegar à verdade por meio de perguntas e respostas é chamado de:',
+    options: ['Dialética hegeliana', 'Maiêutica', 'Catarse', 'Hermenêutica', 'Fenomenologia'],
+    answerIndex: 1,
+    explanation: 'A maiêutica (arte do parto espiritual) é o método de Sócrates: por perguntas, conduz o interlocutor a reconhecer sua ignorância e "parir" o conhecimento.',
+    tags: ['Sócrates', 'maiêutica', 'método filosófico']
+  },
+  {
+    id: 'fil018', subject: 'filosofia', year: 2021, source: 'ENEM', difficulty: 'dificil',
+    question: 'O utilitarismo de Bentham e Mill propõe que a ação moralmente correta é aquela que:',
+    options: ['Segue o imperativo categórico', 'Maximiza a felicidade para o maior número de pessoas', 'Está em conformidade com as leis divinas', 'Imita as virtudes da tradição', 'Expressa a vontade geral do povo'],
+    answerIndex: 1,
+    explanation: 'O utilitarismo avalia as ações por suas consequências: é moral o que maximiza a utilidade (felicidade) e minimiza o sofrimento para o maior número.',
+    tags: ['utilitarismo', 'Bentham', 'Mill', 'ética consequencialista']
+  },
+  {
+    id: 'fil019', subject: 'filosofia', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'O positivismo de Auguste Comte defende que o único conhecimento válido é o:',
+    options: ['Religioso', 'Metafísico', 'Científico (positivo)', 'Intuitivo', 'Mítico'],
+    answerIndex: 2,
+    explanation: 'Comte (1798–1857) fundou o positivismo: o único conhecimento válido é o científico (positivo). A sociedade deve evoluir da fase teológica para a positiva/científica.',
+    tags: ['positivismo', 'Auguste Comte', 'ciência']
+  },
+  {
+    id: 'fil020', subject: 'filosofia', year: 2022, source: 'ENEM', difficulty: 'dificil',
+    question: 'Para Hobbes, o Estado surge para resolver o problema do:',
+    options: ['Acúmulo excessivo de propriedades', 'Estado de guerra de todos contra todos (estado de natureza)', 'Conflito entre burguesia e proletariado', 'Poder excessivo da Igreja', 'Relativismo moral'],
+    answerIndex: 1,
+    explanation: 'Para Hobbes, o homem em estado de natureza vive em guerra permanente. O contrato social cede poder ao Leviatã (Estado) para garantir paz.',
+    tags: ['Hobbes', 'estado de natureza', 'Leviatã', 'contrato social']
+  },
+  {
+    id: 'fil021', subject: 'filosofia', year: 2020, source: 'ENEM', difficulty: 'dificil',
+    question: 'A fenomenologia de Husserl propõe a "epoché" (redução fenomenológica), que consiste em:',
+    options: ['Observação empírica controlada', 'Suspender julgamentos sobre a existência do mundo para analisar a consciência pura', 'Lógica dedutiva formal', 'Dialética histórica', 'Revelação religiosa'],
+    answerIndex: 1,
+    explanation: 'Husserl propõe colocar entre parênteses a crença na existência do mundo (epoché) para analisar a estrutura pura da consciência.',
+    tags: ['fenomenologia', 'Husserl', 'epoché', 'consciência']
+  },
+  {
+    id: 'fil022', subject: 'filosofia', year: 2021, source: 'ENEM', difficulty: 'medio',
+    question: 'A teoria do "véu da ignorância" de John Rawls serve para:',
+    options: ['Justificar a desigualdade natural', 'Determinar princípios de justiça sem conhecer a posição que se ocupará na sociedade', 'Descrever a ignorância humana sobre metafísica', 'Fundamentar o utilitarismo', 'Justificar o autoritarismo estatal'],
+    answerIndex: 1,
+    explanation: 'Rawls (Teoria da Justiça, 1971) propõe que escolhemos princípios de justiça por trás de um "véu da ignorância": sem saber que posição social teremos, escolheríamos princípios equitativos.',
+    tags: ['Rawls', 'véu da ignorância', 'justiça', 'filosofia política']
+  },
+
+  // ── INGLÊS extras (ing008–ing022) ──────────────────────────────────────────
+  {
+    id: 'ing008', subject: 'ingles', year: 2022, source: 'ENEM', difficulty: 'facil',
+    question: 'Choose the correct modal verb: "You _____ wear a seatbelt. It is the law."',
+    options: ['might', 'could', 'must', 'would', 'should'],
+    answerIndex: 2,
+    explanation: '"Must" expresses obligation or legal requirement. "Should" is a recommendation; "might/could" express possibility.',
+    tags: ['modal verbs', 'must', 'obligation']
+  },
+  {
+    id: 'ing009', subject: 'ingles', year: 2021, source: 'ENEM', difficulty: 'medio',
+    question: 'What is the meaning of "give up" in: "She gave up smoking last year"?',
+    options: ['To start something new', 'To quit or stop doing something', 'To give away for free', 'To hand something to someone', 'To improve gradually'],
+    answerIndex: 1,
+    explanation: '"Give up" means to stop doing something, especially a habit. Different from "give in" (surrender) or "give away" (donate).',
+    tags: ['phrasal verbs', 'give up', 'vocabulary']
+  },
+  {
+    id: 'ing010', subject: 'ingles', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'Complete the second conditional: "If I _____ more time, I _____ travel the world."',
+    options: ['have / would travel', 'had / would travel', 'have / will travel', 'had / will travel', 'have / travel'],
+    answerIndex: 1,
+    explanation: 'Second conditional (hypothetical/unreal): If + past simple, would + base verb. "If I had more time, I would travel."',
+    tags: ['conditional sentences', 'second conditional', 'grammar']
+  },
+  {
+    id: 'ing011', subject: 'ingles', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'Rewrite in passive voice: "The teacher explained the lesson."',
+    options: ['"The lesson was explained by the teacher."', '"The lesson explained by teacher."', '"The teacher was explained the lesson."', '"The lesson is explained by the teacher."', '"The teacher had explained the lesson."'],
+    answerIndex: 0,
+    explanation: 'Passive voice: object + "to be" (past tense) + past participle + "by" + agent. The tense is preserved.',
+    tags: ['passive voice', 'grammar', 'sentence transformation']
+  },
+  {
+    id: 'ing012', subject: 'ingles', year: 2021, source: 'ENEM', difficulty: 'facil',
+    question: 'Which word is a FALSE COGNATE — looks like Portuguese but has a different meaning?',
+    options: ['"Animal"', '"Hotel"', '"Pretend" (fingir, não pretender)', '"Radio"', '"Problem"'],
+    answerIndex: 2,
+    explanation: '"Pretend" in English means "to act as if / to make believe" (fingir), NOT "to intend/plan to do" (pretender). Classic false cognate.',
+    tags: ['false cognates', 'vocabulary', 'falso amigo']
+  },
+  {
+    id: 'ing013', subject: 'ingles', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'Identify the relative clause: "The book that I borrowed was excellent."',
+    options: ['"The book"', '"was excellent"', '"I borrowed"', '"that I borrowed"', '"The book that"'],
+    answerIndex: 3,
+    explanation: '"That I borrowed" is a defining relative clause modifying "the book." The relative pronoun "that" introduces it.',
+    tags: ['relative clauses', 'grammar']
+  },
+  {
+    id: 'ing014', subject: 'ingles', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'She said: "I am going to the market." In reported speech, this becomes:',
+    options: ['"She said she is going to the market."', '"She said she was going to the market."', '"She said I am going to the market."', '"She told she was going the market."', '"She said that she goes to the market."'],
+    answerIndex: 1,
+    explanation: 'In reported speech, the present continuous shifts to past continuous: "am going" → "was going." First-person "I" changes to "she."',
+    tags: ['reported speech', 'backshift', 'indirect speech']
+  },
+  {
+    id: 'ing015', subject: 'ingles', year: 2021, source: 'ENEM', difficulty: 'facil',
+    question: 'The prefix "un-" in "unhappy" means:',
+    options: ['Again', 'Before', 'Not / opposite of', 'Too much', 'Half'],
+    answerIndex: 2,
+    explanation: 'The prefix "un-" negates the base word: unhappy = not happy; unusual = not usual.',
+    tags: ['prefixes', 'word formation', 'vocabulary']
+  },
+  {
+    id: 'ing016', subject: 'ingles', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'Choose the connector that shows CONTRAST: "She studied hard. _____, she failed the test."',
+    options: ['Therefore', 'Moreover', 'However', 'Furthermore', 'As a result'],
+    answerIndex: 2,
+    explanation: '"However" introduces a contrasting idea. "Therefore" and "as a result" show consequence; "moreover/furthermore" add information.',
+    tags: ['connectors', 'cohesion', 'discourse markers']
+  },
+  {
+    id: 'ing017', subject: 'ingles', year: 2022, source: 'ENEM', difficulty: 'facil',
+    question: 'What does "It\'s raining cats and dogs" mean?',
+    options: ["It's raining animals.", "There are cats and dogs outside.", "It's raining very heavily.", "The weather is unpredictable.", "It's a light drizzle."],
+    answerIndex: 2,
+    explanation: '"Raining cats and dogs" is an idiom meaning it is raining very hard. Idioms cannot be understood literally.',
+    tags: ['idioms', 'figurative language', 'vocabulary']
+  },
+  {
+    id: 'ing018', subject: 'ingles', year: 2021, source: 'ENEM', difficulty: 'medio',
+    question: 'Choose the correct superlative form of "good":',
+    options: ['more good', 'goodest', 'better', 'best', 'most good'],
+    answerIndex: 3,
+    explanation: '"Good" has an irregular superlative: good → better (comparative) → best (superlative).',
+    tags: ['superlative', 'irregular adjectives', 'comparative']
+  },
+  {
+    id: 'ing019', subject: 'ingles', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'Which sentence uses the present perfect CORRECTLY?',
+    options: ['"I have went to Paris last year."', '"She has never eaten sushi."', '"They have arrived yesterday."', '"He has go to school."', '"We have saw that film."'],
+    answerIndex: 1,
+    explanation: '"She has never eaten sushi" is correct: have/has + past participle. "Last year" and "yesterday" require simple past.',
+    tags: ['present perfect', 'tense', 'grammar']
+  },
+  {
+    id: 'ing020', subject: 'ingles', year: 2022, source: 'ENEM', difficulty: 'dificil',
+    question: '"Despite the heavy rain, the match continued." "Despite" expresses:',
+    options: ['Cause', 'Purpose', 'Contrast / concession', 'Addition', 'Result'],
+    answerIndex: 2,
+    explanation: '"Despite" introduces a concessive / contrasting idea. It is a preposition; "although/even though" is the conjunction equivalent.',
+    tags: ['cohesion', 'concession', 'discourse connectors']
+  },
+  {
+    id: 'ing021', subject: 'ingles', year: 2019, source: 'ENEM', difficulty: 'medio',
+    question: 'The text genre that aims to persuade consumers to buy a product is:',
+    options: ['News report', 'Scientific article', 'Advertisement', 'Biography', 'Recipe'],
+    answerIndex: 2,
+    explanation: 'Advertisements aim to persuade consumers using emotional language, slogans, visual appeal and targeted messaging.',
+    tags: ['text genre', 'advertisement', 'persuasion']
+  },
+  {
+    id: 'ing022', subject: 'ingles', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: '"The more you read, the better you become at writing." This structure expresses:',
+    options: ['A hypothetical condition', 'A proportion / correlation between two actions', 'A contrast between two ideas', 'A sequence of events', 'A cause and result chain'],
+    answerIndex: 1,
+    explanation: 'The "the more…, the more/better…" structure expresses proportional correlation: as one thing increases, another changes proportionally.',
+    tags: ['proportional comparison', 'the more the better', 'grammar']
+  }
 ]
 
 // Helper: filter by type
@@ -1011,6 +2053,17 @@ function getQuestionsForSimulado(type, count) {
     const logic = pool.filter(q => q.subject === 'matematica' && !q.source.includes('Concurso'))
     const ptbr = pool.filter(q => q.subject === 'portugues' && !q.source.includes('Concurso'))
     return shuffle([...concurso, ...logic, ...ptbr]).slice(0, Math.min(count || 20, pool.length))
+  }
+
+  if (type === 'enem_completo') {
+    // 45 questões com distribuição ENEM: Linguagens (por+ing), Humanas (his+geo+fil), Natureza (bio+qui+fis), Mat
+    const pick = (subj, n) => shuffle(pool.filter(q => q.subject === subj)).slice(0, n)
+    return shuffle([
+      ...pick('portugues', 9), ...pick('ingles', 3),
+      ...pick('historia', 4), ...pick('geografia', 4), ...pick('filosofia', 3),
+      ...pick('biologia', 4), ...pick('quimica', 4), ...pick('fisica', 4),
+      ...pick('matematica', 10)
+    ])
   }
 
   if (type === 'diagnostico') {
