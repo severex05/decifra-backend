@@ -220,6 +220,35 @@ app.post('/api/auth/login', async (req, res) => {
   }
 })
 
+app.post('/api/auth/forgot-password', async (req, res) => {
+  const { email } = req.body
+  if (!email) return res.status(400).json({ error: 'Email obrigatório' })
+  try {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${process.env.FRONTEND_URL}/app?reset=1`
+    })
+    if (error) return res.status(400).json({ error: error.message })
+    res.json({ ok: true })
+  } catch {
+    res.status(500).json({ error: 'Erro ao enviar email de recuperação' })
+  }
+})
+
+app.post('/api/auth/reset-password', async (req, res) => {
+  const { token, password } = req.body
+  if (!token || !password) return res.status(400).json({ error: 'Token e senha obrigatórios' })
+  if (password.length < 6) return res.status(400).json({ error: 'Senha deve ter pelo menos 6 caracteres' })
+  try {
+    const { data, error } = await supabase.auth.getUser(token)
+    if (error || !data.user) return res.status(400).json({ error: 'Link inválido ou expirado. Solicite um novo.' })
+    const { error: updateErr } = await supabase.auth.admin.updateUserById(data.user.id, { password })
+    if (updateErr) return res.status(400).json({ error: updateErr.message })
+    res.json({ ok: true })
+  } catch {
+    res.status(500).json({ error: 'Erro ao redefinir senha' })
+  }
+})
+
 // ===== USER ROUTES =====
 app.get('/api/user/me', authMiddleware, async (req, res) => {
   try {
@@ -807,26 +836,39 @@ app.post('/api/stripe/webhook', async (req, res) => {
   }
 
   const session = event.data.object
-  const email = session.customer_email || session.customer_details?.email
 
-  if (['checkout.session.completed', 'customer.subscription.updated', 'customer.subscription.created'].includes(event.type)) {
-    const sub = event.type === 'checkout.session.completed'
-      ? await stripe.subscriptions.retrieve(session.subscription)
-      : session
-
+  if (event.type === 'checkout.session.completed') {
+    const sub = await stripe.subscriptions.retrieve(session.subscription)
     const plan = sub.status === 'trialing' ? 'trialing' : sub.status === 'active' ? 'active' : 'free'
     const trialEnd = sub.trial_end ? new Date(sub.trial_end * 1000).toISOString() : null
+    const userId = session.metadata?.userId
 
-    if (email) {
-      await supabase.from('decifra_users').update({ plan, trial_end: trialEnd, stripe_customer_id: sub.customer })
-        .eq('email', email)
+    if (userId) {
+      await supabase.from('decifra_users')
+        .update({ plan, trial_end: trialEnd, stripe_customer_id: sub.customer })
+        .eq('id', userId)
+    } else {
+      // fallback: por email (casos legados)
+      const email = session.customer_email || session.customer_details?.email
+      if (email) {
+        await supabase.from('decifra_users')
+          .update({ plan, trial_end: trialEnd, stripe_customer_id: sub.customer })
+          .eq('email', email)
+      }
     }
   }
 
+  if (['customer.subscription.updated', 'customer.subscription.created'].includes(event.type)) {
+    const sub = session
+    const plan = sub.status === 'trialing' ? 'trialing' : sub.status === 'active' ? 'active' : 'free'
+    const trialEnd = sub.trial_end ? new Date(sub.trial_end * 1000).toISOString() : null
+    await supabase.from('decifra_users')
+      .update({ plan, trial_end: trialEnd })
+      .eq('stripe_customer_id', sub.customer)
+  }
+
   if (event.type === 'customer.subscription.deleted') {
-    if (email) {
-      await supabase.from('decifra_users').update({ plan: 'free' }).eq('email', email)
-    }
+    await supabase.from('decifra_users').update({ plan: 'free' }).eq('stripe_customer_id', session.customer)
   }
 
   res.json({ received: true })
