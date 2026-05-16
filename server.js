@@ -145,8 +145,8 @@ const EMAIL_TEMPLATES = {
   })
 }
 
-// Daily cron: send D2, D5, D7 nurturing emails at 10am
-cron.schedule('0 10 * * *', async () => {
+// Daily cron: send D2, D5, D7 nurturing emails at 10am BRT (13h UTC)
+cron.schedule('0 13 * * *', async () => {
   if (!process.env.RESEND_API_KEY) return
   const now = new Date()
   for (const [days, key] of [[2, 'd2'], [5, 'd5'], [7, 'd7']]) {
