@@ -110,16 +110,16 @@ const EMAIL_TEMPLATES = {
     </div>`
   }),
   d5: (name) => ({
-    subject: 'Você sabia que o Plano de Estudo IA é gratuito no trial? 📋',
+    subject: 'Aproveite seus 7 dias Pro — plano de estudo e simulados ilimitados 📋',
     html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0a0f1e;color:#f9fafb;padding:32px;border-radius:16px">
       <h1 style="color:#3b82f6;font-size:28px;margin-bottom:8px">Decifra<span style="color:#3b82f6">.</span></h1>
       <h2 style="font-size:22px;margin-bottom:16px">Aproveite os 7 dias grátis 🎁</h2>
-      <p style="color:#9ca3af;line-height:1.6;margin-bottom:24px">Você tem acesso Pro por 7 dias grátis. Isso inclui simulados ilimitados, correção de redação, plano de estudo personalizado e flashcards com IA.</p>
+      <p style="color:#9ca3af;line-height:1.6;margin-bottom:24px">Você tem acesso Pro por 7 dias grátis. Isso inclui simulados ilimitados, correção de redação, plano de estudo personalizado e flashcards ilimitados.</p>
       <p style="color:#9ca3af;line-height:1.6;margin-bottom:8px"><strong style="color:#f9fafb">O que testar antes do trial acabar:</strong></p>
       <ul style="color:#9ca3af;line-height:2;margin-bottom:24px">
-        <li>📋 <strong style="color:#f9fafb">Plano de estudo</strong> — cronograma semanal gerado por IA</li>
+        <li>📋 <strong style="color:#f9fafb">Plano de estudo</strong> — cronograma semanal personalizado para sua prova</li>
         <li>✍️ <strong style="color:#f9fafb">Correção de redação</strong> — nota 0-1000 nas 5 competências ENEM</li>
-        <li>🤖 <strong style="color:#f9fafb">Simulado IA</strong> — banco infinito de questões geradas por IA</li>
+        <li>📝 <strong style="color:#f9fafb">Banco infinito de questões</strong> — simulados gerados sob demanda</li>
       </ul>
       <a href="${process.env.FRONTEND_URL}/app" style="background:#3b82f6;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;display:inline-block;margin-bottom:24px">Explorar agora →</a>
       <p style="color:#6b7280;font-size:13px">Depois do trial, o Pro custa R$29/mês. Cancele quando quiser, sem burocracia.</p>
@@ -130,14 +130,14 @@ const EMAIL_TEMPLATES = {
     html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0a0f1e;color:#f9fafb;padding:32px;border-radius:16px">
       <h1 style="color:#3b82f6;font-size:28px;margin-bottom:8px">Decifra<span style="color:#3b82f6">.</span></h1>
       <h2 style="font-size:22px;margin-bottom:16px">Última chance para manter o Pro 🚀</h2>
-      <p style="color:#9ca3af;line-height:1.6;margin-bottom:24px">Seu trial de 7 dias termina amanhã. Se não assinar, você voltará ao plano gratuito (5 perguntas/dia, 1 simulado/mês).</p>
+      <p style="color:#9ca3af;line-height:1.6;margin-bottom:24px">Seu trial de 7 dias termina amanhã. Se não assinar, você voltará ao plano gratuito (5 perguntas/dia no tutor, 1 correção de redação/dia).</p>
       <p style="color:#10b981;font-size:18px;font-weight:700;margin-bottom:24px">✅ Continue Pro por apenas R$29/mês</p>
       <ul style="color:#9ca3af;line-height:2;margin-bottom:24px">
         <li>Simulados ilimitados + análise por matéria</li>
-        <li>Tutor IA ilimitado em todas as matérias</li>
-        <li>Correção de redação (ENEM) ilimitada</li>
-        <li>Plano de estudo semanal regenerável</li>
-        <li>Flashcards IA por tópico</li>
+        <li>Tutor ilimitado em todas as 9 matérias</li>
+        <li>Correção de redação ilimitada (ENEM)</li>
+        <li>Plano de estudo semanal personalizado</li>
+        <li>Flashcards ilimitados por tópico</li>
       </ul>
       <a href="${process.env.FRONTEND_URL}/app" style="background:#3b82f6;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;display:inline-block;margin-bottom:24px">Assinar Pro agora →</a>
       <p style="color:#6b7280;font-size:13px">Cancele quando quiser. Sem compromisso.</p>
@@ -315,29 +315,32 @@ const SUBJECT_PROMPTS = {
   ingles: `You are an expert English teacher for ENEM 2026, Vestibulares and Concursos Públicos with English requirements. Master: reading comprehension strategies (finding main idea, inference, vocabulary in context, identifying text genre and purpose), grammar (verb tenses — present simple/continuous/perfect, past simple/continuous/perfect, future forms, conditionals 0/1/2/3; modal verbs — can/could, must/have to, should/ought to, may/might, would; passive voice, reported speech, relative clauses, gerund vs. infinitive), vocabulary (technology, environment, health, social issues, science, globalization — frequent ENEM themes), text genres (advertisements, news articles, scientific texts, literary excerpts, comics, infographics), false cognates, and phrasal verbs. Always answer in Portuguese (pt-BR) unless the student specifically asks for English. Use examples from ENEM and vestibular exam patterns.`,
 }
 
-// Rate limiter simples em memória
-const tutorUsage = new Map()
-setInterval(() => {
-  const cutoff = Date.now() - 86400000 // 24h
-  for (const [key, val] of tutorUsage) {
-    if (val.resetAt < cutoff) tutorUsage.delete(key)
-  }
-}, 5 * 60 * 1000)
+async function getDailyLimits(profile) {
+  const today = new Date().toDateString()
+  const onboarding = profile?.onboarding || {}
+  const dl = onboarding.daily_limits || {}
+  return dl.date === today ? dl : { date: today, tutor: 0, redacao: 0 }
+}
+
+async function saveDailyLimits(userId, profile, limits) {
+  const onboarding = profile?.onboarding || {}
+  await supabase.from('decifra_users')
+    .update({ onboarding: { ...onboarding, daily_limits: limits } })
+    .eq('id', userId)
+}
 
 app.post('/api/tutor/chat', authMiddleware, async (req, res) => {
   const { messages, subject } = req.body
   if (!messages?.length) return res.status(400).json({ error: 'Mensagens obrigatórias' })
 
-  const pro = await isUserPro(req.user.id)
+  const profile = await getUserProfile(req.user.id)
+  const pro = profile?.plan === 'active' || profile?.plan === 'trialing'
 
   if (!pro) {
-    const key = req.user.id
-    const today = new Date().toDateString()
-    const usage = tutorUsage.get(key) || { count: 0, date: today, resetAt: Date.now() }
-    if (usage.date !== today) { usage.count = 0; usage.date = today }
-    if (usage.count >= 5) return res.status(429).json({ error: 'Limite diário atingido. Faça upgrade para Pro.' })
-    usage.count++
-    tutorUsage.set(key, usage)
+    const limits = await getDailyLimits(profile)
+    if (limits.tutor >= 5) return res.status(429).json({ error: 'Limite diário atingido. Faça upgrade para Pro.' })
+    limits.tutor++
+    await saveDailyLimits(req.user.id, profile, limits)
   }
 
   try {
@@ -439,7 +442,7 @@ app.get('/api/ranking', authMiddleware, async (req, res) => {
   try {
     const { data } = await supabase
       .from('decifra_users')
-      .select('name, xp, streak, simulados_done')
+      .select('id, name, xp, streak, simulados_done')
       .order('xp', { ascending: false })
       .limit(50)
     const ranking = (data || []).map((u, i) => ({
@@ -447,7 +450,8 @@ app.get('/api/ranking', authMiddleware, async (req, res) => {
       name: u.name ? u.name.split(' ')[0] : 'Estudante',
       xp: u.xp || 0,
       streak: u.streak || 0,
-      simulados: u.simulados_done || 0
+      simulados: u.simulados_done || 0,
+      isMe: u.id === req.user.id
     }))
     res.json({ ranking })
   } catch {
@@ -525,6 +529,8 @@ app.get('/api/plano-estudo', authMiddleware, async (req, res) => {
 app.post('/api/plano-estudo/generate', authMiddleware, async (req, res) => {
   try {
     const profile = await getUserProfile(req.user.id)
+    const pro = profile?.plan === 'active' || profile?.plan === 'trialing'
+    if (!pro) return res.status(403).json({ error: 'Plano de estudo personalizado disponível apenas no plano Pro' })
     const onboarding = profile?.onboarding || {}
     const subjects = profile?.subjects || {}
 
@@ -604,26 +610,18 @@ IDs válidos: matematica, portugues, biologia, quimica, fisica, historia, geogra
 })
 
 // ===== CORREÇÃO DE REDAÇÃO =====
-const redacaoUsage = new Map()
-setInterval(() => {
-  const cutoff = Date.now() - 86400000
-  for (const [key, val] of redacaoUsage) { if (val.resetAt < cutoff) redacaoUsage.delete(key) }
-}, 5 * 60 * 1000)
-
 app.post('/api/redacao/corrigir', authMiddleware, async (req, res) => {
   const { texto, tema } = req.body
   if (!texto || texto.trim().length < 100) return res.status(400).json({ error: 'Redação muito curta (mínimo 100 caracteres)' })
   if (texto.length > 5000) return res.status(400).json({ error: 'Redação muito longa (máximo 5000 caracteres)' })
 
-  const pro = await isUserPro(req.user.id)
+  const profile = await getUserProfile(req.user.id)
+  const pro = profile?.plan === 'active' || profile?.plan === 'trialing'
   if (!pro) {
-    const key = req.user.id
-    const today = new Date().toDateString()
-    const usage = redacaoUsage.get(key) || { count: 0, date: today, resetAt: Date.now() }
-    if (usage.date !== today) { usage.count = 0; usage.date = today; usage.resetAt = Date.now() }
-    if (usage.count >= 1) return res.status(429).json({ error: 'Limite diário atingido. Faça upgrade para Pro para correções ilimitadas.' })
-    usage.count++
-    redacaoUsage.set(key, usage)
+    const limits = await getDailyLimits(profile)
+    if (limits.redacao >= 1) return res.status(429).json({ error: 'Limite diário atingido. Faça upgrade para Pro para correções ilimitadas.' })
+    limits.redacao++
+    await saveDailyLimits(req.user.id, profile, limits)
   }
 
   try {
