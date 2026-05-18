@@ -539,19 +539,19 @@ app.post('/api/tutor/chat', authMiddleware, async (req, res) => {
 })
 
 // ===== SIMULADOS =====
-const TIME_LIMITS = { mini: 15 * 60, enem: 45 * 60, vestibular: 30 * 60, concurso: 30 * 60, diagnostico: 0, enem_completo: 5.5 * 60 * 60 }
-const QUESTION_COUNTS = { mini: 10, enem: 30, vestibular: 20, concurso: 20, diagnostico: 20, enem_completo: 45 }
+const TIME_LIMITS = { mini: 15 * 60, enem: 45 * 60, vestibular: 30 * 60, fuvest: 30 * 60, unicamp: 30 * 60, concurso: 30 * 60, concurso_federal: 30 * 60, militar: 30 * 60, diagnostico: 0, enem_completo: 5.5 * 60 * 60 }
+const QUESTION_COUNTS = { mini: 10, enem: 30, vestibular: 20, fuvest: 20, unicamp: 20, concurso: 20, concurso_federal: 20, militar: 20, diagnostico: 20, enem_completo: 45 }
 
 app.post('/api/simulado/start', authMiddleware, async (req, res) => {
-  const { type, year } = req.body
+  const { type, year, subject } = req.body
   if (!type) return res.status(400).json({ error: 'Tipo obrigatório' })
 
   const pro = await isUserPro(req.user.id)
-  const proOnly = ['enem', 'vestibular', 'concurso', 'ia', 'enem_completo']
+  const proOnly = ['enem', 'vestibular', 'fuvest', 'unicamp', 'concurso', 'concurso_federal', 'militar', 'ia', 'enem_completo']
   if (proOnly.includes(type) && !pro) return res.status(403).json({ error: 'Simulado completo disponível apenas no plano Pro' })
 
   const count = QUESTION_COUNTS[type] || 10
-  const questions = getQuestionsForSimulado(type, count, year ? parseInt(year) : null)
+  const questions = getQuestionsForSimulado(type, count, year ? parseInt(year) : null, subject || null)
   const timeLimit = TIME_LIMITS[type] || 900
 
   res.json({ questions, timeLimit, type })
@@ -601,6 +601,43 @@ app.post('/api/simulado/finish', authMiddleware, async (req, res) => {
   }
 })
 
+// ===== STATS: SEMANAL =====
+app.get('/api/stats/semanal', authMiddleware, async (req, res) => {
+  try {
+    const profile = await getUserProfile(req.user.id)
+    const hist = profile?.simulado_history || []
+    const now = new Date()
+
+    // Build weekly buckets for last 8 weeks
+    const weeks = []
+    for (let w = 7; w >= 0; w--) {
+      const weekStart = new Date(now)
+      weekStart.setDate(weekStart.getDate() - w * 7 - weekStart.getDay())
+      weekStart.setHours(0, 0, 0, 0)
+      const weekEnd = new Date(weekStart)
+      weekEnd.setDate(weekEnd.getDate() + 7)
+      const label = weekStart.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })
+      const weekHist = hist.filter(h => {
+        const d = new Date(h.date)
+        return d >= weekStart && d < weekEnd
+      })
+      const total = weekHist.reduce((s, h) => s + (h.score?.total || 0), 0)
+      const correct = weekHist.reduce((s, h) => s + (h.score?.correct || 0), 0)
+      weeks.push({ label, simulados: weekHist.length, total, correct, pct: total > 0 ? Math.round((correct / total) * 100) : 0 })
+    }
+
+    res.json({
+      weeks,
+      totalSimulados: profile?.simulados_done || 0,
+      totalQuestions: profile?.total_questions || 0,
+      xp: profile?.xp || 0,
+      streak: profile?.streak || 0
+    })
+  } catch {
+    res.json({ weeks: [], totalSimulados: 0, totalQuestions: 0, xp: 0, streak: 0 })
+  }
+})
+
 // ===== STATS: HISTÓRICO =====
 app.get('/api/stats/historico', authMiddleware, async (req, res) => {
   try {
@@ -641,16 +678,50 @@ app.post('/api/simulado/ia', authMiddleware, async (req, res) => {
   const pro = await isUserPro(req.user.id)
   if (!pro) return res.status(403).json({ error: 'Simulado IA disponível apenas no plano Pro' })
 
-  const subjects = ['matematica', 'portugues', 'biologia', 'quimica', 'fisica', 'historia', 'geografia', 'filosofia', 'ingles', 'matematica']
+  const { mode = 'enem' } = req.body // mode: 'enem', 'vestibular', 'concurso', 'fuvest', 'unicamp'
+
+  const ENEM_SUBJECTS = ['matematica', 'portugues', 'biologia', 'quimica', 'fisica', 'historia', 'geografia', 'filosofia', 'ingles', 'matematica']
+  const VEST_SUBJECTS = ['matematica', 'portugues', 'biologia', 'quimica', 'fisica', 'historia', 'geografia', 'matematica', 'biologia', 'quimica']
+  const CONCURSO_SUBJECTS = ['matematica', 'portugues', 'matematica', 'portugues', 'matematica', 'portugues', 'matematica', 'portugues', 'historia', 'matematica']
+
+  const subjectMap = { vestibular: VEST_SUBJECTS, fuvest: VEST_SUBJECTS, unicamp: VEST_SUBJECTS, concurso: CONCURSO_SUBJECTS, concurso_federal: CONCURSO_SUBJECTS }
+  const subjects = subjectMap[mode] || ENEM_SUBJECTS
+
   const diffMap = { facil: 'fácil (ensino médio básico)', medio: 'médio (padrão ENEM)', dificil: 'difícil (vestibular concorrido)' }
-  const diffs = ['facil', 'medio', 'medio', 'medio', 'dificil']
+  const diffsByMode = {
+    enem: ['facil', 'medio', 'medio', 'medio', 'dificil'],
+    vestibular: ['medio', 'dificil', 'dificil', 'medio', 'dificil'],
+    fuvest: ['dificil', 'dificil', 'medio', 'dificil', 'dificil'],
+    unicamp: ['dificil', 'dificil', 'medio', 'dificil', 'dificil'],
+    concurso: ['facil', 'medio', 'facil', 'medio', 'medio'],
+    concurso_federal: ['facil', 'medio', 'facil', 'medio', 'medio'],
+  }
+  const diffs = diffsByMode[mode] || diffsByMode.enem
+
+  const modeContextMap = {
+    enem: 'para o ENEM 2026',
+    vestibular: 'para vestibulares concorridos (FUVEST, UNICAMP, UNESP)',
+    fuvest: 'para a FUVEST (vestibular da USP), com foco em raciocínio aprofundado',
+    unicamp: 'para o vestibular da UNICAMP, com foco em interpretação e raciocínio',
+    concurso: 'para concurso público (nível médio/superior), com linguagem objetiva',
+    concurso_federal: 'para concurso público federal (CESPE/CEBRASPE), questões objetivas e de raciocínio',
+  }
+  const modeContext = modeContextMap[mode] || modeContextMap.enem
+
+  const concursoTopics = {
+    matematica: 'raciocínio lógico, sequências, porcentagem, regra de três ou matemática financeira',
+    portugues: 'interpretação de texto, concordância, crase ou redação oficial',
+    historia: 'história do Brasil República, legislação brasileira ou conhecimentos gerais de atualidades',
+  }
 
   async function genQuestion(subject, idx) {
     const difficulty = diffs[idx % diffs.length]
     const subjectName = SUBJECT_NAMES_PT[subject]
     const isEnglish = subject === 'ingles'
-    const prompt = `Crie uma questão de múltipla escolha de ${subjectName}, nível ${diffMap[difficulty]}, para o ENEM 2026.
-Escolha um tópico relevante e diferente do comum.
+    const topicHint = ['concurso', 'concurso_federal'].includes(mode) && concursoTopics[subject]
+      ? `Tópico específico: ${concursoTopics[subject]}` : 'Escolha um tópico relevante e diferente do comum'
+    const prompt = `Crie uma questão de múltipla escolha de ${subjectName}, nível ${diffMap[difficulty]}, ${modeContext}.
+${topicHint}.
 
 Retorne APENAS JSON válido:
 {
@@ -671,6 +742,7 @@ Regras: questão original, 5 alternativas, apenas 1 correta, linguagem clara e d
     const match = text.match(/\{[\s\S]*\}/)
     if (!match) throw new Error('Invalid JSON')
     const q = JSON.parse(match[0])
+    const sourceMap = { vestibular: 'IA-Vestibular', fuvest: 'IA-FUVEST', unicamp: 'IA-UNICAMP', concurso: 'IA-Concurso', concurso_federal: 'IA-ConcursoFederal' }
     return {
       id: `ia_${subject}_${Date.now()}_${idx}`,
       subject,
@@ -679,14 +751,15 @@ Regras: questão original, 5 alternativas, apenas 1 correta, linguagem clara e d
       answerIndex: Number(q.answerIndex),
       explanation: q.explanation,
       year: 2026,
-      source: 'IA',
+      source: sourceMap[mode] || 'IA',
       difficulty
     }
   }
 
   try {
     const questions = await Promise.all(subjects.map((s, i) => genQuestion(s, i)))
-    res.json({ questions, timeLimit: 900, type: 'ia' })
+    const timeLimitByMode = { vestibular: 1800, fuvest: 1800, unicamp: 1800, concurso: 1800, concurso_federal: 1800 }
+    res.json({ questions, timeLimit: timeLimitByMode[mode] || 900, type: mode === 'enem' ? 'ia' : mode })
   } catch (err) {
     console.error('Simulado IA error:', err)
     res.status(500).json({ error: 'Erro ao gerar simulado IA. Tente novamente.' })
@@ -803,12 +876,20 @@ app.post('/api/redacao/corrigir', authMiddleware, async (req, res) => {
 
   try {
     const temaInfo = tema ? `Tema: "${tema}"` : 'Tema não informado — avalie o que for possível identificar'
+    // Split texto into paragraphs for paragraph-level feedback
+    const paragrafos = texto.trim().split(/\n\s*\n|\n{2,}/).map(p => p.trim()).filter(p => p.length > 20)
+    const paragrafosLabels = ['Introdução', 'Desenvolvimento 1', 'Desenvolvimento 2', 'Conclusão']
+    const paragrafosHtml = paragrafos.slice(0, 4).map((p, i) => `Parágrafo ${i+1} (${paragrafosLabels[i] || 'Adicional'}): "${p.slice(0, 300)}${p.length > 300 ? '...' : ''}"`).join('\n')
+
     const prompt = `Você é um corretor especialista do ENEM. Avalie a redação abaixo nas 5 competências oficiais e retorne APENAS JSON válido, sem texto extra.
 
 ${temaInfo}
 
-REDAÇÃO:
+REDAÇÃO COMPLETA:
 ${texto.trim()}
+
+PARÁGRAFOS IDENTIFICADOS:
+${paragrafosHtml}
 
 Retorne exatamente este JSON:
 {
@@ -819,6 +900,9 @@ Retorne exatamente este JSON:
     {"numero": 3, "nome": "Seleção de argumentos", "nota": <0-200>, "comentario": "feedback específico em 1-2 frases"},
     {"numero": 4, "nome": "Coesão e coerência", "nota": <0-200>, "comentario": "feedback específico em 1-2 frases"},
     {"numero": 5, "nome": "Proposta de intervenção", "nota": <0-200>, "comentario": "feedback específico em 1-2 frases"}
+  ],
+  "paragrafos": [
+    ${paragrafos.slice(0, 4).map((_, i) => `{"numero": ${i+1}, "label": "${paragrafosLabels[i] || 'Parágrafo'}", "feedback": "feedback específico sobre este parágrafo em 1-2 frases", "nota": <0-10>}`).join(',\n    ')}
   ],
   "pontos_fortes": ["ponto forte 1", "ponto forte 2"],
   "melhorias": ["melhoria prioritária 1", "melhoria 2", "melhoria 3"],

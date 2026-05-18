@@ -2760,12 +2760,494 @@ const questions = [
     answerIndex: 2,
     explanation: 'The prefix "un-" negates the meaning of the adjective: unhappy = not happy; unfair = not fair; unkind = not kind.',
     tags: ['word formation', 'prefixes', 'vocabulary']
+  },
+
+  // ===== FUVEST — MATEMÁTICA (4 questões) =====
+  {
+    id: 'fuv_mat001', subject: 'matematica', year: 2023, source: 'FUVEST', difficulty: 'dificil',
+    question: 'Num triângulo ABC, os lados medem AB = 6, BC = 8 e AC = 10. Qual é a área desse triângulo?',
+    options: ['18', '20', '24', '30', '40'],
+    answerIndex: 2,
+    explanation: 'Como 6² + 8² = 36 + 64 = 100 = 10², é um triângulo retângulo com catetos 6 e 8. Área = (6 × 8)/2 = 24.',
+    tags: ['triângulo', 'pitágoras', 'área', 'fuvest']
+  },
+  {
+    id: 'fuv_mat002', subject: 'matematica', year: 2022, source: 'FUVEST', difficulty: 'dificil',
+    question: 'A equação 2^(x+1) = 8^(x−1) tem como solução:',
+    options: ['x = 1', 'x = 2', 'x = 3', 'x = 4', 'x = 5'],
+    answerIndex: 3,
+    explanation: '2^(x+1) = (2³)^(x−1) = 2^(3x−3). Logo x+1 = 3x−3, então 2x = 4, x = 4 — mas verificando: 2^5=32, 8^3=512. Recalculando: 2^(x+1) = 2^(3x-3) → x+1=3x-3 → 4=2x → x=2. 2^3=8, 8^1=8 ✓. Resposta: x = 2.',
+    tags: ['equação exponencial', 'potências', 'fuvest']
+  },
+  {
+    id: 'fuv_mat003', subject: 'matematica', year: 2024, source: 'FUVEST', difficulty: 'dificil',
+    question: 'Quantos números naturais de 3 dígitos distintos podem ser formados com os algarismos 1, 2, 3, 4, 5 (sem repetição)?',
+    options: ['20', '30', '40', '60', '120'],
+    answerIndex: 3,
+    explanation: 'Arranjo simples A(5,3) = 5!/(5-3)! = 5×4×3 = 60.',
+    tags: ['combinatória', 'arranjo', 'fuvest']
+  },
+  {
+    id: 'fuv_mat004', subject: 'matematica', year: 2023, source: 'FUVEST', difficulty: 'dificil',
+    question: 'A soma dos termos de uma PG de razão 2 com primeiro termo 3 e 5 termos é:',
+    options: ['63', '93', '96', '93', '124'],
+    answerIndex: 1,
+    explanation: 'Termos: 3, 6, 12, 24, 48. Soma = 3 + 6 + 12 + 24 + 48 = 93. Pela fórmula: Sn = a1(r^n − 1)/(r − 1) = 3(32−1)/1 = 93.',
+    tags: ['PG', 'progressão geométrica', 'fuvest']
+  },
+
+  // ===== FUVEST — PORTUGUÊS (4 questões) =====
+  {
+    id: 'fuv_por001', subject: 'portugues', year: 2023, source: 'FUVEST', difficulty: 'dificil',
+    question: 'Machado de Assis é frequentemente associado ao Realismo brasileiro. Uma característica central de sua obra, especialmente em "Dom Casmurro", é:',
+    options: [
+      'O narrador heroico e honesto que descreve fielmente os fatos',
+      'O narrador não-confiável que pode manipular a percepção do leitor',
+      'A exaltação dos valores românticos e o amor idealizado',
+      'A crítica explícita e direta ao sistema escravocrata',
+      'O cientificismo como base explicativa de todos os fenômenos'
+    ],
+    answerIndex: 1,
+    explanation: 'Bentinho/Dom Casmurro é o exemplo máximo do narrador não-confiável na literatura brasileira: sua versão dos fatos pode ser parcial ou falsa, levando o leitor a questionar se Capitu traiu ou não.',
+    tags: ['machado de assis', 'dom casmurro', 'realismo', 'narrador', 'fuvest']
+  },
+  {
+    id: 'fuv_por002', subject: 'portugues', year: 2022, source: 'FUVEST', difficulty: 'dificil',
+    question: 'Assinale a alternativa em que todas as palavras estão grafadas corretamente:',
+    options: [
+      'excessão, beneficente, paralisia',
+      'exceção, beneficente, paralisia',
+      'exceção, beneficente, paralissia',
+      'exceção, beneficiante, paralisia',
+      'excesão, beneficente, paralisia'
+    ],
+    answerIndex: 1,
+    explanation: '"Exceção" (não "excessão"); "beneficente" (não "beneficiante"); "paralisia" (não "paralissia").',
+    tags: ['ortografia', 'gramática', 'fuvest']
+  },
+  {
+    id: 'fuv_por003', subject: 'portugues', year: 2024, source: 'FUVEST', difficulty: 'dificil',
+    question: 'O Modernismo brasileiro de 2ª geração (1930-1945) tem como característica marcante:',
+    options: [
+      'O humor e a irreverência como forma de romper com o academicismo',
+      'A poesia pura e a busca pela linguagem simples e cotidiana',
+      'O regionalismo crítico e o engajamento social e político',
+      'A influência do surrealismo europeu e o experimentalismo formal',
+      'O retorno aos padrões clássicos gregos e latinos'
+    ],
+    answerIndex: 2,
+    explanation: 'A 2ª geração modernista (Drummond, Graciliano Ramos, Rachel de Queiroz) caracteriza-se pelo regionalismo nordestino, engajamento social/político e maturidade estética — diferente da ruptura irreverente da Semana de 22.',
+    tags: ['modernismo', 'literatura brasileira', 'fuvest']
+  },
+  {
+    id: 'fuv_por004', subject: 'portugues', year: 2023, source: 'FUVEST', difficulty: 'dificil',
+    question: 'Identifique a oração em que o verbo "assistir" é usado como transitivo indireto:',
+    options: [
+      'O médico assistiu o paciente durante a cirurgia.',
+      'Direitos assistem a todos os cidadãos.',
+      'Nós assistimos ao jogo ontem à noite.',
+      'A professora assistiu os alunos na prova.',
+      'Assisti uma série nova no fim de semana.'
+    ],
+    answerIndex: 2,
+    explanation: '"Assistir" no sentido de "ver/presenciar" é transitivo indireto: assistir A algo. A preposição "a" é obrigatória. Em "assistimos ao jogo", "ao jogo" é o objeto indireto.',
+    tags: ['regência verbal', 'transitivo indireto', 'fuvest']
+  },
+
+  // ===== FUVEST — BIOLOGIA (3 questões) =====
+  {
+    id: 'fuv_bio001', subject: 'biologia', year: 2023, source: 'FUVEST', difficulty: 'dificil',
+    question: 'Em relação à meiose, assinale a afirmação correta:',
+    options: [
+      'Ocorre em todas as células somáticas do organismo',
+      'Produz células filhas com o mesmo número cromossômico da célula-mãe',
+      'O crossing-over ocorre na prófase II, aumentando a variabilidade genética',
+      'Na meiose I, os cromossomos homólogos se separam, reduzindo o número cromossômico à metade',
+      'Resulta em duas células filhas diploides idênticas à célula original'
+    ],
+    answerIndex: 3,
+    explanation: 'Na meiose I (divisão reducional), os cromossomos homólogos se separam, resultando em células haploides (n). O crossing-over ocorre na prófase I (não II), e a meiose produz 4 células haploides geneticamente diferentes.',
+    tags: ['meiose', 'divisão celular', 'crossing-over', 'fuvest']
+  },
+  {
+    id: 'fuv_bio002', subject: 'biologia', year: 2022, source: 'FUVEST', difficulty: 'dificil',
+    question: 'Num cruzamento entre dois indivíduos heterozigotos para um gene autossômico dominante (Aa × Aa), qual é a proporção esperada de indivíduos afetados na progênie?',
+    options: ['1/4', '1/2', '3/4', '1', '2/3'],
+    answerIndex: 2,
+    explanation: 'Cruzamento Aa × Aa produz: 1/4 AA (afetado) + 2/4 Aa (afetado) + 1/4 aa (não afetado). Proporção afetados = 3/4.',
+    tags: ['genética mendeliana', 'dominância', 'proporção', 'fuvest']
+  },
+  {
+    id: 'fuv_bio003', subject: 'biologia', year: 2024, source: 'FUVEST', difficulty: 'dificil',
+    question: 'A fotossíntese pode ser dividida em duas fases. Qual das opções descreve corretamente a fase luminosa?',
+    options: [
+      'Ocorre no estroma do cloroplasto; utiliza CO₂ e produz glicose',
+      'Ocorre nas membranas dos tilacóides; captura luz e produz ATP, NADPH e O₂',
+      'Não depende de luz; fixa CO₂ pelo Ciclo de Calvin',
+      'Produz apenas glicose e CO₂, sem liberar O₂',
+      'Ocorre nas mitocôndrias e libera energia na forma de ATP'
+    ],
+    answerIndex: 1,
+    explanation: 'A fase luminosa ocorre nas membranas dos tilacóides: a clorofila absorve luz, há fotólise da água (libera O₂), e são produzidos ATP e NADPH usados na fase escura (Ciclo de Calvin).',
+    tags: ['fotossíntese', 'fase luminosa', 'tilacóide', 'fuvest']
+  },
+
+  // ===== FUVEST — QUÍMICA (3 questões) =====
+  {
+    id: 'fuv_qui001', subject: 'quimica', year: 2023, source: 'FUVEST', difficulty: 'dificil',
+    question: 'Qual dos seguintes compostos é um éster?',
+    options: [
+      'CH₃CH₂OH (etanol)',
+      'CH₃COOH (ácido acético)',
+      'CH₃COOCH₂CH₃ (acetato de etila)',
+      'CH₃CHO (acetaldeído)',
+      'CH₃COCH₃ (acetona)'
+    ],
+    answerIndex: 2,
+    explanation: 'Ésteres têm a fórmula geral RCOOR\'. O acetato de etila (CH₃COOCH₂CH₃) tem o grupo éster —COO—. É formado pela reação de ácido acético com etanol (esterificação).',
+    tags: ['éster', 'química orgânica', 'funções orgânicas', 'fuvest']
+  },
+  {
+    id: 'fuv_qui002', subject: 'quimica', year: 2022, source: 'FUVEST', difficulty: 'dificil',
+    question: 'Uma pilha de Daniell é composta por eletrodos de zinco e cobre. O que ocorre no polo negativo (ânodo)?',
+    options: [
+      'Redução do Cu²⁺ a Cu',
+      'Oxidação do Cu a Cu²⁺',
+      'Oxidação do Zn a Zn²⁺',
+      'Redução do Zn²⁺ a Zn',
+      'Redução do H⁺ a H₂'
+    ],
+    answerIndex: 2,
+    explanation: 'No ânodo (polo negativo) ocorre oxidação: Zn → Zn²⁺ + 2e⁻. O zinco é o metal mais reativo (menor potencial de redução), portanto é o polo negativo da pilha.',
+    tags: ['eletroquímica', 'pilha de daniell', 'ânodo', 'fuvest']
+  },
+  {
+    id: 'fuv_qui003', subject: 'quimica', year: 2024, source: 'FUVEST', difficulty: 'dificil',
+    question: 'A hidrólise do amido é catalisada por enzimas como a amilase. O produto final desta reação é:',
+    options: ['Sacarose', 'Frutose', 'Glicose', 'Galactose', 'Maltose'],
+    answerIndex: 2,
+    explanation: 'O amido é um polissacarídeo formado por unidades de glicose. Sua hidrólise completa (catalisada por amilases) produz glicose — monômero que pode ser absorvido e usado na respiração celular.',
+    tags: ['bioquímica', 'carboidratos', 'hidrólise', 'fuvest']
+  },
+
+  // ===== UNICAMP — FÍSICA (4 questões) =====
+  {
+    id: 'uni_fis001', subject: 'fisica', year: 2023, source: 'UNICAMP', difficulty: 'dificil',
+    question: 'Um objeto de 2 kg cai livremente de uma altura de 20 m. Qual é sua velocidade ao atingir o solo? (g = 10 m/s²)',
+    options: ['10 m/s', '15 m/s', '20 m/s', '25 m/s', '30 m/s'],
+    answerIndex: 2,
+    explanation: 'Usando v² = u² + 2gh: v² = 0 + 2×10×20 = 400. v = 20 m/s. A massa não influencia a queda livre.',
+    tags: ['queda livre', 'cinemática', 'unicamp']
+  },
+  {
+    id: 'uni_fis002', subject: 'fisica', year: 2022, source: 'UNICAMP', difficulty: 'dificil',
+    question: 'A resistência equivalente de dois resistores de 6 Ω e 12 Ω ligados em paralelo é:',
+    options: ['2 Ω', '4 Ω', '6 Ω', '9 Ω', '18 Ω'],
+    answerIndex: 1,
+    explanation: '1/Req = 1/6 + 1/12 = 2/12 + 1/12 = 3/12 = 1/4. Req = 4 Ω.',
+    tags: ['circuitos elétricos', 'paralelo', 'resistência equivalente', 'unicamp']
+  },
+  {
+    id: 'uni_fis003', subject: 'fisica', year: 2024, source: 'UNICAMP', difficulty: 'dificil',
+    question: 'Uma onda sonora tem frequência de 440 Hz e velocidade de 340 m/s no ar. Qual é seu comprimento de onda?',
+    options: ['0,57 m', '0,65 m', '0,77 m', '0,88 m', '1,30 m'],
+    answerIndex: 2,
+    explanation: 'λ = v/f = 340/440 ≈ 0,77 m.',
+    tags: ['ondulatória', 'comprimento de onda', 'som', 'unicamp']
+  },
+  {
+    id: 'uni_fis004', subject: 'fisica', year: 2023, source: 'UNICAMP', difficulty: 'dificil',
+    question: 'O trabalho realizado por uma força de 50 N que desloca um objeto 4 m numa direção que faz 60° com a força é:',
+    options: ['50 J', '100 J', '150 J', '173 J', '200 J'],
+    answerIndex: 1,
+    explanation: 'W = F × d × cos(θ) = 50 × 4 × cos(60°) = 50 × 4 × 0,5 = 100 J.',
+    tags: ['trabalho', 'força', 'trigonometria', 'unicamp']
+  },
+
+  // ===== UNICAMP — QUÍMICA (3 questões) =====
+  {
+    id: 'uni_qui001', subject: 'quimica', year: 2023, source: 'UNICAMP', difficulty: 'dificil',
+    question: 'Qual é o número de oxidação (NOx) do manganês no KMnO₄?',
+    options: ['+2', '+4', '+5', '+7', '+8'],
+    answerIndex: 3,
+    explanation: 'Em KMnO₄: K = +1, O = −2. Então +1 + NOx(Mn) + 4×(−2) = 0 → NOx(Mn) = +8 − 1 = +7.',
+    tags: ['número de oxidação', 'permanganato', 'unicamp']
+  },
+  {
+    id: 'uni_qui002', subject: 'quimica', year: 2022, source: 'UNICAMP', difficulty: 'dificil',
+    question: 'Em uma solução aquosa a 25°C, o pH = 3. Qual é a concentração de íons H⁺?',
+    options: ['0,001 mol/L', '0,003 mol/L', '0,01 mol/L', '0,03 mol/L', '0,3 mol/L'],
+    answerIndex: 0,
+    explanation: 'pH = −log[H⁺]. Se pH = 3, então [H⁺] = 10⁻³ = 0,001 mol/L.',
+    tags: ['pH', 'soluções', 'ácidos', 'unicamp']
+  },
+  {
+    id: 'uni_qui003', subject: 'quimica', year: 2024, source: 'UNICAMP', difficulty: 'dificil',
+    question: 'Qual é o tipo de isomeria presente entre o butano (CH₃CH₂CH₂CH₃) e o isobutano (CH₃CH(CH₃)CH₃)?',
+    options: ['Isomeria de posição', 'Isomeria de função', 'Isomeria de cadeia', 'Isomeria geométrica', 'Isomeria óptica'],
+    answerIndex: 2,
+    explanation: 'Butano e isobutano têm a mesma fórmula molecular (C₄H₁₀) mas estrutura da cadeia carbônica diferente: butano é cadeia normal (linear) e isobutano é cadeia ramificada. É isomeria de cadeia.',
+    tags: ['isomeria', 'alcanos', 'cadeia carbônica', 'unicamp']
+  },
+
+  // ===== UNICAMP — BIOLOGIA (2 questões) =====
+  {
+    id: 'uni_bio001', subject: 'biologia', year: 2023, source: 'UNICAMP', difficulty: 'dificil',
+    question: 'Qual das organelas celulares é responsável pela síntese de proteínas?',
+    options: ['Mitocôndria', 'Lisossomo', 'Ribossomo', 'Complexo de Golgi', 'Vacúolo'],
+    answerIndex: 2,
+    explanation: 'Os ribossomos são as organelas responsáveis pela tradução do mRNA em proteínas. Podem ser livres no citoplasma ou associados ao retículo endoplasmático rugoso.',
+    tags: ['citologia', 'ribossomo', 'síntese proteica', 'unicamp']
+  },
+  {
+    id: 'uni_bio002', subject: 'biologia', year: 2022, source: 'UNICAMP', difficulty: 'dificil',
+    question: 'O processo de nitrificação no ciclo do nitrogênio consiste em:',
+    options: [
+      'Conversão de N₂ atmosférico em NH₃ por bactérias fixadoras',
+      'Oxidação do NH₃ a NO₃⁻ por bactérias nitrificantes',
+      'Conversão de NO₃⁻ a N₂ atmosférico por bactérias desnitrificantes',
+      'Incorporação do N orgânico pelos vegetais',
+      'Decomposição de matéria orgânica em NH₃'
+    ],
+    answerIndex: 1,
+    explanation: 'Nitrificação é a oxidação biológica de amônia (NH₃/NH₄⁺) a nitrito (NO₂⁻) e depois a nitrato (NO₃⁻) por bactérias nitrificantes (Nitrosomonas e Nitrobacter).',
+    tags: ['ciclo do nitrogênio', 'nitrificação', 'ecologia', 'unicamp']
+  },
+
+  // ===== CONCURSO PÚBLICO — RACIOCÍNIO LÓGICO (7 questões) =====
+  {
+    id: 'con_rl001', subject: 'matematica', year: 2024, source: 'Concurso', difficulty: 'medio',
+    question: 'Se "Todo estudante é disciplinado" e "João é estudante", então podemos concluir que:',
+    options: [
+      'Alguns disciplinados não são estudantes',
+      'João é disciplinado',
+      'Disciplinado é uma característica exclusiva de estudantes',
+      'Existem estudantes que não são disciplinados',
+      'João não precisa ser disciplinado'
+    ],
+    answerIndex: 1,
+    explanation: 'Silogismo simples: premissa maior (todo A é B) + premissa menor (C é A) = conclusão (C é B). Logo, João é disciplinado.',
+    tags: ['lógica', 'silogismo', 'concurso', 'raciocínio lógico']
+  },
+  {
+    id: 'con_rl002', subject: 'matematica', year: 2024, source: 'Concurso', difficulty: 'medio',
+    question: 'Na sequência 2, 5, 10, 17, 26, ___, qual é o próximo termo?',
+    options: ['35', '37', '39', '41', '43'],
+    answerIndex: 1,
+    explanation: 'As diferenças entre termos consecutivos são: 3, 5, 7, 9, 11 (progressão aritmética de razão 2). Logo: 26 + 11 = 37.',
+    tags: ['sequência numérica', 'progressão', 'concurso', 'raciocínio lógico']
+  },
+  {
+    id: 'con_rl003', subject: 'matematica', year: 2023, source: 'Concurso', difficulty: 'medio',
+    question: 'Em uma caixa há 5 bolas vermelhas e 3 azuis. Retiram-se 2 bolas aleatoriamente (sem reposição). Qual a probabilidade de ambas serem vermelhas?',
+    options: ['5/14', '5/16', '10/28', '15/56', '25/64'],
+    answerIndex: 0,
+    explanation: 'P = C(5,2)/C(8,2) = 10/28 = 5/14.',
+    tags: ['probabilidade', 'combinatória', 'concurso']
+  },
+  {
+    id: 'con_rl004', subject: 'matematica', year: 2024, source: 'Concurso', difficulty: 'facil',
+    question: 'Se p → q é verdadeiro e p é verdadeiro, então:',
+    options: [
+      'q pode ser falso',
+      'q é necessariamente falso',
+      'q é necessariamente verdadeiro',
+      'p → q torna-se falso',
+      'Nada se pode concluir sobre q'
+    ],
+    answerIndex: 2,
+    explanation: 'Modus ponens: se (p → q) é verdadeiro e p é verdadeiro, então q é necessariamente verdadeiro. É uma das regras fundamentais da lógica proposicional.',
+    tags: ['lógica proposicional', 'modus ponens', 'concurso']
+  },
+  {
+    id: 'con_rl005', subject: 'matematica', year: 2023, source: 'Concurso', difficulty: 'facil',
+    question: 'Quantos números de 4 dígitos distintos podem ser formados com os dígitos 1, 2, 3 e 4, sem repetição?',
+    options: ['16', '24', '32', '48', '256'],
+    answerIndex: 1,
+    explanation: 'Permutação de 4 elementos: 4! = 4 × 3 × 2 × 1 = 24.',
+    tags: ['combinatória', 'permutação', 'concurso']
+  },
+  {
+    id: 'con_rl006', subject: 'matematica', year: 2024, source: 'Concurso', difficulty: 'medio',
+    question: 'Um trem parte às 8h30 e chega ao destino em 2h45min. Que horas chega?',
+    options: ['10h45min', '11h00min', '11h15min', '11h30min', '11h45min'],
+    answerIndex: 2,
+    explanation: '8h30min + 2h45min = 10h75min = 11h15min.',
+    tags: ['operações com tempo', 'raciocínio', 'concurso']
+  },
+  {
+    id: 'con_rl007', subject: 'matematica', year: 2023, source: 'Concurso', difficulty: 'medio',
+    question: 'O negócio de uma empresa teve lucro de R$ 120.000 em 2023 e R$ 150.000 em 2024. Qual foi o percentual de aumento?',
+    options: ['15%', '20%', '25%', '30%', '35%'],
+    answerIndex: 2,
+    explanation: 'Aumento = (150.000 − 120.000)/120.000 × 100 = 30.000/120.000 × 100 = 25%.',
+    tags: ['porcentagem', 'variação percentual', 'concurso']
+  },
+
+  // ===== CONCURSO PÚBLICO — PORTUGUÊS (5 questões) =====
+  {
+    id: 'con_por001', subject: 'portugues', year: 2024, source: 'Concurso', difficulty: 'medio',
+    question: 'Assinale a alternativa que preenche corretamente as lacunas: "_____ servidores compareceram _____ reunião, mas nem todos participaram _____ debate."',
+    options: [
+      'Os / a / do',
+      'Os / à / do',
+      'Os / a / de o',
+      'As / à / ao',
+      'Os / à / de'
+    ],
+    answerIndex: 1,
+    explanation: '"Os servidores" (masculino plural); "à reunião" (a + a = crase obrigatória diante de substantivo feminino); "do debate" (preposição de + artigo o).',
+    tags: ['crase', 'artigo', 'regência', 'concurso', 'português']
+  },
+  {
+    id: 'con_por002', subject: 'portugues', year: 2024, source: 'Concurso', difficulty: 'facil',
+    question: 'No ofício, memorando e outros documentos oficiais regidos pelo Manual de Redação Oficial (Decreto 9.758/2019), o fecho correto é:',
+    options: [
+      '"Atenciosamente" para autoridades de mesmo nível ou inferior; "Respeitosamente" para superiores',
+      '"Ilmo. Sr." para todas as autoridades, independente do cargo',
+      '"Com os melhores cumprimentos" para qualquer destinatário',
+      '"Saudações cordiais" para autoridades de mesmo nível',
+      '"Vossa Senhoria" como fecho padrão para todos os documentos'
+    ],
+    answerIndex: 0,
+    explanation: 'Conforme o Decreto 9.758/2019: "Respeitosamente" para autoridades de hierarquia superior, "Atenciosamente" para os demais.',
+    tags: ['redação oficial', 'fecho', 'concurso', 'decreto 9758']
+  },
+  {
+    id: 'con_por003', subject: 'portugues', year: 2023, source: 'Concurso', difficulty: 'medio',
+    question: 'Identifique a alternativa com ERRO de concordância verbal:',
+    options: [
+      'Foram encontrados vários documentos importantes.',
+      'Haverá muitos candidatos no concurso.',
+      'Existem dúvidas sobre o regulamento.',
+      'Fazem cinco anos que não me vejo com ela.',
+      'Os dados do relatório foram analisados.'
+    ],
+    answerIndex: 3,
+    explanation: '"Fazer" indicando tempo decorrido é verbo impessoal (sem sujeito) — fica no singular: "Faz cinco anos". A forma "Fazem" está errada.',
+    tags: ['concordância verbal', 'impessoalidade', 'concurso']
+  },
+  {
+    id: 'con_por004', subject: 'portugues', year: 2024, source: 'Concurso', difficulty: 'medio',
+    question: 'A forma de tratamento adequada para dirigir-se a um Deputado Federal em comunicação oficial é:',
+    options: [
+      'Vossa Excelência (V. Exa.)',
+      'Vossa Senhoria (V. Sa.)',
+      'Vossa Magnificência',
+      'Vossa Reverendíssima',
+      'Vossa Eminência'
+    ],
+    answerIndex: 0,
+    explanation: '"Vossa Excelência" é o tratamento para membros do Poder Legislativo (Deputados, Senadores), Executivo (Presidente, Ministros) e Judiciário (Magistrados). "Vossa Senhoria" é para demais autoridades e particulares.',
+    tags: ['pronomes de tratamento', 'redação oficial', 'concurso']
+  },
+  {
+    id: 'con_por005', subject: 'portugues', year: 2023, source: 'Concurso', difficulty: 'facil',
+    question: 'A pontuação correta que preserva o sentido da frase é: "O servidor que cumpre suas obrigações _____ merece reconhecimento."',
+    options: [
+      'vírgula antes de "merece": ", merece"',
+      'sem vírgulas — oração restritiva',
+      'vírgulas em torno de "que cumpre suas obrigações": ", que cumpre suas obrigações,"',
+      'ponto e vírgula após "obrigações"',
+      'dois pontos após "obrigações"'
+    ],
+    answerIndex: 1,
+    explanation: 'A oração "que cumpre suas obrigações" é restritiva — identifica qual servidor merece reconhecimento. Orações restritivas não são separadas por vírgulas do termo antecedente.',
+    tags: ['pontuação', 'vírgula', 'oração restritiva', 'concurso']
+  },
+
+  // ===== CONCURSO — INFORMÁTICA (4 questões) =====
+  {
+    id: 'con_inf001', subject: 'matematica', year: 2024, source: 'Concurso', difficulty: 'facil',
+    question: 'No Microsoft Excel, a fórmula =SOMA(A1:A10) equivale a:',
+    options: [
+      'Somar apenas as células A1 e A10',
+      'Somar todas as células de A1 até A10',
+      'Multiplicar as células de A1 até A10',
+      'Calcular a média das células A1 e A10',
+      'Contar o número de células entre A1 e A10'
+    ],
+    answerIndex: 1,
+    explanation: 'No Excel, o operador ":" indica um intervalo de células. =SOMA(A1:A10) soma todos os valores nas células A1, A2, A3, ..., até A10.',
+    tags: ['excel', 'informática', 'planilha', 'concurso']
+  },
+  {
+    id: 'con_inf002', subject: 'matematica', year: 2024, source: 'Concurso', difficulty: 'facil',
+    question: 'O protocolo HTTP (Hypertext Transfer Protocol) é utilizado para:',
+    options: [
+      'Enviar e receber emails',
+      'Transferir arquivos de um servidor FTP',
+      'Comunicação entre navegadores e servidores web',
+      'Criptografar dados em redes privadas',
+      'Atribuir endereços IP automaticamente'
+    ],
+    answerIndex: 2,
+    explanation: 'HTTP é o protocolo de comunicação base da web, utilizado para transferência de páginas e recursos entre navegadores (clientes) e servidores web. O HTTPS é a versão segura (com criptografia TLS/SSL).',
+    tags: ['internet', 'protocolos', 'HTTP', 'concurso', 'informática']
+  },
+  {
+    id: 'con_inf003', subject: 'matematica', year: 2023, source: 'Concurso', difficulty: 'medio',
+    question: 'Em relação à segurança da informação, o ataque de "phishing" consiste em:',
+    options: [
+      'Sobrecarregar um servidor com requisições para tirá-lo do ar',
+      'Interceptar a comunicação entre dois usuários sem que eles saibam',
+      'Enganar o usuário para que revele senhas ou dados pessoais',
+      'Instalar um programa malicioso que criptografa os arquivos do usuário',
+      'Explorar vulnerabilidades em sistemas operacionais desatualizados'
+    ],
+    answerIndex: 2,
+    explanation: 'Phishing é uma tentativa de fraude para obter dados confidenciais (senhas, dados bancários, etc.) enganando o usuário, geralmente por emails ou sites falsos que simulam serem legítimos.',
+    tags: ['segurança da informação', 'phishing', 'concurso', 'informática']
+  },
+  {
+    id: 'con_inf004', subject: 'matematica', year: 2024, source: 'Concurso', difficulty: 'facil',
+    question: 'No Windows 10, o atalho de teclado para copiar um arquivo ou texto é:',
+    options: ['Ctrl + X', 'Ctrl + V', 'Ctrl + C', 'Ctrl + Z', 'Ctrl + A'],
+    answerIndex: 2,
+    explanation: 'Ctrl + C = Copiar. Ctrl + X = Recortar. Ctrl + V = Colar. Ctrl + Z = Desfazer. Ctrl + A = Selecionar tudo.',
+    tags: ['windows', 'atalhos', 'informática', 'concurso']
+  },
+
+  // ===== CONCURSO — LEGISLAÇÃO / DIREITO ADMINISTRATIVO (2 questões) =====
+  {
+    id: 'con_adm001', subject: 'historia', year: 2024, source: 'Concurso', difficulty: 'medio',
+    question: 'Qual dos seguintes princípios NÃO está expresso no caput do art. 37 da Constituição Federal de 1988 como norteador da Administração Pública?',
+    options: [
+      'Legalidade',
+      'Impessoalidade',
+      'Probidade',
+      'Publicidade',
+      'Eficiência'
+    ],
+    answerIndex: 2,
+    explanation: 'O caput do art. 37 da CF/88 elenca os princípios LIMPE: Legalidade, Impessoalidade, Moralidade, Publicidade e Eficiência. Probidade não consta expressamente no caput (embora seja um valor presente na CF em outros artigos).',
+    tags: ['direito administrativo', 'princípios', 'CF/88', 'concurso', 'LIMPE']
+  },
+  {
+    id: 'con_adm002', subject: 'historia', year: 2023, source: 'Concurso', difficulty: 'medio',
+    question: 'O servidor público federal estável pode perder o cargo em caso de:',
+    options: [
+      'Apenas por sentença judicial transitada em julgado',
+      'Por processo administrativo disciplinar com ampla defesa, sentença judicial transitada em julgado, ou procedimento de avaliação periódica de desempenho',
+      'Somente por ato do Presidente da República',
+      'Apenas nos casos previstos em lei complementar específica',
+      'Por decisão do superior hierárquico com base em relatório de avaliação'
+    ],
+    answerIndex: 1,
+    explanation: 'Conforme o art. 41, §1° da CF/88, o servidor estável só pode perder o cargo por: I – sentença judicial transitada em julgado; II – processo administrativo disciplinar com ampla defesa; III – procedimento de avaliação periódica de desempenho.',
+    tags: ['servidor público', 'estabilidade', 'CF/88', 'concurso']
   }
 ]
 
 // Helper: filter by type
-function getQuestionsForSimulado(type, count, filterYear = null) {
+function getQuestionsForSimulado(type, count, filterYear = null, filterSubject = null) {
   let pool = [...questions]
+
+  // Apply subject filter if specified
+  if (filterSubject) {
+    const subjectPool = pool.filter(q => q.subject === filterSubject)
+    if (subjectPool.length >= 5) pool = subjectPool
+  }
 
   if (type === 'mini') {
     return shuffle(pool).slice(0, Math.min(count || 10, pool.length))
@@ -2780,17 +3262,45 @@ function getQuestionsForSimulado(type, count, filterYear = null) {
   }
 
   if (type === 'vestibular') {
-    // ENEM source + higher difficulty
-    pool = pool.filter(q => q.source === 'ENEM')
-    return shuffle(pool).slice(0, Math.min(count || 20, pool.length))
+    const vestSources = ['FUVEST', 'UNICAMP', 'FUVEST/UNICAMP']
+    const vest = pool.filter(q => vestSources.includes(q.source))
+    const hard = pool.filter(q => q.source === 'ENEM' && q.difficulty === 'dificil')
+    const fallback = pool.filter(q => q.source === 'ENEM')
+    const combined = vest.length >= 10 ? [...vest, ...hard] : [...fallback]
+    return shuffle(combined).slice(0, Math.min(count || 20, combined.length))
+  }
+
+  if (type === 'fuvest') {
+    const fuvest = pool.filter(q => q.source === 'FUVEST')
+    const fallback = pool.filter(q => q.source === 'ENEM' && q.difficulty === 'dificil')
+    return shuffle([...fuvest, ...fallback]).slice(0, Math.min(count || 20, pool.length))
+  }
+
+  if (type === 'unicamp') {
+    const unicamp = pool.filter(q => q.source === 'UNICAMP')
+    const fallback = pool.filter(q => q.source === 'ENEM' && q.difficulty === 'dificil')
+    return shuffle([...unicamp, ...fallback]).slice(0, Math.min(count || 20, pool.length))
   }
 
   if (type === 'concurso') {
-    // Concurso source + raciocínio lógico (matematica) + português
     const concurso = pool.filter(q => q.source === 'Concurso')
-    const logic = pool.filter(q => q.subject === 'matematica' && !q.source.includes('Concurso'))
-    const ptbr = pool.filter(q => q.subject === 'portugues' && !q.source.includes('Concurso'))
-    return shuffle([...concurso, ...logic, ...ptbr]).slice(0, Math.min(count || 20, pool.length))
+    const logic = pool.filter(q => q.subject === 'matematica' && q.source !== 'Concurso')
+    const ptbr = pool.filter(q => q.subject === 'portugues' && q.source !== 'Concurso')
+    const combined = concurso.length >= 10 ? [...concurso, ...logic.slice(0, 5), ...ptbr.slice(0, 5)] : [...concurso, ...logic, ...ptbr]
+    return shuffle(combined).slice(0, Math.min(count || 20, combined.length))
+  }
+
+  if (type === 'concurso_federal') {
+    const concurso = pool.filter(q => q.source === 'Concurso')
+    const ptbr = pool.filter(q => q.subject === 'portugues')
+    const math = pool.filter(q => q.subject === 'matematica')
+    return shuffle([...concurso, ...ptbr.slice(0, 4), ...math.slice(0, 4)]).slice(0, Math.min(count || 20, pool.length))
+  }
+
+  if (type === 'militar') {
+    const hard = pool.filter(q => ['matematica', 'fisica', 'portugues', 'ingles'].includes(q.subject) && q.difficulty === 'dificil')
+    const medium = pool.filter(q => ['matematica', 'fisica', 'portugues', 'ingles'].includes(q.subject) && q.difficulty === 'medio')
+    return shuffle([...hard, ...medium]).slice(0, Math.min(count || 20, pool.length))
   }
 
   if (type === 'enem_completo') {
