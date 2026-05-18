@@ -7,6 +7,15 @@ const { createClient } = require('@supabase/supabase-js')
 const Stripe = require('stripe')
 const { getQuestionsForSimulado, getQuestaoDodia } = require('./catalog/questions')
 
+// ===== SENTRY (optional — set SENTRY_DSN to enable) =====
+let Sentry = null
+if (process.env.SENTRY_DSN) {
+  try {
+    Sentry = require('@sentry/node')
+    Sentry.init({ dsn: process.env.SENTRY_DSN, tracesSampleRate: 0.1 })
+  } catch { Sentry = null }
+}
+
 // ===== STARTUP VALIDATION =====
 const REQUIRED = ['ANTHROPIC_API_KEY', 'SUPABASE_URL', 'SUPABASE_SERVICE_KEY', 'STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET', 'FRONTEND_URL']
 const missing = REQUIRED.filter(k => !process.env[k])
@@ -85,6 +94,14 @@ async function sendEmail({ to, subject, html }) {
   }
 }
 
+const XP_LEVEL_NAME = xp => {
+  if (xp >= 1500) return 'Mestre 🏆'
+  if (xp >= 700) return 'Expert ⭐'
+  if (xp >= 300) return 'Veterano 🎓'
+  if (xp >= 100) return 'Estudante 📘'
+  return 'Iniciante 🌱'
+}
+
 const EMAIL_TEMPLATES = {
   welcome: (name) => ({
     subject: `${name ? name + ', bem' : 'Bem'}-vindo ao Decifra! 🎉`,
@@ -111,6 +128,40 @@ const EMAIL_TEMPLATES = {
       <p style="color:#f59e0b;font-size:18px;font-weight:700;margin-bottom:24px">⚡ Missão de hoje: resolver 5 questões em qualquer matéria</p>
       <a href="${process.env.FRONTEND_URL}/app" style="background:#3b82f6;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;display:inline-block;margin-bottom:24px">Estudar agora →</a>
       <p style="color:#6b7280;font-size:13px">Dica: o Mini-simulado tem 10 questões e leva só 15 minutos.</p>
+    </div>`
+  }),
+  d3trial: (name, stats) => ({
+    subject: `${name ? name.split(' ')[0] + ', seu' : 'Seu'} trial Pro acaba em 4 dias ⏳`,
+    html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0a0f1e;color:#f9fafb;padding:32px;border-radius:16px">
+      <h1 style="color:#3b82f6;font-size:28px;margin-bottom:8px">Decifra<span style="color:#3b82f6">.</span></h1>
+      <h2 style="font-size:22px;margin-bottom:16px">Ei${name ? ', ' + name.split(' ')[0] : ''}! Veja seu progresso até agora 📊</h2>
+      <div style="background:#111827;border:1px solid #1e2d4a;border-radius:12px;padding:20px;margin-bottom:24px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:12px">
+          <div style="text-align:center">
+            <div style="font-size:28px;font-weight:900;color:#3b82f6">${stats.totalQuestions || 0}</div>
+            <div style="font-size:12px;color:#9ca3af">questões respondidas</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:28px;font-weight:900;color:#10b981">${stats.accuracy || 0}%</div>
+            <div style="font-size:12px;color:#9ca3af">de acertos</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:28px;font-weight:900;color:#f59e0b">${stats.xp || 0}</div>
+            <div style="font-size:12px;color:#9ca3af">XP acumulados</div>
+          </div>
+        </div>
+        <div style="text-align:center;padding-top:12px;border-top:1px solid #1e2d4a">
+          <span style="color:#a78bfa;font-weight:700">Seu nível: ${XP_LEVEL_NAME(stats.xp || 0)}</span>
+        </div>
+      </div>
+      <p style="color:#9ca3af;line-height:1.6;margin-bottom:16px">Seu trial Pro acaba em <strong style="color:#f59e0b">4 dias</strong>. Antes de acabar, experimente:</p>
+      <ul style="color:#9ca3af;line-height:2;margin-bottom:24px">
+        <li>📋 <strong style="color:#f9fafb">Plano de estudo</strong> — cronograma semanal para sua prova</li>
+        <li>✍️ <strong style="color:#f9fafb">Correção de redação</strong> — nota 0-1000 nas 5 competências ENEM</li>
+        <li>🤖 <strong style="color:#f9fafb">Simulado IA</strong> — banco infinito de questões únicas</li>
+      </ul>
+      <a href="${process.env.FRONTEND_URL}/app" style="background:#3b82f6;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;display:inline-block;margin-bottom:16px">Continuar estudando →</a>
+      <p style="color:#6b7280;font-size:13px">Depois do trial, o Pro custa R$29/mês. Cancele quando quiser.</p>
     </div>`
   }),
   d5: (name) => ({
@@ -146,26 +197,50 @@ const EMAIL_TEMPLATES = {
       <a href="${process.env.FRONTEND_URL}/app" style="background:#3b82f6;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;display:inline-block;margin-bottom:24px">Assinar Pro agora →</a>
       <p style="color:#6b7280;font-size:13px">Cancele quando quiser. Sem compromisso.</p>
     </div>`
+  }),
+  streakRisk: (name, streak) => ({
+    subject: `🔥 Seu streak de ${streak} dia${streak > 1 ? 's' : ''} está em risco, ${name ? name.split(' ')[0] : 'aluno'}!`,
+    html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0a0f1e;color:#f9fafb;padding:32px;border-radius:16px">
+      <h1 style="color:#3b82f6;font-size:28px;margin-bottom:8px">Decifra<span style="color:#3b82f6">.</span></h1>
+      <h2 style="font-size:22px;margin-bottom:16px">Ei${name ? ', ' + name.split(' ')[0] : ''}! Seu streak vai zerar à meia-noite 😱</h2>
+      <div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:12px;padding:20px;text-align:center;margin-bottom:24px">
+        <div style="font-size:48px;margin-bottom:8px">🔥</div>
+        <div style="font-size:36px;font-weight:900;color:#f59e0b">${streak} dia${streak > 1 ? 's' : ''} seguidos</div>
+        <div style="color:#9ca3af;font-size:14px;margin-top:4px">em risco de zerar hoje</div>
+      </div>
+      <p style="color:#9ca3af;line-height:1.6;margin-bottom:24px">Você ainda não estudou hoje. São só <strong style="color:#f9fafb">5 questões</strong> para manter o streak. Leva menos de 5 minutos!</p>
+      <a href="${process.env.FRONTEND_URL}/app" style="background:#f59e0b;color:#0a0f1e;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:800;display:inline-block;margin-bottom:24px;font-size:16px">Salvar meu streak agora →</a>
+      <p style="color:#6b7280;font-size:13px">Responda a questão do dia e já conta! 📚</p>
+    </div>`
   })
 }
 
-// Daily cron: send D2, D5, D7 nurturing emails at 10am BRT (13h UTC)
+// Daily cron: send D2, D3 (personalizado), D5, D7 nurturing emails at 10am BRT (13h UTC)
 cron.schedule('0 13 * * *', async () => {
   if (!process.env.RESEND_API_KEY) return
   const now = new Date()
-  for (const [days, key] of [[2, 'd2'], [5, 'd5'], [7, 'd7']]) {
+
+  for (const [days, key] of [[2, 'd2'], [3, 'd3trial'], [5, 'd5'], [7, 'd7']]) {
     const since = new Date(now)
     since.setDate(since.getDate() - days)
     const from = new Date(since); from.setHours(0, 0, 0, 0)
     const to = new Date(since); to.setHours(23, 59, 59, 999)
     try {
       const { data } = await supabase.from('decifra_users')
-        .select('id, email, name, email_sequences')
+        .select('id, email, name, email_sequences, xp, total_questions, correct, plan')
         .gte('registered_at', from.toISOString())
         .lte('registered_at', to.toISOString())
       for (const user of (data || [])) {
         if (user.email_sequences?.[key]) continue
-        const tmpl = EMAIL_TEMPLATES[key](user.name)
+        // D3 só para usuários em trial
+        if (key === 'd3trial' && user.plan !== 'trialing') continue
+        let tmpl
+        if (key === 'd3trial') {
+          const accuracy = user.total_questions > 0 ? Math.round((user.correct / user.total_questions) * 100) : 0
+          tmpl = EMAIL_TEMPLATES.d3trial(user.name, { totalQuestions: user.total_questions || 0, accuracy, xp: user.xp || 0 })
+        } else {
+          tmpl = EMAIL_TEMPLATES[key](user.name)
+        }
         await sendEmail({ to: user.email, ...tmpl })
         const seqs = user.email_sequences || {}
         seqs[key] = true
@@ -174,6 +249,30 @@ cron.schedule('0 13 * * *', async () => {
     } catch (err) {
       console.error(`Cron email ${key} error:`, err.message)
     }
+  }
+})
+
+// Daily cron: streak em risco — 20h BRT (23h UTC)
+cron.schedule('0 23 * * *', async () => {
+  if (!process.env.RESEND_API_KEY) return
+  const today = new Date().toDateString()
+  try {
+    const { data } = await supabase.from('decifra_users')
+      .select('id, email, name, streak, onboarding, email_sequences')
+      .gte('streak', 1)
+    for (const user of (data || [])) {
+      const lastStudy = user.onboarding?.last_study_date
+      if (lastStudy === today) continue // já estudou hoje
+      const seqKey = `streak_risk_${new Date().toISOString().slice(0, 10)}`
+      if (user.email_sequences?.[seqKey]) continue
+      const tmpl = EMAIL_TEMPLATES.streakRisk(user.name, user.streak)
+      await sendEmail({ to: user.email, ...tmpl })
+      const seqs = user.email_sequences || {}
+      seqs[seqKey] = true
+      await supabase.from('decifra_users').update({ email_sequences: seqs }).eq('id', user.id)
+    }
+  } catch (err) {
+    console.error('Cron streak risk error:', err.message)
   }
 })
 
@@ -949,6 +1048,29 @@ app.post('/api/erros/save', authMiddleware, async (req, res) => {
   } catch { res.json({ ok: true }) }
 })
 
+// ===== PERFIL PÚBLICO =====
+app.get('/api/perfil/:userId', async (req, res) => {
+  try {
+    const { data: profile } = await supabase
+      .from('decifra_users')
+      .select('name, xp, streak, total_questions, correct, subjects, simulados_done')
+      .eq('id', req.params.userId)
+      .single()
+    if (!profile) return res.status(404).json({ error: 'Perfil não encontrado' })
+    res.json({
+      name: profile.name || 'Estudante',
+      xp: profile.xp || 0,
+      streak: profile.streak || 0,
+      totalQuestions: profile.total_questions || 0,
+      correct: profile.correct || 0,
+      subjects: profile.subjects || {},
+      simuladosDone: profile.simulados_done || 0
+    })
+  } catch {
+    res.status(500).json({ error: 'Erro ao carregar perfil' })
+  }
+})
+
 // ===== KEEP ALIVE =====
 setInterval(() => {
   if (process.env.RAILWAY_PUBLIC_DOMAIN) {
@@ -957,6 +1079,13 @@ setInterval(() => {
 }, 4 * 60 * 1000)
 
 app.get('/health', (req, res) => res.json({ ok: true }))
+
+// ===== ERROR HANDLER =====
+app.use((err, req, res, next) => {
+  if (Sentry) Sentry.captureException(err)
+  else console.error('Unhandled error:', err)
+  res.status(500).json({ error: 'Erro interno do servidor' })
+})
 
 // ===== START =====
 const PORT = process.env.PORT || 3000

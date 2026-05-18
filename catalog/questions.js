@@ -2022,6 +2022,744 @@ const questions = [
     answerIndex: 1,
     explanation: 'The "the more…, the more/better…" structure expresses proportional correlation: as one thing increases, another changes proportionally.',
     tags: ['proportional comparison', 'the more the better', 'grammar']
+  },
+
+  // ── MATEMÁTICA adicionais (mat031–mat040) ──────────────────────────────────
+  {
+    id: 'mat031', subject: 'matematica', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: 'Um triângulo tem lados medindo 3, 4 e 5. Esse triângulo é:',
+    options: ['Equilátero', 'Isósceles', 'Retângulo', 'Obtusângulo', 'Acutângulo'],
+    answerIndex: 2,
+    explanation: '3² + 4² = 9 + 16 = 25 = 5². Como a² + b² = c², pelo Teorema de Pitágoras o triângulo é retângulo.',
+    tags: ['Teorema de Pitágoras', 'triângulo retângulo', 'geometria']
+  },
+  {
+    id: 'mat032', subject: 'matematica', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'O número de diagonais de um polígono com 7 lados é:',
+    options: ['7', '10', '14', '21', '28'],
+    answerIndex: 2,
+    explanation: 'Fórmula: D = n(n−3)/2. Para n = 7: D = 7×4/2 = 14.',
+    tags: ['polígonos', 'diagonais', 'combinatória']
+  },
+  {
+    id: 'mat033', subject: 'matematica', year: 2022, source: 'ENEM', difficulty: 'facil',
+    question: 'Quantos arranjos de 3 letras podem ser formados com as letras A, B, C, D (sem repetição)?',
+    options: ['6', '12', '24', '64', '4'],
+    answerIndex: 2,
+    explanation: 'A(4,3) = 4!/(4-3)! = 4×3×2 = 24 arranjos.',
+    tags: ['análise combinatória', 'arranjo', 'contagem']
+  },
+  {
+    id: 'mat034', subject: 'matematica', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: 'A equação da reta que passa pelos pontos (0,2) e (3,0) é:',
+    options: ['y = 2x + 3', 'y = −(2/3)x + 2', 'y = (2/3)x + 2', 'y = −2x + 3', 'y = 3x − 2'],
+    answerIndex: 1,
+    explanation: 'Coeficiente angular m = (0−2)/(3−0) = −2/3. Na forma y = mx + b: y = −(2/3)x + 2.',
+    tags: ['geometria analítica', 'equação da reta', 'coeficiente angular']
+  },
+  {
+    id: 'mat035', subject: 'matematica', year: 2023, source: 'ENEM', difficulty: 'dificil',
+    question: 'Numa PG, o 1º termo é 2 e a razão é 3. Qual é a soma dos 4 primeiros termos?',
+    options: ['20', '24', '80', '54', '56'],
+    answerIndex: 2,
+    explanation: 'Termos: 2, 6, 18, 54. Soma = 2+6+18+54 = 80. Fórmula: Sₙ = a₁(qⁿ−1)/(q−1) = 2(81−1)/2 = 80.',
+    tags: ['PG', 'progressão geométrica', 'soma']
+  },
+  {
+    id: 'mat036', subject: 'matematica', year: 2025, source: 'ENEM', difficulty: 'medio',
+    question: 'Um retângulo tem lados 6 cm e 8 cm. Qual é a diagonal do retângulo?',
+    options: ['7 cm', '9 cm', '10 cm', '12 cm', '14 cm'],
+    answerIndex: 2,
+    explanation: 'Diagonal² = 6² + 8² = 36 + 64 = 100. Diagonal = √100 = 10 cm.',
+    tags: ['Teorema de Pitágoras', 'retângulo', 'diagonal']
+  },
+  {
+    id: 'mat037', subject: 'matematica', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'Se log₂ x = 4, qual é o valor de x?',
+    options: ['2', '4', '8', '16', '32'],
+    answerIndex: 3,
+    explanation: 'log₂ x = 4 ⟺ x = 2⁴ = 16.',
+    tags: ['logaritmo', 'álgebra', 'exponencial']
+  },
+  {
+    id: 'mat038', subject: 'matematica', year: 2023, source: 'ENEM', difficulty: 'facil',
+    question: 'Um copo tem capacidade de 250 mL. Quantos copos são necessários para encher um recipiente de 3 litros?',
+    options: ['8', '10', '12', '15', '20'],
+    answerIndex: 2,
+    explanation: '3 litros = 3000 mL. 3000 ÷ 250 = 12 copos.',
+    tags: ['conversão de unidades', 'capacidade', 'matemática básica']
+  },
+  {
+    id: 'mat039', subject: 'matematica', year: 2024, source: 'ENEM', difficulty: 'dificil',
+    question: 'O número de subconjuntos de um conjunto com 5 elementos é:',
+    options: ['10', '25', '32', '64', '120'],
+    answerIndex: 2,
+    explanation: 'Um conjunto com n elementos tem 2ⁿ subconjuntos (incluindo o vazio e o próprio conjunto). 2⁵ = 32.',
+    tags: ['conjuntos', 'subconjuntos', 'combinatória']
+  },
+  {
+    id: 'mat040', subject: 'matematica', year: 2025, source: 'ENEM', difficulty: 'medio',
+    question: 'Qual é o valor de sen(60°)?',
+    options: ['1/2', '√2/2', '√3/2', '1', '√3'],
+    answerIndex: 2,
+    explanation: 'No triângulo equilátero, sen(60°) = √3/2 ≈ 0,866. Tabela trigonométrica: sen(30°)=1/2, sen(45°)=√2/2, sen(60°)=√3/2.',
+    tags: ['trigonometria', 'seno', 'ângulos notáveis']
+  },
+
+  // ── PORTUGUÊS adicionais (por026–por035) ───────────────────────────────────
+  {
+    id: 'por026', subject: 'portugues', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: 'Em "Todos os alunos fizeram a prova", a função sintática de "Todos os alunos" é:',
+    options: ['Objeto direto', 'Predicado', 'Sujeito composto', 'Complemento nominal', 'Sujeito simples'],
+    answerIndex: 4,
+    explanation: '"Todos os alunos" é o sujeito da oração. É sujeito simples, pois tem apenas um núcleo (alunos), mesmo com determinante "todos".',
+    tags: ['sintaxe', 'sujeito', 'análise sintática']
+  },
+  {
+    id: 'por027', subject: 'portugues', year: 2023, source: 'ENEM', difficulty: 'facil',
+    question: 'Qual das seguintes palavras tem dígrafo?',
+    options: ['Sala', 'Casa', 'Chuva', 'Foto', 'Bola'],
+    answerIndex: 2,
+    explanation: '"Chuva" contém o dígrafo "ch" (dois grafemas representando um único fonema /ʃ/).',
+    tags: ['fonologia', 'dígrafo', 'ortografia']
+  },
+  {
+    id: 'por028', subject: 'portugues', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: '"O livro que você leu foi excelente." A oração "que você leu" é:',
+    options: ['Oração coordenada assindética', 'Oração subordinada adverbial causal', 'Oração subordinada adjetiva restritiva', 'Oração subordinada substantiva objetiva', 'Oração coordenada sindética aditiva'],
+    answerIndex: 2,
+    explanation: 'A oração "que você leu" é uma oração subordinada adjetiva restritiva: modifica e restringe o substantivo "livro", sem vírgulas.',
+    tags: ['período composto', 'oração adjetiva', 'sintaxe']
+  },
+  {
+    id: 'por029', subject: 'portugues', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: 'Qual recurso de linguagem é usado em "A morte ceifou a vida do jovem artista"?',
+    options: ['Prosopopeia (personificação)', 'Antítese', 'Eufemismo', 'Ironia', 'Hipérbole'],
+    answerIndex: 0,
+    explanation: 'A prosopopeia (ou personificação) atribui ação humana ("ceifar") a um ser inanimado ou abstrato ("a morte").',
+    tags: ['figuras de linguagem', 'prosopopeia', 'personificação']
+  },
+  {
+    id: 'por030', subject: 'portugues', year: 2023, source: 'ENEM', difficulty: 'dificil',
+    question: 'Em "Minha terra tem palmeiras, onde canta o Sabiá" (Gonçalves Dias), o movimento literário é:',
+    options: ['Barroco', 'Arcadismo', 'Romantismo', 'Realismo', 'Modernismo'],
+    answerIndex: 2,
+    explanation: 'Gonçalves Dias é poeta romântico (1ª geração do Romantismo brasileiro). A valorização da natureza e do índio como temas nacionais é característica do indianismo romântico.',
+    tags: ['literatura brasileira', 'Romantismo', 'Gonçalves Dias', 'indianismo']
+  },
+  {
+    id: 'por031', subject: 'portugues', year: 2022, source: 'ENEM', difficulty: 'facil',
+    question: 'Assinale a alternativa com grafia CORRETA segundo o Novo Acordo Ortográfico:',
+    options: ['Idéia', 'Heróico', 'Vôo', 'Pêlo (substantivo)', 'Feiura'],
+    answerIndex: 4,
+    explanation: 'Pelo Acordo Ortográfico de 2009, não se usa mais acento nos hiatos "éi" (ideia), ditongos "oi" (heroico), e palavras como "voo" e "pelo". "Feiura" nunca teve acento — está sempre correta.',
+    tags: ['ortografia', 'acordo ortográfico', 'acentuação']
+  },
+  {
+    id: 'por032', subject: 'portugues', year: 2025, source: 'ENEM', difficulty: 'medio',
+    question: 'O tipo de discurso em que o narrador reproduz exatamente as falas das personagens é chamado de:',
+    options: ['Discurso indireto', 'Discurso indireto livre', 'Discurso direto', 'Monólogo interior', 'Narrador onisciente'],
+    answerIndex: 2,
+    explanation: 'No discurso direto, o narrador transcreve literalmente a fala da personagem, geralmente introduzida por verbos de elocução e dois-pontos ou travessão.',
+    tags: ['discurso', 'narrador', 'gêneros literários']
+  },
+  {
+    id: 'por033', subject: 'portugues', year: 2024, source: 'ENEM', difficulty: 'dificil',
+    question: '"Dom Casmurro", de Machado de Assis, pertence ao movimento literário:',
+    options: ['Romantismo', 'Naturalismo', 'Realismo', 'Parnasianismo', 'Simbolismo'],
+    answerIndex: 2,
+    explanation: 'Machado de Assis é o maior representante do Realismo brasileiro. Dom Casmurro (1899) analisa psicologicamente Bentinho e Capitu com narrador não confiável.',
+    tags: ['Realismo', 'Machado de Assis', 'Dom Casmurro', 'literatura brasileira']
+  },
+  {
+    id: 'por034', subject: 'portugues', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'Qual é a função do pronome relativo "que" em "O aluno que estudou passou"?',
+    options: ['Pronome pessoal', 'Pronome demonstrativo', 'Introdutor de oração subordinada adjetiva', 'Conjunção subordinativa causal', 'Preposição'],
+    answerIndex: 2,
+    explanation: 'O pronome relativo "que" retoma o antecedente "aluno" e introduz a oração subordinada adjetiva restritiva "que estudou".',
+    tags: ['pronome relativo', 'oração adjetiva', 'gramática']
+  },
+  {
+    id: 'por035', subject: 'portugues', year: 2022, source: 'ENEM', difficulty: 'facil',
+    question: 'Qual das alternativas apresenta um advérbio de modo?',
+    options: ['Ontem', 'Aqui', 'Talvez', 'Rapidamente', 'Nunca'],
+    answerIndex: 3,
+    explanation: '"Rapidamente" é advérbio de modo (como algo acontece). "Ontem" = tempo; "Aqui" = lugar; "Talvez" = dúvida; "Nunca" = negação.',
+    tags: ['advérbio', 'morfologia', 'gramática']
+  },
+
+  // ── BIOLOGIA adicionais (bio024–bio033) ────────────────────────────────────
+  {
+    id: 'bio024', subject: 'biologia', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: 'O processo de transpiração nas plantas ocorre principalmente por meio de:',
+    options: ['Lenticelas', 'Estômatos', 'Raízes', 'Caules', 'Flores'],
+    answerIndex: 1,
+    explanation: 'A transpiração ocorre principalmente pelos estômatos, poros localizados nas folhas. Eles regulam a saída de vapor d\'água e as trocas gasosas.',
+    tags: ['botânica', 'transpiração', 'estômatos']
+  },
+  {
+    id: 'bio025', subject: 'biologia', year: 2023, source: 'ENEM', difficulty: 'facil',
+    question: 'Qual das alternativas representa um animal invertebrado?',
+    options: ['Tubarão', 'Golfinho', 'Aranha', 'Crocodilo', 'Salamandra'],
+    answerIndex: 2,
+    explanation: 'A aranha é um artrópode, portanto invertebrado. Tubarão, golfinho, crocodilo e salamandra são vertebrados.',
+    tags: ['zoologia', 'invertebrados', 'artrópodes']
+  },
+  {
+    id: 'bio026', subject: 'biologia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'A lei de Mendel que afirma que genes para diferentes características segregam-se independentemente durante a formação dos gametas é a:',
+    options: ['Lei da segregação', 'Lei da dominância', 'Lei da transmissão independente (2ª lei)', 'Lei da herança ligada ao sexo', 'Lei de Hardy-Weinberg'],
+    answerIndex: 2,
+    explanation: 'A 2ª lei de Mendel (segregação independente) estabelece que genes para caracteres diferentes se distribuem independentemente para os gametas, desde que estejam em cromossomos diferentes.',
+    tags: ['genética', 'Mendel', '2ª lei', 'diibrido']
+  },
+  {
+    id: 'bio027', subject: 'biologia', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: 'O gás responsável por absorver a radiação ultravioleta na atmosfera e compor a camada de ozônio é:',
+    options: ['CO₂', 'N₂', 'O₃', 'CH₄', 'H₂O'],
+    answerIndex: 2,
+    explanation: 'O ozônio (O₃) na estratosfera absorve a radiação UV do sol, protegendo os seres vivos. CFCs e outros compostos destroem essa camada.',
+    tags: ['ecologia', 'camada de ozônio', 'UV', 'atmosfera']
+  },
+  {
+    id: 'bio028', subject: 'biologia', year: 2023, source: 'ENEM', difficulty: 'dificil',
+    question: 'A fermentação alcoólica realizada por leveduras produz, além de etanol:',
+    options: ['O₂', 'CO₂', 'Ácido lático', 'Água', 'Glicose'],
+    answerIndex: 1,
+    explanation: 'Glicose → 2 etanol + 2 CO₂. O gás carbônico produzido é responsável pelo crescimento do pão e pela carbonatação de bebidas fermentadas.',
+    tags: ['fermentação', 'metabolismo', 'leveduras', 'biotecnologia']
+  },
+  {
+    id: 'bio029', subject: 'biologia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'Qual das estruturas a seguir é exclusiva das células vegetais?',
+    options: ['Mitocôndria', 'Ribossomo', 'Membrana plasmática', 'Cloroplasto', 'Núcleo'],
+    answerIndex: 3,
+    explanation: 'O cloroplasto é exclusivo das células vegetais e é responsável pela fotossíntese. Mitocôndria, ribossomo, membrana e núcleo ocorrem em células animais e vegetais.',
+    tags: ['citologia', 'célula vegetal', 'cloroplasto', 'organelas']
+  },
+  {
+    id: 'bio030', subject: 'biologia', year: 2025, source: 'ENEM', difficulty: 'medio',
+    question: 'O vírus HIV ataca principalmente as células:',
+    options: ['Eritrócitos', 'Neurônios', 'Linfócitos T CD4+', 'Fibroblastos', 'Hepatócitos'],
+    answerIndex: 2,
+    explanation: 'O HIV infecta linfócitos T CD4+ (células T auxiliares), comprometendo a imunidade celular e levando à AIDS quando a contagem dessas células cai abaixo de 200/mm³.',
+    tags: ['imunologia', 'HIV', 'AIDS', 'linfócitos']
+  },
+  {
+    id: 'bio031', subject: 'biologia', year: 2024, source: 'ENEM', difficulty: 'facil',
+    question: 'A relação ecológica entre o caranguejo-eremita que usa a concha de um molusco morto é chamada de:',
+    options: ['Parasitismo', 'Mutualismo', 'Comensalismo', 'Predação', 'Competição'],
+    answerIndex: 2,
+    explanation: 'Comensalismo: um organismo (+) se beneficia sem prejudicar o outro (0). O caranguejo usa a concha vazia sem prejudicar nenhum outro ser vivo.',
+    tags: ['ecologia', 'relações ecológicas', 'comensalismo']
+  },
+  {
+    id: 'bio032', subject: 'biologia', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'Em uma cadeia alimentar, a energia disponível para o nível trófico seguinte é de aproximadamente:',
+    options: ['100%', '50%', '10%', '1%', '90%'],
+    answerIndex: 2,
+    explanation: 'Regra dos 10%: apenas 10% da energia de um nível trófico é transferida ao nível seguinte. O restante é perdido como calor (respiração). Por isso cadeias alimentares têm poucos elos.',
+    tags: ['ecologia', 'cadeia alimentar', 'fluxo de energia', 'regra dos 10%']
+  },
+  {
+    id: 'bio033', subject: 'biologia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'O tipo sanguíneo que pode doar para qualquer outro tipo é chamado de "doador universal". Qual é?',
+    options: ['A', 'B', 'AB', 'O negativo', 'O positivo'],
+    answerIndex: 3,
+    explanation: 'O tipo O negativo não possui antígenos A, B nem D (Rh-) nas hemácias, podendo ser doado a qualquer receptor sem causar reação de incompatibilidade sanguínea.',
+    tags: ['genética', 'sistema ABO', 'transfusão', 'doador universal']
+  },
+
+  // ── QUÍMICA adicionais (qui023–qui032) ─────────────────────────────────────
+  {
+    id: 'qui023', subject: 'quimica', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: 'A destilação fracionada é usada para separar:',
+    options: ['Sólido dissolvido em líquido', 'Dois sólidos', 'Líquidos miscíveis com pontos de ebulição diferentes', 'Sólido insolúvel de um líquido', 'Misturas homogêneas sólidas'],
+    answerIndex: 2,
+    explanation: 'A destilação fracionada separa líquidos miscíveis de pontos de ebulição diferentes (ex: refinamento do petróleo, separação do ar líquido).',
+    tags: ['separação de misturas', 'destilação fracionada', 'química geral']
+  },
+  {
+    id: 'qui024', subject: 'quimica', year: 2023, source: 'ENEM', difficulty: 'facil',
+    question: 'Qual das substâncias a seguir é um exemplo de mistura homogênea?',
+    options: ['Granito', 'Areia e água', 'Óleo e água', 'Água e sal dissolvido', 'Pedregulho'],
+    answerIndex: 3,
+    explanation: 'Mistura homogênea (solução): tem aparência uniforme e não permite distinguir os componentes a olho nu. Água com sal dissolvido é um exemplo clássico.',
+    tags: ['misturas', 'solução', 'química geral']
+  },
+  {
+    id: 'qui025', subject: 'quimica', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'O pH de uma solução aquosa de ácido clorídrico (HCl) 0,01 mol/L é:',
+    options: ['1', '2', '7', '12', '14'],
+    answerIndex: 1,
+    explanation: '[H⁺] = 0,01 = 10⁻². pH = −log[H⁺] = −log(10⁻²) = 2. Soluções ácidas têm pH < 7.',
+    tags: ['pH', 'ácidos', 'HCl', 'logaritmo']
+  },
+  {
+    id: 'qui026', subject: 'quimica', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: 'A reação de neutralização entre ácido e base produz:',
+    options: ['Ácido mais forte', 'Apenas gás', 'Sal + água', 'Apenas base', 'Óxido + água'],
+    answerIndex: 2,
+    explanation: 'Ácido + Base → Sal + Água. Ex: HCl + NaOH → NaCl + H₂O. É a reação de neutralização.',
+    tags: ['funções inorgânicas', 'neutralização', 'ácido', 'base']
+  },
+  {
+    id: 'qui027', subject: 'quimica', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'O petróleo é formado principalmente por compostos de:',
+    options: ['Carbono e nitrogênio', 'Carbono e hidrogênio (hidrocarbonetos)', 'Enxofre e oxigênio', 'Sódio e cloro', 'Cálcio e fósforo'],
+    answerIndex: 1,
+    explanation: 'O petróleo é composto principalmente por hidrocarbonetos (alcanos, alcenos, cicloalcanos), substâncias formadas por C e H. Contém também pequenas quantidades de S, N e metais.',
+    tags: ['hidrocarbonetos', 'petróleo', 'química orgânica']
+  },
+  {
+    id: 'qui028', subject: 'quimica', year: 2022, source: 'ENEM', difficulty: 'dificil',
+    question: 'Na eletrólise da água, o gás produzido no catodo é:',
+    options: ['Oxigênio (O₂)', 'Ozônio (O₃)', 'Hidrogênio (H₂)', 'Dióxido de carbono (CO₂)', 'Monóxido de carbono (CO)'],
+    answerIndex: 2,
+    explanation: 'Na eletrólise da água: catodo (−) → redução → 2H₂O + 2e⁻ → H₂ + 2OH⁻. Ânodo (+) → oxidação → O₂. O hidrogênio é produzido no catodo.',
+    tags: ['eletrólise', 'redox', 'eletroquímica', 'hidrogênio']
+  },
+  {
+    id: 'qui029', subject: 'quimica', year: 2025, source: 'ENEM', difficulty: 'medio',
+    question: 'O número atômico do carbono é 6. Quantos prótons e elétrons ele possui no estado neutro?',
+    options: ['6 prótons e 12 elétrons', '6 prótons e 6 elétrons', '12 prótons e 6 elétrons', '6 prótons e 8 elétrons', '8 prótons e 6 elétrons'],
+    answerIndex: 1,
+    explanation: 'O número atômico (Z) = número de prótons. No átomo neutro, número de prótons = número de elétrons. Logo: 6 prótons e 6 elétrons.',
+    tags: ['estrutura atômica', 'número atômico', 'prótons', 'elétrons']
+  },
+  {
+    id: 'qui030', subject: 'quimica', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: 'Qual das funções orgânicas a seguir está presente no álcool etílico (etanol)?',
+    options: ['Éster', 'Ácido carboxílico', 'Cetona', 'Álcool (hidroxila −OH)', 'Aldeído'],
+    answerIndex: 3,
+    explanation: 'O etanol (CH₃CH₂OH) é um álcool: contém o grupo funcional hidroxila (−OH) ligado a carbono saturado.',
+    tags: ['química orgânica', 'álcool', 'função orgânica', 'etanol']
+  },
+  {
+    id: 'qui031', subject: 'quimica', year: 2023, source: 'ENEM', difficulty: 'facil',
+    question: 'Qual lei estabelece que o volume de um gás, a temperatura constante, é inversamente proporcional à pressão?',
+    options: ['Lei de Charles', 'Lei de Gay-Lussac', 'Lei de Boyle', 'Lei de Dalton', 'Lei de Avogadro'],
+    answerIndex: 2,
+    explanation: 'A Lei de Boyle (1662): P₁V₁ = P₂V₂ (temperatura constante). O volume diminui quando a pressão aumenta e vice-versa.',
+    tags: ['gases', 'Lei de Boyle', 'termoquímica', 'pressão e volume']
+  },
+  {
+    id: 'qui032', subject: 'quimica', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'A chuva ácida é causada principalmente pela reação de quais gases com a água atmosférica?',
+    options: ['CO₂ e O₂', 'N₂ e Ar', 'SO₂ e NOₓ', 'CH₄ e CO', 'O₃ e H₂'],
+    answerIndex: 2,
+    explanation: 'SO₂ (dióxido de enxofre) e NOₓ (óxidos de nitrogênio), provenientes de queima de combustíveis fósseis, reagem com a umidade e formam H₂SO₄ e HNO₃, causando chuva ácida.',
+    tags: ['chuva ácida', 'poluição', 'óxidos', 'química ambiental']
+  },
+
+  // ── FÍSICA adicionais (fis023–fis032) ──────────────────────────────────────
+  {
+    id: 'fis023', subject: 'fisica', year: 2024, source: 'ENEM', difficulty: 'facil',
+    question: 'A velocidade da luz no vácuo é aproximadamente:',
+    options: ['3×10⁴ m/s', '3×10⁶ m/s', '3×10⁸ m/s', '3×10¹⁰ m/s', '3×10³ m/s'],
+    answerIndex: 2,
+    explanation: 'A velocidade da luz no vácuo é c ≈ 3×10⁸ m/s. Esse valor é constante, base da Teoria da Relatividade de Einstein.',
+    tags: ['óptica', 'velocidade da luz', 'ondas eletromagnéticas']
+  },
+  {
+    id: 'fis024', subject: 'fisica', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'Um objeto cai livremente de uma altura de 20 m (g = 10 m/s²). Com que velocidade ele chega ao solo?',
+    options: ['10 m/s', '14 m/s', '20 m/s', '40 m/s', '200 m/s'],
+    answerIndex: 2,
+    explanation: 'v² = 2gh = 2×10×20 = 400. v = 20 m/s. Usando a equação cinemática v² = v₀² + 2aΔx com v₀=0.',
+    tags: ['queda livre', 'cinemática', 'gravidade']
+  },
+  {
+    id: 'fis025', subject: 'fisica', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'A 2ª Lei de Newton (F = ma) relaciona:',
+    options: ['Velocidade e tempo', 'Força e velocidade diretamente', 'Força resultante, massa e aceleração', 'Energia e distância', 'Pressão e volume'],
+    answerIndex: 2,
+    explanation: 'F = ma: a força resultante (F) é o produto da massa (m) pela aceleração (a). Quanto maior a força, maior a aceleração para a mesma massa.',
+    tags: ['dinâmica', 'Leis de Newton', '2ª lei', 'força e aceleração']
+  },
+  {
+    id: 'fis026', subject: 'fisica', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: 'Um resistor de 10 Ω é submetido a uma tensão de 20 V. A corrente que o atravessa é:',
+    options: ['0,5 A', '1 A', '2 A', '5 A', '200 A'],
+    answerIndex: 2,
+    explanation: 'Lei de Ohm: V = R×I → I = V/R = 20/10 = 2 A.',
+    tags: ['eletricidade', 'Lei de Ohm', 'resistor', 'circuito']
+  },
+  {
+    id: 'fis027', subject: 'fisica', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'A Lei de Conservação da Energia diz que:',
+    options: ['Energia pode ser criada do nada', 'Energia pode ser destruída', 'A energia total de um sistema isolado permanece constante', 'Calor não é energia', 'Potência e energia são a mesma coisa'],
+    answerIndex: 2,
+    explanation: '1ª Lei da Termodinâmica: em um sistema isolado, a energia total é conservada. Ela pode ser convertida de uma forma para outra, mas não criada nem destruída.',
+    tags: ['termodinâmica', 'conservação de energia', '1ª lei']
+  },
+  {
+    id: 'fis028', subject: 'fisica', year: 2022, source: 'ENEM', difficulty: 'dificil',
+    question: 'Um som tem frequência de 440 Hz e a velocidade do som no ar é 340 m/s. Qual é o comprimento de onda?',
+    options: ['0,47 m', '0,57 m', '0,77 m', '1,40 m', '0,37 m'],
+    answerIndex: 2,
+    explanation: 'λ = v/f = 340/440 ≈ 0,77 m. A relação entre velocidade, frequência e comprimento de onda é v = λ×f.',
+    tags: ['ondulatória', 'comprimento de onda', 'som', 'frequência']
+  },
+  {
+    id: 'fis029', subject: 'fisica', year: 2025, source: 'ENEM', difficulty: 'medio',
+    question: 'O efeito fotovoltaico, que ocorre nas células solares, consiste em:',
+    options: ['Geração de calor pela luz solar', 'Conversão de energia luminosa em energia elétrica', 'Reflexão total da luz', 'Aquecimento de fluidos pelo sol', 'Armazenamento de calor em baterias'],
+    answerIndex: 1,
+    explanation: 'No efeito fotovoltaico (descoberto por Becquerel, explicado por Einstein): fótons da luz solar colidem com elétrons do semicondutor (silício), gerando corrente elétrica direta.',
+    tags: ['energia solar', 'efeito fotovoltaico', 'semicondutor', 'eletromagnetismo']
+  },
+  {
+    id: 'fis030', subject: 'fisica', year: 2024, source: 'ENEM', difficulty: 'facil',
+    question: 'Uma mola com constante elástica de 200 N/m é comprimida 0,1 m. Qual é a força que ela exerce?',
+    options: ['5 N', '10 N', '20 N', '200 N', '2 N'],
+    answerIndex: 2,
+    explanation: 'Lei de Hooke: F = k×x = 200 × 0,1 = 20 N.',
+    tags: ['elasticidade', 'Lei de Hooke', 'mola', 'força elástica']
+  },
+  {
+    id: 'fis031', subject: 'fisica', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'Um corpo de 5 kg está a 10 m de altura. Sua energia potencial gravitacional é (g = 10 m/s²):',
+    options: ['5 J', '50 J', '500 J', '5000 J', '10 J'],
+    answerIndex: 2,
+    explanation: 'Ep = mgh = 5 × 10 × 10 = 500 J.',
+    tags: ['energia potencial', 'energia mecânica', 'gravitação']
+  },
+  {
+    id: 'fis032', subject: 'fisica', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'O fenômeno da refração ocorre quando a luz:',
+    options: ['É refletida por uma superfície espelhada', 'É absorvida por um material escuro', 'Muda de velocidade ao passar de um meio para outro', 'Sofre difração em uma fenda', 'É decomposta pelo prisma'],
+    answerIndex: 2,
+    explanation: 'Refração: quando a luz passa de um meio para outro de densidade óptica diferente, sua velocidade muda, causando desvio na direção de propagação.',
+    tags: ['óptica', 'refração', 'velocidade da luz', 'índice de refração']
+  },
+
+  // ── HISTÓRIA adicionais (his023–his032) ────────────────────────────────────
+  {
+    id: 'his023', subject: 'historia', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: 'A escravidão no Brasil foi abolida pela Lei Áurea em:',
+    options: ['7 de setembro de 1822', '15 de novembro de 1889', '13 de maio de 1888', '22 de abril de 1500', '15 de julho de 1823'],
+    answerIndex: 2,
+    explanation: 'A Lei Áurea foi assinada pela Princesa Isabel em 13 de maio de 1888, abolindo a escravidão no Brasil — o último país do continente a fazer isso.',
+    tags: ['abolição', 'escravidão', 'Lei Áurea', 'Princesa Isabel']
+  },
+  {
+    id: 'his024', subject: 'historia', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'O período de maior repressão durante a Ditadura Militar no Brasil foi durante a vigência do:',
+    options: ['AI-1', 'AI-2', 'AI-4', 'AI-5', 'Ato Complementar 38'],
+    answerIndex: 3,
+    explanation: 'O AI-5 (Ato Institucional nº 5, dezembro de 1968) foi o mais duro: fechou o Congresso, suspendeu habeas corpus, permitiu cassações e instaurou a censura total.',
+    tags: ['Ditadura Militar', 'AI-5', 'repressão', 'Brasil contemporâneo']
+  },
+  {
+    id: 'his025', subject: 'historia', year: 2022, source: 'ENEM', difficulty: 'facil',
+    question: 'A Primeira Guerra Mundial (1914–1918) teve início com o assassinato de:',
+    options: ['Kaiser Guilherme II', 'Czar Nicolau II', 'Franz Ferdinand, arquiduque da Áustria', 'Winston Churchill', 'Benito Mussolini'],
+    answerIndex: 2,
+    explanation: 'O assassinato do arquiduque Franz Ferdinand em Sarajevo (junho de 1914) foi o estopim para a Primeira Guerra Mundial.',
+    tags: ['Primeira Guerra Mundial', 'Franz Ferdinand', 'causas da guerra']
+  },
+  {
+    id: 'his026', subject: 'historia', year: 2024, source: 'ENEM', difficulty: 'dificil',
+    question: 'A política do "New Deal" foi implementada nos EUA durante a Grande Depressão (1929) pelo presidente:',
+    options: ['Herbert Hoover', 'Woodrow Wilson', 'Franklin Roosevelt', 'Harry Truman', 'Calvin Coolidge'],
+    answerIndex: 2,
+    explanation: 'Franklin D. Roosevelt lançou o New Deal (1933) para superar a Grande Depressão: obras públicas, regulação financeira, proteção trabalhista e intervenção estatal na economia.',
+    tags: ['New Deal', 'Grande Depressão', 'FDR', 'história dos EUA']
+  },
+  {
+    id: 'his027', subject: 'historia', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'A Proclamação da República no Brasil ocorreu em:',
+    options: ['7 de setembro de 1822', '13 de maio de 1888', '15 de novembro de 1889', '1 de janeiro de 1900', '22 de abril de 1500'],
+    answerIndex: 2,
+    explanation: 'A República foi proclamada em 15 de novembro de 1889 pelo Marechal Deodoro da Fonseca, encerrando o Segundo Reinado de D. Pedro II.',
+    tags: ['Proclamação da República', 'Deodoro da Fonseca', 'Brasil imperial']
+  },
+  {
+    id: 'his028', subject: 'historia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'A Guerra Fria foi um conflito entre os blocos liderados por:',
+    options: ['EUA e China', 'Reino Unido e França', 'EUA e URSS', 'Alemanha e Japão', 'Brasil e Argentina'],
+    answerIndex: 2,
+    explanation: 'A Guerra Fria (1947–1991) opôs o bloco capitalista (liderado pelos EUA) e o bloco socialista (liderado pela URSS) em disputa ideológica, tecnológica e geopolítica.',
+    tags: ['Guerra Fria', 'EUA', 'URSS', 'capitalismo x socialismo']
+  },
+  {
+    id: 'his029', subject: 'historia', year: 2025, source: 'ENEM', difficulty: 'facil',
+    question: 'O período da história do Brasil chamado "Era Vargas" vai de:',
+    options: ['1889 a 1930', '1930 a 1945', '1945 a 1964', '1964 a 1985', '1985 a 2002'],
+    answerIndex: 1,
+    explanation: 'Getúlio Vargas governou o Brasil de 1930 a 1945 (Era Vargas), incluindo o Estado Novo (1937–1945), período de governo ditatorial.',
+    tags: ['Getúlio Vargas', 'Era Vargas', 'Estado Novo', 'Brasil contemporâneo']
+  },
+  {
+    id: 'his030', subject: 'historia', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: 'O Holocausto foi o genocídio de judeus e outros grupos perpetrado pela Alemanha nazista durante:',
+    options: ['A Primeira Guerra Mundial', 'A Guerra Fria', 'A Segunda Guerra Mundial', 'A Revolução Russa', 'A Guerra dos Cem Anos'],
+    answerIndex: 2,
+    explanation: 'O Holocausto ocorreu entre 1941–1945, durante a Segunda Guerra Mundial. Cerca de 6 milhões de judeus e milhões de outros grupos foram assassinados pelo regime nazista.',
+    tags: ['Holocausto', 'nazismo', 'Segunda Guerra Mundial', 'Hitler']
+  },
+  {
+    id: 'his031', subject: 'historia', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'A Revolução Francesa foi marcada pelos princípios de:',
+    options: ['Fé, Esperança e Caridade', 'Liberdade, Igualdade e Fraternidade', 'Ordem e Progresso', 'Paz, Terra e Pão', 'Justiça, Riqueza e Poder'],
+    answerIndex: 1,
+    explanation: '"Liberté, Égalité, Fraternité" é o lema da Revolução Francesa (1789), que influenciou as democracias modernas e os direitos humanos.',
+    tags: ['Revolução Francesa', 'iluminismo', 'Declaração dos Direitos do Homem']
+  },
+  {
+    id: 'his032', subject: 'historia', year: 2022, source: 'ENEM', difficulty: 'facil',
+    question: 'A Semana de Arte Moderna de 1922 ocorreu na cidade de:',
+    options: ['Rio de Janeiro', 'Recife', 'São Paulo', 'Salvador', 'Porto Alegre'],
+    answerIndex: 2,
+    explanation: 'A Semana de Arte Moderna de 1922 foi realizada no Teatro Municipal de São Paulo, sendo o marco do Modernismo no Brasil.',
+    tags: ['Modernismo', 'Semana de Arte Moderna', 'Brasil século XX']
+  },
+
+  // ── GEOGRAFIA adicionais (geo023–geo032) ───────────────────────────────────
+  {
+    id: 'geo023', subject: 'geografia', year: 2024, source: 'ENEM', difficulty: 'facil',
+    question: 'O Brasil é o maior país da América do Sul em extensão territorial. Qual é a sua área aproximada?',
+    options: ['5,5 milhões km²', '6,5 milhões km²', '8,5 milhões km²', '10 milhões km²', '4 milhões km²'],
+    answerIndex: 2,
+    explanation: 'O Brasil tem 8,5 milhões de km², sendo o 5º maior país do mundo. Ocupa 47% da área da América do Sul.',
+    tags: ['Brasil', 'território', 'extensão territorial', 'América do Sul']
+  },
+  {
+    id: 'geo024', subject: 'geografia', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'O fenômeno El Niño é caracterizado pelo:',
+    options: ['Resfriamento anormal das águas do Pacífico equatorial', 'Aquecimento anormal das águas do Atlântico', 'Aquecimento anormal das águas do Pacífico equatorial', 'Derretimento do Ártico', 'Aumento do nível do Mediterrâneo'],
+    answerIndex: 2,
+    explanation: 'El Niño: aquecimento anormal das águas superficiais do Pacífico equatorial central e oriental. Altera padrões climáticos globais: seca no nordeste brasileiro, chuvas excessivas no sul.',
+    tags: ['El Niño', 'clima', 'Pacífico', 'variabilidade climática']
+  },
+  {
+    id: 'geo025', subject: 'geografia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'A maior bacia hidrográfica do Brasil é a bacia:',
+    options: ['Do Rio São Francisco', 'Do Rio Paraná', 'Amazônica', 'Do Rio Tocantins', 'Do Rio Paraguai'],
+    answerIndex: 2,
+    explanation: 'A Bacia Amazônica é a maior bacia hidrográfica do Brasil (e do mundo), com área de 3,9 milhões km². Drena mais de 20% da água doce superficial do planeta.',
+    tags: ['hidrografia', 'bacia amazônica', 'rios brasileiros']
+  },
+  {
+    id: 'geo026', subject: 'geografia', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: 'O bioma que cobre a maior parte do território do estado do Maranhão, Piauí e Tocantins é:',
+    options: ['Amazônia', 'Caatinga', 'Cerrado', 'Pantanal', 'Pampa'],
+    answerIndex: 2,
+    explanation: 'O Cerrado (savana tropical) é o segundo maior bioma brasileiro, cobrindo o planalto central, incluindo boa parte do Maranhão, Piauí, Tocantins, Goiás e Mato Grosso.',
+    tags: ['biomas', 'Cerrado', 'ecossistemas brasileiros']
+  },
+  {
+    id: 'geo027', subject: 'geografia', year: 2023, source: 'ENEM', difficulty: 'facil',
+    question: 'A principal característica do clima semiárido do Nordeste brasileiro é:',
+    options: ['Chuvas abundantes o ano todo', 'Temperaturas baixas o ano todo', 'Precipitação irregular e escassa (menos de 800 mm/ano)', 'Neve frequente', 'Umidade muito alta'],
+    answerIndex: 2,
+    explanation: 'O semiárido nordestino tem pluviometria baixa e irregular (< 800 mm/ano), concentrada em poucos meses. É o semiárido mais populoso do mundo.',
+    tags: ['clima semiárido', 'Nordeste', 'seca', 'caatinga']
+  },
+  {
+    id: 'geo028', subject: 'geografia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'O Acordo de Paris (2015) tem como objetivo principal:',
+    options: ['Regular o comércio internacional', 'Limitar o aquecimento global abaixo de 2°C em relação ao período pré-industrial', 'Proibir o uso de energia nuclear', 'Regular a pesca em alto mar', 'Criar um bloco econômico europeu'],
+    answerIndex: 1,
+    explanation: 'O Acordo de Paris (2015) comprometeu nações a limitar o aquecimento global a 1,5°C (meta ideal) ou 2°C máximo, reduzindo emissões de gases de efeito estufa.',
+    tags: ['Acordo de Paris', 'mudanças climáticas', 'COP', 'aquecimento global']
+  },
+  {
+    id: 'geo029', subject: 'geografia', year: 2025, source: 'ENEM', difficulty: 'medio',
+    question: 'O processo de urbanização no Brasil foi mais intenso durante qual período?',
+    options: ['1500–1700', '1700–1850', '1850–1900', '1950–1980', '2000–2020'],
+    answerIndex: 3,
+    explanation: 'A urbanização acelerada ocorreu entre 1950–1980, impulsionada pela industrialização e êxodo rural. A população urbana passou de 36% (1950) para 67% (1980).',
+    tags: ['urbanização', 'Brasil', 'êxodo rural', 'industrialização']
+  },
+  {
+    id: 'geo030', subject: 'geografia', year: 2024, source: 'ENEM', difficulty: 'facil',
+    question: 'O Brasil possui fronteiras terrestres com:',
+    options: ['Apenas 3 países', '7 países', '10 países', 'Todos os países da América do Sul exceto Chile e Equador', 'Apenas os países do MERCOSUL'],
+    answerIndex: 3,
+    explanation: 'O Brasil faz fronteira com todos os 10 países sul-americanos, exceto Chile e Equador. São: Argentina, Bolívia, Colômbia, Guiana, Guiana Francesa, Paraguai, Peru, Suriname, Uruguai e Venezuela.',
+    tags: ['fronteiras', 'geopolítica', 'América do Sul', 'Brasil']
+  },
+  {
+    id: 'geo031', subject: 'geografia', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'A transição demográfica é caracterizada por:',
+    options: ['Aumento de natalidade e mortalidade', 'Queda da natalidade e aumento da mortalidade', 'Queda das taxas de natalidade e mortalidade', 'Explosão populacional constante', 'Aumento somente da imigração'],
+    answerIndex: 2,
+    explanation: 'A transição demográfica é o processo pelo qual países passam de alta natalidade/mortalidade para baixa natalidade/mortalidade, associado ao desenvolvimento econômico e social.',
+    tags: ['transição demográfica', 'população', 'natalidade', 'mortalidade']
+  },
+  {
+    id: 'geo032', subject: 'geografia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'O MERCOSUL é um bloco econômico formado principalmente por:',
+    options: ['EUA, México e Canadá', 'Brasil, Argentina, Paraguai e Uruguai', 'Venezuela, Colômbia e Equador', 'Chile, Peru e Bolívia', 'Alemanha, França e Itália'],
+    answerIndex: 1,
+    explanation: 'O MERCOSUL (Mercado Comum do Sul) foi criado em 1991 por Brasil, Argentina, Paraguai e Uruguai. A Venezuela foi suspensa em 2016. Tem como membros associados: Bolívia, Chile, Peru, Colômbia, Equador e Suriname.',
+    tags: ['MERCOSUL', 'integração regional', 'América do Sul', 'blocos econômicos']
+  },
+
+  // ── FILOSOFIA/SOCIOLOGIA adicionais (fil023–fil032) ────────────────────────
+  {
+    id: 'fil023', subject: 'filosofia', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: 'Para Karl Marx, a "mais-valia" representa:',
+    options: ['O salário pago ao trabalhador', 'O lucro do estado', 'A diferença entre o valor produzido pelo trabalhador e o salário que recebe', 'O preço das mercadorias no mercado', 'A taxa de juros bancária'],
+    answerIndex: 2,
+    explanation: 'Mais-valia (Mehrwert): diferença entre o valor que o trabalhador produz e o salário que recebe. Esse excedente é apropriado pelo capitalista, gerando exploração do trabalho.',
+    tags: ['Marx', 'mais-valia', 'capitalismo', 'sociologia']
+  },
+  {
+    id: 'fil024', subject: 'filosofia', year: 2023, source: 'ENEM', difficulty: 'facil',
+    question: 'Sócrates ficou famoso pela frase "Sei que nada sei". Isso está relacionado ao conceito de:',
+    options: ['Dogmatismo', 'Ceticismo radical', 'Humildade epistêmica e busca pelo conhecimento', 'Relativismo', 'Empirismo'],
+    answerIndex: 2,
+    explanation: 'Sócrates reconhecia a própria ignorância como ponto de partida do filosofar. Essa humildade intelectual (não saber) impulsiona a busca genuína pelo conhecimento.',
+    tags: ['Sócrates', 'filosofia grega', 'epistemologia', 'maiêutica']
+  },
+  {
+    id: 'fil025', subject: 'filosofia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'Segundo Émile Durkheim, os "fatos sociais" são:',
+    options: ['Apenas pensamentos individuais', 'Maneiras de agir exteriores ao indivíduo que exercem coerção sobre ele', 'Apenas leis jurídicas', 'Fenômenos puramente econômicos', 'Sentimentos privados'],
+    answerIndex: 1,
+    explanation: 'Durkheim definiu fatos sociais como maneiras de agir, pensar e sentir exteriores ao indivíduo e dotadas de força coercitiva. São o objeto de estudo da Sociologia.',
+    tags: ['Durkheim', 'fatos sociais', 'sociologia', 'coerção']
+  },
+  {
+    id: 'fil026', subject: 'filosofia', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: 'O imperativo categórico de Kant afirma que devemos agir apenas segundo máximas que possamos:',
+    options: ['Tornar lei apenas para nós mesmos', 'Aplicar quando conveniente', 'Querer que se tornem leis universais', 'Seguir apenas por obediência ao Estado', 'Respeitar somente quando há recompensa'],
+    answerIndex: 2,
+    explanation: 'Imperativo categórico (Kant): "Age apenas segundo a máxima que possas querer que se torne lei universal." É um princípio racional e incondicional da moralidade.',
+    tags: ['Kant', 'ética', 'imperativo categórico', 'moral']
+  },
+  {
+    id: 'fil027', subject: 'filosofia', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'Para Platão, a "Alegoria da Caverna" representa:',
+    options: ['A realidade dos sentidos como a única verdade', 'A diferença entre o mundo das aparências e o mundo das ideias (verdade)', 'A justificativa do governo democrático', 'A ideia de que os sentidos são confiáveis', 'A crença no relativismo moral'],
+    answerIndex: 1,
+    explanation: 'Na Alegoria da Caverna (República), Platão ilustra que a maioria vive iludida pelas sombras (mundo sensível). O filósofo que sai da caverna acessa o mundo real das ideias.',
+    tags: ['Platão', 'Alegoria da Caverna', 'epistemologia', 'mundo das ideias']
+  },
+  {
+    id: 'fil028', subject: 'filosofia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'O conceito de "contrato social" em Rousseau pressupõe que:',
+    options: ['O Estado existe pela força', 'Os indivíduos naturalmente vivem em guerra (Hobbes)', 'Os cidadãos abrem mão de parte de sua liberdade em troca de proteção e bem comum', 'A sociedade não precisa de governo', 'A propriedade privada é um direito natural inviolável'],
+    answerIndex: 2,
+    explanation: 'Para Rousseau, o contrato social é um acordo em que os indivíduos cedem parte de sua liberdade natural para formar a vontade geral, visando o bem comum.',
+    tags: ['Rousseau', 'contrato social', 'filosofia política', 'vontade geral']
+  },
+  {
+    id: 'fil029', subject: 'filosofia', year: 2025, source: 'ENEM', difficulty: 'facil',
+    question: 'A Sociologia surgiu como ciência no século XIX. Seu fundador é considerado:',
+    options: ['Karl Marx', 'Max Weber', 'Auguste Comte', 'Émile Durkheim', 'Herbert Spencer'],
+    answerIndex: 2,
+    explanation: 'Auguste Comte (1798–1857) é considerado o fundador da Sociologia. Criou o positivismo e foi o primeiro a usar o termo "sociologia" como ciência da sociedade.',
+    tags: ['Comte', 'positivismo', 'sociologia', 'história das ciências']
+  },
+  {
+    id: 'fil030', subject: 'filosofia', year: 2024, source: 'ENEM', difficulty: 'dificil',
+    question: 'O conceito de "habitus" em Pierre Bourdieu refere-se a:',
+    options: ['Leis escritas de uma sociedade', 'Hábitos biológicos dos animais', 'Disposições duráveis internalizadas pelos indivíduos que orientam suas práticas', 'Normas religiosas impostas pela Igreja', 'Regras de etiqueta de uma classe social'],
+    answerIndex: 2,
+    explanation: 'Habitus (Bourdieu): conjunto de disposições duráveis e transferíveis, adquiridas pela experiência social, que orientam as práticas e percepções dos agentes sem que eles percebam.',
+    tags: ['Bourdieu', 'habitus', 'campo social', 'sociologia contemporânea']
+  },
+  {
+    id: 'fil031', subject: 'filosofia', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'Max Weber definiu a ação social como:',
+    options: ['Qualquer comportamento humano', 'Ação orientada pelo sentido que o agente confere a ela, levando em conta o comportamento de outros', 'Apenas protestos e movimentos coletivos', 'Ação determinada exclusivamente pelas leis do mercado', 'Obediência passiva às normas sociais'],
+    answerIndex: 1,
+    explanation: 'Para Weber, ação social é aquela que o indivíduo realiza levando em conta o comportamento dos outros e atribuindo significado subjetivo. Pode ser racional (fins/valores), afetiva ou tradicional.',
+    tags: ['Weber', 'ação social', 'sociologia compreensiva', 'metodologia']
+  },
+  {
+    id: 'fil032', subject: 'filosofia', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'Os movimentos sociais são formas de ação coletiva que buscam:',
+    options: ['Apenas manter o status quo', 'Transformar ou resistir a transformações na sociedade', 'Sempre defender os interesses do Estado', 'Promover somente interesses econômicos privados', 'Eliminar a democracia'],
+    answerIndex: 1,
+    explanation: 'Movimentos sociais são ações coletivas organizadas que visam transformar a realidade social, defender direitos ou resistir a mudanças indesejadas. Ex: feminismo, direitos civis, MST.',
+    tags: ['movimentos sociais', 'sociologia', 'cidadania', 'democracia']
+  },
+
+  // ── INGLÊS adicionais (ing023–ing032) ──────────────────────────────────────
+  {
+    id: 'ing023', subject: 'ingles', year: 2024, source: 'ENEM', difficulty: 'facil',
+    question: 'What is the correct past tense of the verb "go"?',
+    options: ['Goed', 'Gone', 'Went', 'Goes', 'Going'],
+    answerIndex: 2,
+    explanation: '"Go" é um verbo irregular. Passado simples: "went". "Gone" é o particípio passado (used in perfect tenses: "I have gone").',
+    tags: ['verb tenses', 'irregular verbs', 'past simple']
+  },
+  {
+    id: 'ing024', subject: 'ingles', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: '"If I had studied harder, I would have passed the exam." This sentence expresses:',
+    options: ['A real condition in the present', 'A future possibility', 'An unreal past condition and its result', 'A habitual action', 'A command'],
+    answerIndex: 2,
+    explanation: 'Third conditional (if + past perfect, would have + past participle): expresses an unreal past condition — something that did NOT happen and its hypothetical result.',
+    tags: ['conditionals', 'third conditional', 'unreal past']
+  },
+  {
+    id: 'ing025', subject: 'ingles', year: 2022, source: 'ENEM', difficulty: 'facil',
+    question: 'Choose the correct option: "She _____ to school every day."',
+    options: ['go', 'goes', 'going', 'gone', 'went'],
+    answerIndex: 1,
+    explanation: 'Com sujeito "she" (3ª pessoa do singular), o verbo no presente simples recebe -s/-es. "She goes" está correto.',
+    tags: ['present simple', 'subject-verb agreement', 'grammar']
+  },
+  {
+    id: 'ing026', subject: 'ingles', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: 'The sentence "This problem must be solved immediately" is in:',
+    options: ['Active voice', 'Passive voice', 'Direct speech', 'Indirect speech', 'Imperative mood'],
+    answerIndex: 1,
+    explanation: 'Passive voice structure: auxiliary verb (be) + past participle. "Must be solved" = modal + be + past participle → passive voice.',
+    tags: ['passive voice', 'modal verbs', 'grammar']
+  },
+  {
+    id: 'ing027', subject: 'ingles', year: 2023, source: 'ENEM', difficulty: 'medio',
+    question: 'What does "breakthrough" mean in a scientific context?',
+    options: ['A failure', 'A significant discovery or achievement', 'A small improvement', 'A broken experiment', 'A delay in research'],
+    answerIndex: 1,
+    explanation: '"Breakthrough" = important discovery or achievement that solves a problem or advances knowledge significantly. Common in science/technology headlines.',
+    tags: ['vocabulary', 'scientific language', 'reading comprehension']
+  },
+  {
+    id: 'ing028', subject: 'ingles', year: 2022, source: 'ENEM', difficulty: 'facil',
+    question: 'Which word has the same meaning as "happy"?',
+    options: ['Sad', 'Angry', 'Joyful', 'Tired', 'Confused'],
+    answerIndex: 2,
+    explanation: '"Joyful" is a synonym of "happy" — both express a positive feeling of pleasure or contentment.',
+    tags: ['vocabulary', 'synonyms', 'adjectives']
+  },
+  {
+    id: 'ing029', subject: 'ingles', year: 2025, source: 'ENEM', difficulty: 'medio',
+    question: '"I have been studying English for three years." The tense used is:',
+    options: ['Simple present', 'Present perfect', 'Past continuous', 'Present perfect continuous', 'Future perfect'],
+    answerIndex: 3,
+    explanation: 'Present perfect continuous (have/has been + verb-ing): expresses an action that started in the past and is still continuing. "For three years" indicates duration.',
+    tags: ['present perfect continuous', 'verb tenses', 'duration']
+  },
+  {
+    id: 'ing030', subject: 'ingles', year: 2024, source: 'ENEM', difficulty: 'medio',
+    question: '"Climate change poses a serious threat to biodiversity." The word "threat" means:',
+    options: ['Benefit', 'Solution', 'Challenge', 'Danger', 'Opportunity'],
+    answerIndex: 3,
+    explanation: '"Threat" = something that is likely to cause harm or danger. In environmental texts, "threat to biodiversity" means a danger/risk to species diversity.',
+    tags: ['vocabulary', 'environmental topics', 'reading']
+  },
+  {
+    id: 'ing031', subject: 'ingles', year: 2023, source: 'ENEM', difficulty: 'dificil',
+    question: '"She asked me if I had finished my homework." This is an example of:',
+    options: ['Direct speech', 'Indirect (reported) speech', 'Passive voice', 'Conditional sentence', 'Imperative sentence'],
+    answerIndex: 1,
+    explanation: 'Indirect (reported) speech: the original question "Have you finished?" is reported with backshift: present perfect → past perfect ("if I had finished").',
+    tags: ['reported speech', 'indirect speech', 'backshift', 'grammar']
+  },
+  {
+    id: 'ing032', subject: 'ingles', year: 2022, source: 'ENEM', difficulty: 'medio',
+    question: 'The prefix "un-" in "unhappy", "unfair", "unkind" means:',
+    options: ['Again', 'Before', 'Not / the opposite of', 'After', 'Too much'],
+    answerIndex: 2,
+    explanation: 'The prefix "un-" negates the meaning of the adjective: unhappy = not happy; unfair = not fair; unkind = not kind.',
+    tags: ['word formation', 'prefixes', 'vocabulary']
   }
 ]
 
