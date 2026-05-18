@@ -198,6 +198,22 @@ const EMAIL_TEMPLATES = {
       <p style="color:#6b7280;font-size:13px">Cancele quando quiser. Sem compromisso.</p>
     </div>`
   }),
+  dailyQuestion: (name, q) => ({
+    subject: `📚 Questão do dia — ${new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'short' })}`,
+    html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0a0f1e;color:#f9fafb;padding:32px;border-radius:16px">
+      <h1 style="color:#3b82f6;font-size:28px;margin-bottom:8px">Decifra<span style="color:#3b82f6">.</span></h1>
+      <h2 style="font-size:20px;margin-bottom:4px">Questão do dia${name ? ', ' + name.split(' ')[0] : ''}! 📖</h2>
+      <p style="color:#6b7280;font-size:13px;margin-bottom:20px">${q.subject_label} · ${q.source || 'ENEM'} ${q.year || ''}</p>
+      <div style="background:#111827;border:1px solid #1e2d4a;border-radius:12px;padding:20px;margin-bottom:20px">
+        <p style="color:#f9fafb;line-height:1.7;margin:0">${q.question}</p>
+      </div>
+      <div style="margin-bottom:20px">
+        ${q.options.map((opt, i) => `<div style="background:#0d1525;border:1px solid #1e2d4a;border-radius:8px;padding:10px 14px;margin-bottom:8px;color:#d1d5db;font-size:0.9rem"><strong style="color:#6b7280;margin-right:8px">${String.fromCharCode(65+i)})</strong>${opt}</div>`).join('')}
+      </div>
+      <a href="${process.env.FRONTEND_URL}/app" style="background:#3b82f6;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;display:inline-block;margin-bottom:12px">Ver resposta no app →</a>
+      <p style="color:#6b7280;font-size:12px;margin-top:16px">Para cancelar o recebimento desta questão diária, <a href="${process.env.FRONTEND_URL}/app" style="color:#6b7280">entre no app</a> e desative nas configurações.</p>
+    </div>`
+  }),
   streakRisk: (name, streak) => ({
     subject: `🔥 Seu streak de ${streak} dia${streak > 1 ? 's' : ''} está em risco, ${name ? name.split(' ')[0] : 'aluno'}!`,
     html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0a0f1e;color:#f9fafb;padding:32px;border-radius:16px">
@@ -250,6 +266,29 @@ cron.schedule('0 13 * * *', async () => {
       console.error(`Cron email ${key} error:`, err.message)
     }
   }
+})
+
+// Daily cron: questão do dia por email — 8h BRT (11h UTC)
+const SUBJECT_LABELS_PT = { matematica: 'Matemática', portugues: 'Língua Portuguesa', biologia: 'Biologia', quimica: 'Química', fisica: 'Física', historia: 'História', geografia: 'Geografia', filosofia: 'Filosofia', ingles: 'Inglês' }
+cron.schedule('0 11 * * *', async () => {
+  if (!process.env.RESEND_API_KEY) return
+  const dateKey = `dq_${new Date().toISOString().slice(0, 10)}`
+  try {
+    const { data: users } = await supabase.from('decifra_users').select('id, email, name, email_sequences').not('email', 'is', null)
+    const q = getQuestaoDodia()
+    if (!q) return
+    const qForEmail = { ...q, subject_label: SUBJECT_LABELS_PT[q.subject] || q.subject }
+    for (const user of (users || [])) {
+      if (user.email_sequences?.[dateKey]) continue
+      // only send to users who opted in (or haven't opted out)
+      if (user.email_sequences?.daily_question_optout) continue
+      const tmpl = EMAIL_TEMPLATES.dailyQuestion(user.name, qForEmail)
+      await sendEmail({ to: user.email, ...tmpl })
+      const seqs = user.email_sequences || {}
+      seqs[dateKey] = true
+      await supabase.from('decifra_users').update({ email_sequences: seqs }).eq('id', user.id)
+    }
+  } catch (err) { console.error('Cron daily question error:', err.message) }
 })
 
 // Daily cron: streak em risco — 20h BRT (23h UTC)
@@ -363,6 +402,8 @@ app.get('/api/user/me', authMiddleware, async (req, res) => {
     res.json({
       plan: profile?.plan || 'free',
       trialEnd: profile?.trial_end,
+      trialUsed: !!(profile?.trial_used),
+      referralCode: profile?.referral_code || null,
       xp: profile?.xp || 0,
       diagnosticoDone: !!(profile?.onboarding?.diagnostico),
       progresso: {
@@ -502,7 +543,7 @@ const TIME_LIMITS = { mini: 15 * 60, enem: 45 * 60, vestibular: 30 * 60, concurs
 const QUESTION_COUNTS = { mini: 10, enem: 30, vestibular: 20, concurso: 20, diagnostico: 20, enem_completo: 45 }
 
 app.post('/api/simulado/start', authMiddleware, async (req, res) => {
-  const { type } = req.body
+  const { type, year } = req.body
   if (!type) return res.status(400).json({ error: 'Tipo obrigatório' })
 
   const pro = await isUserPro(req.user.id)
@@ -510,7 +551,7 @@ app.post('/api/simulado/start', authMiddleware, async (req, res) => {
   if (proOnly.includes(type) && !pro) return res.status(403).json({ error: 'Simulado completo disponível apenas no plano Pro' })
 
   const count = QUESTION_COUNTS[type] || 10
-  const questions = getQuestionsForSimulado(type, count)
+  const questions = getQuestionsForSimulado(type, count, year ? parseInt(year) : null)
   const timeLimit = TIME_LIMITS[type] || 900
 
   res.json({ questions, timeLimit, type })
@@ -983,7 +1024,7 @@ app.post('/api/stripe/webhook', async (req, res) => {
   }
 
   if (event.type === 'customer.subscription.deleted') {
-    await supabase.from('decifra_users').update({ plan: 'free' }).eq('stripe_customer_id', session.customer)
+    await supabase.from('decifra_users').update({ plan: 'free', trial_used: true }).eq('stripe_customer_id', session.customer)
   }
 
   res.json({ received: true })
@@ -1046,6 +1087,100 @@ app.post('/api/erros/save', authMiddleware, async (req, res) => {
     await supabase.from('decifra_users').update({ erros_history }).eq('id', req.user.id)
     res.json({ ok: true })
   } catch { res.json({ ok: true }) }
+})
+
+// ===== ADMIN =====
+function adminAuth(req, res, next) {
+  const key = req.headers['x-admin-key']
+  if (!process.env.ADMIN_KEY || key !== process.env.ADMIN_KEY) return res.status(401).json({ error: 'Não autorizado' })
+  next()
+}
+
+app.get('/api/admin/stats', adminAuth, async (req, res) => {
+  try {
+    const { data: users } = await supabase.from('decifra_users').select('plan, registered_at, xp, total_questions, streak')
+    const now = new Date()
+    const todayStr = now.toISOString().slice(0, 10)
+    const last7 = new Date(now); last7.setDate(last7.getDate() - 7)
+    const last30 = new Date(now); last30.setDate(last30.getDate() - 30)
+
+    const total = users?.length || 0
+    const today = users?.filter(u => u.registered_at?.slice(0, 10) === todayStr).length || 0
+    const week = users?.filter(u => u.registered_at && new Date(u.registered_at) >= last7).length || 0
+    const month = users?.filter(u => u.registered_at && new Date(u.registered_at) >= last30).length || 0
+    const free = users?.filter(u => !u.plan || u.plan === 'free').length || 0
+    const trialing = users?.filter(u => u.plan === 'trialing').length || 0
+    const active = users?.filter(u => u.plan === 'active').length || 0
+    const mrr = active * 29 + trialing * 0
+    const convRate = total > 0 ? ((active / total) * 100).toFixed(1) : '0.0'
+    const avgXp = total > 0 ? Math.round((users.reduce((s, u) => s + (u.xp || 0), 0) / total)) : 0
+    const avgQ = total > 0 ? Math.round((users.reduce((s, u) => s + (u.total_questions || 0), 0) / total)) : 0
+    const withStreak = users?.filter(u => (u.streak || 0) >= 1).length || 0
+
+    res.json({ total, today, week, month, free, trialing, active, mrr, convRate, avgXp, avgQ, withStreak })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+// ===== REFERRAL =====
+function generateReferralCode(userId) {
+  return userId.replace(/-/g, '').slice(0, 8).toUpperCase()
+}
+
+app.get('/api/referral/code', authMiddleware, async (req, res) => {
+  try {
+    const profile = await getUserProfile(req.user.id)
+    let code = profile?.referral_code
+    if (!code) {
+      code = generateReferralCode(req.user.id)
+      await supabase.from('decifra_users').update({ referral_code: code }).eq('id', req.user.id)
+    }
+    res.json({ code, url: `${process.env.FRONTEND_URL}/app?ref=${code}` })
+  } catch { res.status(500).json({ error: 'Erro ao gerar código' }) }
+})
+
+app.post('/api/referral/use', authMiddleware, async (req, res) => {
+  const { code } = req.body
+  if (!code) return res.status(400).json({ error: 'Código obrigatório' })
+  try {
+    const profile = await getUserProfile(req.user.id)
+    if (profile?.referred_by) return res.status(400).json({ error: 'Você já usou um código de indicação' })
+    if (profile?.referral_code === code) return res.status(400).json({ error: 'Você não pode usar seu próprio código' })
+
+    const { data: referrer } = await supabase.from('decifra_users').select('id, email, name, plan, trial_end').eq('referral_code', code).single()
+    if (!referrer) return res.status(404).json({ error: 'Código inválido' })
+
+    const newTrialEnd = new Date(Date.now() + 7 * 24 * 3600 * 1000).toISOString()
+
+    // Give 7 days Pro to the new user
+    await supabase.from('decifra_users').update({ referred_by: referrer.id, plan: 'trialing', trial_end: newTrialEnd }).eq('id', req.user.id)
+
+    // Give 7 days Pro to referrer (extend trial_end or set from now)
+    const referrerTrialEnd = referrer.trial_end && new Date(referrer.trial_end) > new Date()
+      ? new Date(new Date(referrer.trial_end).getTime() + 7 * 24 * 3600 * 1000).toISOString()
+      : newTrialEnd
+    const referrerPlan = referrer.plan === 'active' ? 'active' : 'trialing'
+    await supabase.from('decifra_users').update({ plan: referrerPlan, trial_end: referrerTrialEnd }).eq('id', referrer.id)
+
+    // Email referrer
+    if (referrer.email) {
+      const refName = profile?.name || 'alguém'
+      sendEmail({
+        to: referrer.email,
+        subject: `${refName.split(' ')[0]} entrou no Decifra com seu link! +7 dias Pro 🎁`,
+        html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0a0f1e;color:#f9fafb;padding:32px;border-radius:16px">
+          <h1 style="color:#3b82f6;font-size:28px;margin-bottom:8px">Decifra<span style="color:#3b82f6">.</span></h1>
+          <h2 style="font-size:22px;margin-bottom:16px">Sua indicação funcionou! 🎉</h2>
+          <p style="color:#9ca3af;line-height:1.6;margin-bottom:24px"><strong style="color:#f9fafb">${refName}</strong> entrou no Decifra usando seu link de indicação. Como recompensa, você ganhou <strong style="color:#10b981">+7 dias Pro</strong> na sua conta!</p>
+          <a href="${process.env.FRONTEND_URL}/app" style="background:#3b82f6;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;display:inline-block;margin-bottom:24px">Aproveitar agora →</a>
+          <p style="color:#6b7280;font-size:13px">Continue indicando amigos para ganhar mais dias Pro!</p>
+        </div>`
+      }).catch(() => {})
+    }
+
+    res.json({ ok: true, trialEnd: newTrialEnd })
+  } catch (err) { res.status(500).json({ error: 'Erro ao aplicar código' }) }
 })
 
 // ===== PERFIL PÚBLICO =====

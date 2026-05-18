@@ -2764,17 +2764,17 @@ const questions = [
 ]
 
 // Helper: filter by type
-function getQuestionsForSimulado(type, count) {
+function getQuestionsForSimulado(type, count, filterYear = null) {
   let pool = [...questions]
 
   if (type === 'mini') {
-    // Mixed, all subjects
     return shuffle(pool).slice(0, Math.min(count || 10, pool.length))
   }
 
   if (type === 'enem') {
-    // All subjects, distribute evenly — prefer ENEM source
-    const enem = pool.filter(q => q.source === 'ENEM')
+    let enem = pool.filter(q => q.source === 'ENEM')
+    if (filterYear) enem = enem.filter(q => q.year === filterYear)
+    if (!enem.length) enem = pool.filter(q => q.source === 'ENEM') // fallback if year has no questions
     const others = pool.filter(q => q.source !== 'ENEM')
     return shuffle([...enem, ...others]).slice(0, Math.min(count || 30, pool.length))
   }
