@@ -103,7 +103,7 @@ const XP_LEVEL_NAME = xp => {
 }
 
 const EMAIL_TEMPLATES = {
-  welcome: (name) => ({
+  welcome: (name, questao) => ({
     subject: `${name ? name + ', bem' : 'Bem'}-vindo ao Decifra! 🎉`,
     html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0a0f1e;color:#f9fafb;padding:32px;border-radius:16px">
       <h1 style="color:#3b82f6;font-size:28px;margin-bottom:8px">Decifra<span style="color:#3b82f6">.</span></h1>
@@ -115,7 +115,14 @@ const EMAIL_TEMPLATES = {
         <li>⚡ Resolva um <strong style="color:#f9fafb">Mini-simulado</strong> para começar a ganhar XP</li>
         <li>💬 Pergunte ao <strong style="color:#f9fafb">Tutor</strong> sobre qualquer dúvida de matéria</li>
       </ul>
-      <a href="${process.env.FRONTEND_URL}/app" style="background:#3b82f6;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;display:inline-block;margin-bottom:24px">Começar a estudar →</a>
+      ${questao ? `
+      <div style="background:#111827;border:1px solid #1e2d4a;border-radius:12px;padding:20px;margin-bottom:20px">
+        <div style="font-size:12px;color:#6b7280;margin-bottom:8px">🎯 QUESTÃO DO DIA — ${SUBJECT_LABELS_PT[questao.subject] || questao.subject}</div>
+        <p style="color:#f9fafb;line-height:1.7;margin:0 0 12px">${questao.question}</p>
+        ${questao.options.map((opt, i) => `<div style="background:#0d1525;border:1px solid #1e2d4a;border-radius:8px;padding:8px 12px;margin-bottom:6px;color:#d1d5db;font-size:0.875rem"><strong style="color:#6b7280;margin-right:6px">${String.fromCharCode(65+i)})</strong>${opt}</div>`).join('')}
+      </div>
+      ` : ''}
+      <a href="${process.env.FRONTEND_URL}/app" style="background:#3b82f6;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;display:inline-block;margin-bottom:24px">${questao ? 'Ver resposta e começar →' : 'Começar a estudar →'}</a>
       <p style="color:#6b7280;font-size:13px">Qualquer dúvida, responda este email. Bons estudos! 📚</p>
     </div>`
   }),
@@ -372,7 +379,8 @@ app.post('/api/auth/register', async (req, res) => {
     if (loginErr) return res.status(400).json({ error: loginErr.message })
 
     // Send welcome email (non-blocking)
-    const tmpl = EMAIL_TEMPLATES.welcome(name)
+    const questaoWelcome = getQuestaoDodia()
+    const tmpl = EMAIL_TEMPLATES.welcome(name, questaoWelcome)
     sendEmail({ to: email, ...tmpl }).then(async () => {
       await supabase.from('decifra_users').update({ email_sequences: { welcome: true } }).eq('id', userId)
     }).catch(() => {})
@@ -1372,6 +1380,22 @@ app.get('/api/admin/stats', adminAuth, async (req, res) => {
     res.json({ total, today, week, month, free, trialing, active, mrr, convRate, avgXp, avgQ, withStreak })
   } catch (err) {
     res.status(500).json({ error: err.message })
+  }
+})
+
+// ===== IN-APP TRIAL =====
+app.post('/api/trial/start', authMiddleware, async (req, res) => {
+  try {
+    const profile = await getUserProfile(req.user.id)
+    if (!profile) return res.status(404).json({ error: 'Perfil não encontrado' })
+    if (profile.plan === 'active') return res.status(400).json({ error: 'Você já tem o plano Pro ativo' })
+    if (profile.trial_used) return res.status(400).json({ error: 'Você já usou seu período de trial' })
+    if (profile.plan === 'trialing') return res.status(400).json({ error: 'Você já está em trial' })
+    const trialEnd = new Date(Date.now() + 3 * 24 * 3600 * 1000).toISOString()
+    await supabase.from('decifra_users').update({ plan: 'trialing', trial_end: trialEnd, trial_used: true }).eq('id', req.user.id)
+    res.json({ ok: true, trialEnd })
+  } catch (err) {
+    res.status(500).json({ error: 'Erro ao ativar trial' })
   }
 })
 
