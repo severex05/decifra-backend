@@ -214,6 +214,23 @@ const EMAIL_TEMPLATES = {
       <p style="color:#6b7280;font-size:12px;margin-top:16px">Para cancelar o recebimento desta questão diária, <a href="${process.env.FRONTEND_URL}/app" style="color:#6b7280">entre no app</a> e desative nas configurações.</p>
     </div>`
   }),
+  reativacao: (name, streak, xp, totalQ) => ({
+    subject: `${name ? name.split(' ')[0] + ', sentimos' : 'Sentimos'} sua falta! Volte a estudar 📚`,
+    html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0a0f1e;color:#f9fafb;padding:32px;border-radius:16px">
+      <h1 style="color:#3b82f6;font-size:28px;margin-bottom:8px">Decifra<span style="color:#3b82f6">.</span></h1>
+      <h2 style="font-size:22px;margin-bottom:16px">Ei${name ? ', ' + name.split(' ')[0] : ''}! Faz alguns dias que você não estuda 👀</h2>
+      <p style="color:#9ca3af;line-height:1.6;margin-bottom:24px">Você está indo bem — <strong style="color:#f9fafb">${totalQ} questões respondidas</strong> e <strong style="color:#f9fafb">${xp} XP</strong> acumulados. Não deixe esse progresso esfriar!</p>
+      ${streak > 0 ? `<div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:12px;padding:16px;text-align:center;margin-bottom:24px"><div style="font-size:32px;margin-bottom:4px">🔥</div><div style="font-size:22px;font-weight:900;color:#f59e0b">${streak} dia${streak > 1 ? 's' : ''} de streak</div><div style="color:#9ca3af;font-size:13px">ainda preservados — retome hoje!</div></div>` : ''}
+      <p style="color:#9ca3af;line-height:1.6;margin-bottom:8px"><strong style="color:#f9fafb">Por onde retomar:</strong></p>
+      <ul style="color:#9ca3af;line-height:2;margin-bottom:24px">
+        <li>⭐ <strong style="color:#f9fafb">Questão do dia</strong> — 1 questão, menos de 2 minutos</li>
+        <li>⚡ <strong style="color:#f9fafb">Mini-simulado adaptativo</strong> — foco nas suas matérias mais fracas</li>
+        <li>💬 <strong style="color:#f9fafb">Tutor IA</strong> — tire uma dúvida rápida</li>
+      </ul>
+      <a href="${process.env.FRONTEND_URL}/app" style="background:#3b82f6;color:#fff;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;display:inline-block;margin-bottom:24px">Retomar agora →</a>
+      <p style="color:#6b7280;font-size:13px">O ENEM e os vestibulares não esperam. Cada dia conta! 🎯</p>
+    </div>`
+  }),
   streakRisk: (name, streak) => ({
     subject: `🔥 Seu streak de ${streak} dia${streak > 1 ? 's' : ''} está em risco, ${name ? name.split(' ')[0] : 'aluno'}!`,
     html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0a0f1e;color:#f9fafb;padding:32px;border-radius:16px">
@@ -313,6 +330,29 @@ cron.schedule('0 23 * * *', async () => {
   } catch (err) {
     console.error('Cron streak risk error:', err.message)
   }
+})
+
+// Daily cron: reativação — usuários ausentes há 3+ dias — 14h BRT (17h UTC)
+cron.schedule('0 17 * * *', async () => {
+  if (!process.env.RESEND_API_KEY) return
+  try {
+    const { data } = await supabase.from('decifra_users')
+      .select('id, email, name, streak, onboarding, email_sequences, xp, total_questions')
+      .not('email', 'is', null)
+    for (const user of (data || [])) {
+      const lastStudy = user.onboarding?.last_study_date
+      if (!lastStudy) continue
+      const daysDiff = Math.floor((Date.now() - new Date(lastStudy).getTime()) / 86400000)
+      if (daysDiff < 3) continue
+      const seqKey = `reativacao_${new Date().toISOString().slice(0, 10)}`
+      if (user.email_sequences?.[seqKey]) continue
+      const tmpl = EMAIL_TEMPLATES.reativacao(user.name, user.streak || 0, user.xp || 0, user.total_questions || 0)
+      await sendEmail({ to: user.email, ...tmpl })
+      const seqs = user.email_sequences || {}
+      seqs[seqKey] = true
+      await supabase.from('decifra_users').update({ email_sequences: seqs }).eq('id', user.id)
+    }
+  } catch (err) { console.error('Cron reativacao error:', err.message) }
 })
 
 // ===== AUTH ROUTES =====
@@ -539,8 +579,8 @@ app.post('/api/tutor/chat', authMiddleware, async (req, res) => {
 })
 
 // ===== SIMULADOS =====
-const TIME_LIMITS = { mini: 15 * 60, enem: 45 * 60, vestibular: 30 * 60, fuvest: 30 * 60, unicamp: 30 * 60, concurso: 30 * 60, concurso_federal: 30 * 60, militar: 30 * 60, diagnostico: 0, enem_completo: 5.5 * 60 * 60 }
-const QUESTION_COUNTS = { mini: 10, enem: 30, vestibular: 20, fuvest: 20, unicamp: 20, concurso: 20, concurso_federal: 20, militar: 20, diagnostico: 20, enem_completo: 45 }
+const TIME_LIMITS = { mini: 15 * 60, enem: 45 * 60, vestibular: 30 * 60, fuvest: 30 * 60, unicamp: 30 * 60, concurso: 30 * 60, concurso_federal: 30 * 60, militar: 30 * 60, diagnostico: 0, enem_completo: 5.5 * 60 * 60, adaptativo: 15 * 60 }
+const QUESTION_COUNTS = { mini: 10, enem: 30, vestibular: 20, fuvest: 20, unicamp: 20, concurso: 20, concurso_federal: 20, militar: 20, diagnostico: 20, enem_completo: 45, adaptativo: 10 }
 
 app.post('/api/simulado/start', authMiddleware, async (req, res) => {
   const { type, year, subject } = req.body
@@ -549,6 +589,31 @@ app.post('/api/simulado/start', authMiddleware, async (req, res) => {
   const pro = await isUserPro(req.user.id)
   const proOnly = ['enem', 'vestibular', 'fuvest', 'unicamp', 'concurso', 'concurso_federal', 'militar', 'ia', 'enem_completo']
   if (proOnly.includes(type) && !pro) return res.status(403).json({ error: 'Simulado completo disponível apenas no plano Pro' })
+
+  // Simulado adaptativo: prioriza matérias mais fracas do usuário
+  if (type === 'adaptativo') {
+    const profile = await getUserProfile(req.user.id)
+    const subjects = profile?.subjects || {}
+    const ALL_SUBJECTS = ['matematica', 'portugues', 'biologia', 'quimica', 'fisica', 'historia', 'geografia', 'filosofia', 'ingles']
+    const scored = ALL_SUBJECTS.map(s => {
+      const d = subjects[s]
+      return { s, pct: d && d.total >= 3 ? d.correct / d.total : 0.5, total: d?.total || 0 }
+    })
+    scored.sort((a, b) => a.pct - b.pct)
+    // Pega as 3 piores matérias + 1 aleatória para variar
+    const weak = scored.slice(0, 3).map(x => x.s)
+    const rest = scored.slice(3).map(x => x.s)
+    const extra = rest[Math.floor(Math.random() * rest.length)]
+    const targetSubjects = [...weak, extra]
+    // 2-3 questões de cada matéria fraca
+    const allQ = []
+    for (const s of targetSubjects) {
+      const qs = getQuestionsForSimulado('mini', 3, null, s)
+      allQ.push(...qs)
+    }
+    const questions = allQ.sort(() => Math.random() - 0.5).slice(0, 10)
+    return res.json({ questions, timeLimit: 900, type: 'adaptativo', weakSubjects: weak })
+  }
 
   const count = QUESTION_COUNTS[type] || 10
   const questions = getQuestionsForSimulado(type, count, year ? parseInt(year) : null, subject || null)
@@ -1171,6 +1236,109 @@ app.post('/api/erros/save', authMiddleware, async (req, res) => {
     await supabase.from('decifra_users').update({ erros_history }).eq('id', req.user.id)
     res.json({ ok: true })
   } catch { res.json({ ok: true }) }
+})
+
+// ===== MAPA MENTAL =====
+app.post('/api/tutor/mapa-mental', authMiddleware, async (req, res) => {
+  const { topic, subject } = req.body
+  if (!topic) return res.status(400).json({ error: 'Tópico obrigatório' })
+  try {
+    const response = await anthropic.messages.create({
+      model: 'claude-haiku-4-5',
+      max_tokens: 800,
+      system: 'Você é um professor especialista. Crie mapas mentais estruturados e didáticos em português brasileiro.',
+      messages: [{
+        role: 'user',
+        content: `Crie um mapa mental COMPLETO sobre "${topic}" para estudantes de ${subject || 'ENEM/Vestibulares'}. Estruture assim:
+🎯 TÓPICO CENTRAL: ${topic}
+├── 📌 CONCEITO 1
+│   ├── Subtópico A
+│   └── Subtópico B
+├── 📌 CONCEITO 2
+│   ├── Subtópico A
+│   └── Subtópico B
+└── 📌 CONCEITO 3
+    ├── Subtópico A
+    └── Subtópico B
+
+Inclua 4-5 conceitos principais com 2-3 subtópicos cada. Use emojis relevantes. Inclua 1 linha de "💡 Dica ENEM/Concurso:" no final.`
+      }]
+    })
+    const text = response.content[0]?.text || ''
+    res.json({ mapa: text, topic })
+  } catch (err) {
+    res.status(500).json({ error: 'Erro ao gerar mapa mental. Tente novamente.' })
+  }
+})
+
+// ===== DESAFIOS ENTRE AMIGOS =====
+app.post('/api/challenge/create', authMiddleware, async (req, res) => {
+  const { type = 'mini' } = req.body
+  try {
+    const profile = await getUserProfile(req.user.id)
+    const allowedTypes = ['mini']
+    const t = allowedTypes.includes(type) ? type : 'mini'
+    const questions = getQuestionsForSimulado(t, 10, null, null)
+    const timeLimit = 900
+
+    const { data, error } = await supabase.from('challenges').insert({
+      creator_id: req.user.id,
+      creator_name: profile?.name || 'Alguém',
+      type: t,
+      questions,
+      time_limit: timeLimit
+    }).select('id').single()
+
+    if (error) throw error
+    res.json({ id: data.id, url: `${process.env.FRONTEND_URL}/desafio/${data.id}`, timeLimit, questionCount: questions.length })
+  } catch (err) {
+    res.status(500).json({ error: 'Erro ao criar desafio' })
+  }
+})
+
+app.get('/api/challenge/:id', async (req, res) => {
+  try {
+    const { data, error } = await supabase.from('challenges').select('*').eq('id', req.params.id).single()
+    if (error || !data) return res.status(404).json({ error: 'Desafio não encontrado' })
+    if (new Date(data.expires_at) < new Date()) return res.status(410).json({ error: 'Desafio expirado' })
+    res.json({
+      id: data.id,
+      creatorName: data.creator_name || 'Alguém',
+      type: data.type,
+      questions: data.questions,
+      timeLimit: data.time_limit,
+      creatorScore: data.creator_score,
+      challengerScore: data.challenger_score,
+      createdAt: data.created_at
+    })
+  } catch {
+    res.status(500).json({ error: 'Erro ao carregar desafio' })
+  }
+})
+
+app.post('/api/challenge/:id/submit', authMiddleware, async (req, res) => {
+  const { answers, timeTaken, role } = req.body // role: 'creator' | 'challenger'
+  if (!answers) return res.status(400).json({ error: 'Respostas obrigatórias' })
+  try {
+    const { data, error } = await supabase.from('challenges').select('*').eq('id', req.params.id).single()
+    if (error || !data) return res.status(404).json({ error: 'Desafio não encontrado' })
+
+    const questions = data.questions || []
+    let correct = 0
+    answers.forEach((ans, i) => { if (ans === questions[i]?.answerIndex) correct++ })
+    const pct = Math.round((correct / questions.length) * 100)
+    const scoreData = { userId: req.user.id, correct, total: questions.length, pct, timeTaken: timeTaken || 0, submittedAt: new Date().toISOString() }
+
+    const isCreator = data.creator_id === req.user.id
+    const updateField = isCreator ? { creator_score: scoreData } : { challenger_score: scoreData }
+    await supabase.from('challenges').update(updateField).eq('id', req.params.id)
+
+    // Recarrega para mostrar resultado completo
+    const { data: updated } = await supabase.from('challenges').select('creator_score, challenger_score, creator_name').eq('id', req.params.id).single()
+    res.json({ ok: true, score: scoreData, creatorScore: updated?.creator_score, challengerScore: updated?.challenger_score, creatorName: updated?.creator_name })
+  } catch (err) {
+    res.status(500).json({ error: 'Erro ao salvar resultado' })
+  }
 })
 
 // ===== ADMIN =====
